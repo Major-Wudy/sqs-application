@@ -844,13 +844,14 @@ der online-Dokumentation (auf Englisch).
 **Inhalt**
 
 </div>
-| Kategorie | Bemerkung |
+
+| **Kategorie** | **Bemerkung** |
 |-----------------|-------------------|
-| Titel | |
-| Kontext | |
-| Entscheidung | | 
-| Status | | 
-| Konsequenzen | |
+| Titel | Programmiersprache der Anwendung |
+| Kontext | In welcher Programmiersprache soll die Anwendung entwickelt werden? Zur Auswahl stehen Java, .Net oder python |
+| Entscheidung | tbd | 
+| Status | proposed | 
+| Konsequenzen | tbd |
 
 <div class="formalpara-title">
 
