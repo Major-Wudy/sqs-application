@@ -845,7 +845,7 @@ der online-Dokumentation (auf Englisch).
 
 </div>
 | Kategorie | Bemerkung |
-| ----- | ----- |
+|-----------------|-------------------|
 | Titel | |
 | Kontext | |
 | Entscheidung | | 
