@@ -29,6 +29,11 @@ contributors. Siehe <https://arc42.org>.
 ## Aufgabenstellung
 Im Sommersemester 2024 des Masterstudium INF-M SSE (Fachrichtung Software- und Systemsengineeing) muss in der Vorlesung Softwarequalitätssicherung (SQS) eine kleine eigenständige Anwendung programmiert werden. Diese Anwendung besteht aus der Anwendung selbst mit einer Verbindung zu einer Datenbank, ist an ein externes (fremdgehostetes) System angebunden und verfügt über eine eigene API, die über eine HTML-Testseite angesprochen werden kann. 
 
+Die Anwendung ermöglicht es einem Anwender seinen Co²-Abdruck zu ermitteln, indem man auf sich zugeschnitten Co² austoßende Aktivitäten über die Anwendung anlegen kann. Diese eingegeben Daten werden einer API übergeben, welche die CO²-Emmissionen dieser Aktivität berechnet und zurück liefert. Die Anwendung dient als Management und Historie der eingetragenen Aktivitäten und zeigt in der Übersicht den aktuellen Carbon Score des Monats an basieren auf den eingegebenen Aktivitäten einer Person.
+
+Die Anwendung wird von mir im Rahmen der Vorlesung entwickelt und danach nicht mehr weiter verfolgt. 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 
   
 
@@ -59,7 +64,7 @@ Die Anwendung soll folgende Qualitätsziele (QZ) erreichen:
   
 
 ## Fachlicher Kontext
-
+Die 
   
 
 **\<Diagramm und/oder Tabelle>**
@@ -419,3 +424,5 @@ der online-Dokumentation (auf Englisch!).
 | *\<Begriff-1>* | *\<Definition-1>* |
 
 | *\<Begriff-2*  | *\<Definition-2>* |
+
+
