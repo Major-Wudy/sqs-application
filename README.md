@@ -27,11 +27,16 @@ contributors. Siehe <https://arc42.org>.
   
 
 ## Aufgabenstellung
+Im Sommersemester 2024 des Masterstudium INF-M SSE (Fachrichtung Software- und Systemsengineeing) muss in der Vorlesung Softwarequalitätssicherung (SQS) eine kleine eigenständige Anwendung programmiert werden. Diese Anwendung besteht aus der Anwendung selbst mit einer Verbindung zu einer Datenbank, ist an ein externes (fremdgehostetes) System angebunden und verfügt über eine eigene API, die über eine HTML-Testseite angesprochen werden kann. 
+
 
   
 
 ## Qualitätsziele
-
+Die Anwendung soll folgende Qualitätsziele (QZ) erreichen:
+- Robust im Livebetrieb (z.B. geringe meantime to recoverry)
+- hohe Wartbarkeit (Maintainability)
+- Codecoverage (Unittesting) von >= 80%
   
 
 ## Stakeholder
@@ -40,8 +45,8 @@ contributors. Siehe <https://arc42.org>.
 
 | Rolle        | Kontakt        | Erwartungshaltung |
 |--------------|----------------|-------------------|
-| Dozent | Leander Reimer  | *\<Erwartung-1>*  |
-| Student/Entwickler | Raphael Wudy | *\<Erwartung-2>*  |
+| Dozent | Leander Reimer  | Eine funktionierende Anwendungen mit Einhaltung der angegebenen Qualitätszielen und weiteren SQS-Aspekten  |
+| Student/Entwickler | Raphael Wudy | Hoher Lerneffekte im Bereich SQS und Python und eine funktionierene Anwendung mit den angegebenen QZs  |
 
   
 
