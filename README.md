@@ -65,10 +65,12 @@ Die Anwendung soll folgende Qualitätsziele (QZ) erreichen:
 
 Technischer Art:
 - Deployment und Entwicklung mit Docker
-- Programmiersprache ist Python
+- Programmiersprache des Backends ist Python
 - Framework: ?
+- Frontend: HTML und Bootstrap 5
 - Datenbank: MongoDB
 - Externes Systeme: https://docs.carboninterface.com/#/, Auth0 https://auth0.com/
+- API-Dokumentation mit Swagger für pyhton
 
 Organisatorischer Art:
 - Zeit: xx.06.24 Ende Sommersemester 2024
