@@ -39,9 +39,13 @@ Die Anwendung wird von mir im Rahmen der Vorlesung entwickelt und danach nicht m
 
 ## Qualitätsziele
 Die Anwendung soll folgende Qualitätsziele (QZ) erreichen:
-- Robust im Livebetrieb (z.B. geringe meantime to recoverry)
-- hohe Wartbarkeit (Maintainability)
-- Codecoverage (Unittesting) von >= 80%
+
+| Priorität    | Qualitätsziel  | Szenatio          |
+|--------------|----------------|-------------------|
+| 1 | Zuverlässigkeit | Das System führt Funktionen unter den festgelegten Bedingungen und Umgebungen aus. Geringe "meantime zo recovery" und niedrige Anzahl an Ausfällen. | 
+| 2 | Wartbarkeit | Das System kann modifiziert werden, um es zu verbessern, korrigieren oder an geänderte Bedürfnisse anpassen. Übernimmt ein anderer Entwickler das System können eigene Funktionalitäten und Verbesserungen in das System eingearbeitet werden |
+| 3 | Benutzerfreundlichkeit | Das System kann verstanden, erlent und verwendet werden und ist attraktiv für Benutzende. Ein Anwender soll die Anwendung ohne Einführung in das System verwenden können. Die Oberflächen und Funktionen sollen selbsterklärend sein oder direkte Hilfestellungen anbieten |
+| 4 | Übertragbarkeit | Das System kann auf verschiedene Umgebungen übertragen werden. Das System soll unteranderem Betriebssystem unabhängig sein. |
   
 
 ## Stakeholder
@@ -52,11 +56,25 @@ Die Anwendung soll folgende Qualitätsziele (QZ) erreichen:
 |--------------|----------------|-------------------|
 | Dozent | Leander Reimer  | Eine funktionierende Anwendungen mit Einhaltung der angegebenen Qualitätszielen und weiteren SQS-Aspekten  |
 | Student/Entwickler | Raphael Wudy | Hoher Lerneffekte im Bereich SQS und Python und eine funktionierene Anwendung mit den angegebenen QZs  |
+| Anwender | tdb  | Das System funktioniert, ist benutzerfreundlich und erfüllt die Erwartung, die der Anwender vom System hat |
+| andere Entwickler/Maintainer | tdb | Das System ist wartbar, modizifierbar und lässt sich luaffähig aufsetzen |
 
   
 
 # Randbedingungen
 
+Technischer Art:
+- Deployment und Entwicklung mit Docker
+- Programmiersprache ist Python
+- Framework: ?
+- Datenbank: MongoDB
+- Externes Systeme: https://docs.carboninterface.com/#/, Auth0 https://auth0.com/
+
+Organisatorischer Art:
+- Zeit: xx.06.24 Ende Sommersemester 2024
+- Budget: kein finanzielles Interesse
+- Dokumente und Unterlage aus der Vorlesung SQS beeinflussen die Entwicklung
+- 
   
 
 # Kontextabgrenzung
