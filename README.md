@@ -92,6 +92,8 @@ Liste von Kommunikationsbeziehungen und deren Schnittstellen:
 | 4 | Database | CarbonScore speichert die Daten der User in der Datenbank für persistente Datenhaltung. Kommunikation findet per Datenbanktreiber (ODBC) statt. |
 | 5 | CarbonScore | Implementiert die Schnittstellen CarbonInterface zur Berechnung der CO²-Emmissionen einer Aktivität, Auth0 als Authentifizierungsmöglichkeit und eine Datenbank als persistenten Datenspeicher. Die Anwendung stellt dem User eine Benutzeroberfläche als Webanwendung zur Verfügung. Kommunikation findet über das Internet per http (localhost) / https (production) statt. |
 
+*Risiko: Aufgrund der Vielfältigkeit des Internets und der unterschiedlichen Funktionen kann es bei diesen Systemen, abhängig vom netzwerk, remote netzwerk verbindungen, netzwerk und latency Probleme möglich.
+
 
 
 
