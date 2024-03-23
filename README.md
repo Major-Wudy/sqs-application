@@ -64,7 +64,7 @@ Die Anwendung soll folgende Qualitätsziele (QZ) erreichen:
 # Randbedingungen
 
 Technischer Art:
-- Deployment und Entwicklung mit Docker
+- Deployment und Entwicklung mit Docker (damit verbundenes OS in Docker ist Linux - Ubuntu)
 - Programmiersprache des Backends ist Python
 - Framework: ?
 - Frontend: HTML und Bootstrap 5
@@ -81,7 +81,19 @@ Organisatorischer Art:
 
 # Kontextabgrenzung
 
-  
+![image](https://github.com/Major-Wudy/sqs-application/assets/47253607/39575ab4-e20c-4277-8b23-7fc9c3855d0f)
+
+Liste von Kommunikationsbeziehungen und deren Schnittstellen:
+| ID           | Nachbar        | Beschreibung |
+|--------------|----------------|-------------------|
+| 1 | User | Hier wird der Input für die Anwendung generiert. Benutzt die Schnittstellen CarbonInterface indirekt und die Schnittstelle Auth0 direkt zur Anmeldung am System. Greift direkt auf das System CarbonScore zu. |
+| 2 | CarbonInterface | Ist eine API zur Berechnung der CO²-Emmissionen einer Aktivität. CarbonScore verwendet das CarbonInterface direkt und ist über einen API-Key angebunden. Kommunikation findet über das Internet per https statt. |
+| 3 | Auth0 Interface | Ist eine API, welche die Userauthentifizierung übernimmt und nur über Auth0 authentifizierte User in die Anwendung lässt. CarbonScore verwenden Auth0 direkt als Authentifizierungsmöglichkeit. Kommunikation findet über das Internet per https statt. |
+| 4 | Database | CarbonScore speichert die Daten der User in der Datenbank für persistente Datenhaltung. Kommunikation findet per Datenbanktreiber (ODBC) statt. |
+| 5 | CarbonScore | Implementiert die Schnittstellen CarbonInterface zur Berechnung der CO²-Emmissionen einer Aktivität, Auth0 als Authentifizierungsmöglichkeit und eine Datenbank als persistenten Datenspeicher. Die Anwendung stellt dem User eine Benutzeroberfläche als Webanwendung zur Verfügung. Kommunikation findet über das Internet per http (localhost) / https (production) statt. |
+
+
+
 
 ## Fachlicher Kontext
 Die 
