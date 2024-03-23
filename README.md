@@ -29,7 +29,7 @@ contributors. Siehe <https://arc42.org>.
 ## Aufgabenstellung
 Im Sommersemester 2024 des Masterstudium INF-M SSE (Fachrichtung Software- und Systemsengineeing) muss in der Vorlesung Softwarequalitätssicherung (SQS) eine kleine eigenständige Anwendung programmiert werden. Diese Anwendung besteht aus der Anwendung selbst mit einer Verbindung zu einer Datenbank, ist an ein externes (fremdgehostetes) System angebunden und verfügt über eine eigene API, die über eine HTML-Testseite angesprochen werden kann. 
 
-Die Anwendung ermöglicht es einem Anwender seinen Co²-Abdruck zu ermitteln, indem man auf sich zugeschnitten Co² austoßende Aktivitäten über die Anwendung anlegen kann. Diese eingegeben Daten werden einer API übergeben, welche die CO²-Emmissionen dieser Aktivität berechnet und zurück liefert. Die Anwendung dient als Management und Historie der eingetragenen Aktivitäten und zeigt in der Übersicht den aktuellen Carbon Score des Monats an basieren auf den eingegebenen Aktivitäten einer Person.
+Die Anwendung ermöglicht es einem Anwender seinen Co²-Abdruck zu ermitteln, indem man auf sich zugeschnitten Co² austoßende Aktivitäten über die Anwendung anlegen kann. Diese eingegeben Daten werden einer API übergeben, welche die CO²-Emissionen dieser Aktivität berechnet und zurück liefert. Die Anwendung dient als Management und Historie der eingetragenen Aktivitäten und zeigt in der Übersicht den aktuellen Carbon Score des Monats an basieren auf den eingegebenen Aktivitäten einer Person.
 
 Die Anwendung wird von mir im Rahmen der Vorlesung entwickelt und danach nicht mehr weiter verfolgt. 
 [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
@@ -81,32 +81,39 @@ Organisatorischer Art:
 
 # Kontextabgrenzung
 
+## Fachlicher Kontext
 ![image](https://github.com/Major-Wudy/sqs-application/assets/47253607/39575ab4-e20c-4277-8b23-7fc9c3855d0f)
 
-Liste von Kommunikationsbeziehungen und deren Schnittstellen:
+Liste von Nachbaren zum System und deren Beschreibung:
 | ID           | Nachbar        | Beschreibung |
 |--------------|----------------|-------------------|
 | 1 | User | Hier wird der Input für die Anwendung generiert. Benutzt die Schnittstellen CarbonInterface indirekt und die Schnittstelle Auth0 direkt zur Anmeldung am System. Greift direkt auf das System CarbonScore zu. |
-| 2 | CarbonInterface | Ist eine API zur Berechnung der CO²-Emmissionen einer Aktivität. CarbonScore verwendet das CarbonInterface direkt und ist über einen API-Key angebunden. Kommunikation findet über das Internet per https statt. |
-| 3 | Auth0 Interface | Ist eine API, welche die Userauthentifizierung übernimmt und nur über Auth0 authentifizierte User in die Anwendung lässt. CarbonScore verwenden Auth0 direkt als Authentifizierungsmöglichkeit. Kommunikation findet über das Internet per https statt. |
-| 4 | Database | CarbonScore speichert die Daten der User in der Datenbank für persistente Datenhaltung. Kommunikation findet per Datenbanktreiber (ODBC) statt. |
-| 5 | CarbonScore | Implementiert die Schnittstellen CarbonInterface zur Berechnung der CO²-Emmissionen einer Aktivität, Auth0 als Authentifizierungsmöglichkeit und eine Datenbank als persistenten Datenspeicher. Die Anwendung stellt dem User eine Benutzeroberfläche als Webanwendung zur Verfügung. Kommunikation findet über das Internet per http (localhost) / https (production) statt. |
+| 2 | CarbonInterface | Ist eine API zur Berechnung der CO²-Emissionen einer Aktivität. CarbonScore verwendet das CarbonInterface direkt und ist über einen API-Key angebunden.|
+| 3 | Auth0 Interface | Ist eine API, welche die Userauthentifizierung übernimmt und nur über Auth0 authentifizierte User in die Anwendung lässt. CarbonScore verwenden Auth0 direkt als Authentifizierungsmöglichkeit. |
+| 4 | Database | CarbonScore speichert die Daten der User in der Datenbank für persistente Datenhaltung.|
+| 5 | CarbonScore | Implementiert die Schnittstellen CarbonInterface zur Berechnung der CO²-Emissionen einer Aktivität, Auth0 als Authentifizierungsmöglichkeit und eine Datenbank als persistenten Datenspeicher. Die Anwendung stellt dem User eine Benutzeroberfläche als Webanwendung zur Verfügung. |
+| 6 | API | CarbonScore stelle eine eigene API zur Verfügung gegen welche entwickelt werden kann. |
 
-*Risiko: Aufgrund der Vielfältigkeit des Internets und der unterschiedlichen Funktionen kann es bei diesen Systemen, abhängig vom netzwerk, remote netzwerk verbindungen, netzwerk und latency Probleme möglich.
+*Risiko: Aufgrund der Vielfältigkeit des Internets und der unterschiedlichen Browser und Infrastrukturen der Anwender kann es bei diesen Systemen durch die Fernverbindung zu Netzwerk- und Latenzproblemen kommen. Die Absicherung und Robustheit der Schnittstelle muss daher speziell betrachtet werden. 
 
+Liste der Kommunikationsbeziehungen:
+| ID           | Nachbar | Kommunikationsbeziehung/Schnittstelle |
+|--------------|----------------|-------------------|
+| 1 | User | - Liefert Inputdaten zu einer CO²-Emissionsaktivität - Erhält CO²-Emissionen zur eingegeben Aktivität und einen montalichen CO²-Emissionen Score |
+| 2 | CarbonInterface | - Erhält über https und Api-Key eine JSON Anfrage mit Details zu einer CO²-Emissionsaktivität - Gibt als Antwort ein JSON über http zurück | 
+| 3 | Auth0 | - Erhält über http einen Request für die Authentifizierung - Sendet User Infos als JSON und Access Tokes über http |
+| 4 | Database | - Verbindet sich per Verbindungsstring mit der Anwendung - Tauscht über einen Connector SQL Queries mit der Anwendung aus |
+| 5 | CarbonScore | - Stellt dem User eine Oberfläche zur Verfügung, welche über den Browser mit http angesprochen werden kann |
+| 6 | API | - Erhält Anfragen als JSON über http - Sendet Antworten als JSON über http | 
 
+ 
 
+**Erläuterung der externen fachlichen Schnittstellen**
 
-## Fachlicher Kontext
-Die 
-  
-
-**\<Diagramm und/oder Tabelle>**
-
-  
-
-**\<optional: Erläuterung der externen fachlichen Schnittstellen>**
-
+| ID | Schnittstelle | Beschreibung |
+|--------------|----------------|-------------------|
+| 1 | CarbonInterface | - Der Schnittstelle müssen Details zur Aktivität zur Verfügung gestellt werden, die CO² abgeben - Verwendet die präziseste Methodik im Bereich zur Berechnung der geschätzten CO² Emission - Sendet eine Antwort, zur Verwendung im System |
+| 2 | Auth0 | - Stellt eine Anmeldeverfahren/Authentifizierungsverfahren für das System zur Verfügung - Verwaltet die Userverbindung zur Anwendung und deren Access Tokens |
   
 
 ## Technischer Kontext
@@ -117,8 +124,12 @@ Die
 
   
 
-**\<optional: Erläuterung der externen technischen Schnittstellen>**
+**Erläuterung der externen technischen Schnittstellen**
 
+| ID | Schnittstelle | Beschreibung |
+|--------------|----------------|-------------------|
+| 1 | CarbonInterface | - Authorisierung über ein Bearer Token  - Input als JSON mit Content-Type application/json - Sendet JSON als Antwort |
+| 2 | Auth0 | tdb |
   
 
 **\<Mapping fachliche auf technische Schnittstellen>**
