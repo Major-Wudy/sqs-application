@@ -56,8 +56,10 @@ Die Anwendung soll folgende Qualitätsziele (QZ) erreichen:
 |--------------|----------------|-------------------|
 | Dozent | Leander Reimer  | Eine funktionierende Anwendungen mit Einhaltung der angegebenen Qualitätszielen und weiteren SQS-Aspekten  |
 | Student/Entwickler | Raphael Wudy | Hoher Lerneffekte im Bereich SQS und Python und eine funktionierene Anwendung mit den angegebenen QZs  |
-| Anwender | tdb  | Das System funktioniert, ist benutzerfreundlich und erfüllt die Erwartung, die der Anwender vom System hat |
-| andere Entwickler/Maintainer | tdb | Das System ist wartbar, modizifierbar und lässt sich luaffähig aufsetzen |
+| Anwender | - | Das System funktioniert, ist benutzerfreundlich und erfüllt die Erwartung, die der Anwender vom System hat |
+| zukünftige Entwickler/Maintainer | - | Das System ist wartbar, modizifierbar und lässt sich luaffähig aufsetzen |
+| CarbonInterface API | https://www.carboninterface.com/ | Verwendung der API nach Vorgaben des Anbieters |
+| Auth0 | https://auth0.com/ | Verwendung der API nach Vorgaben des Anbieters |
 
   
 
@@ -84,6 +86,8 @@ Organisatorischer Art:
 ## Fachlicher Kontext
 ![image](https://github.com/Major-Wudy/sqs-application/assets/47253607/39575ab4-e20c-4277-8b23-7fc9c3855d0f)
 
+CarbonScore ist das zu entwicklende System und implementiert die Schnittstellen CarbonInterface zur Berechnung der CO²-Emissionen einer Aktivität, Auth0 als Authentifizierungsmöglichkeit und eine Datenbank als persistenten Datenspeicher. Die Anwendung stellt dem User eine Benutzeroberfläche als Webanwendung zur Verfügung.
+
 Liste von Nachbaren zum System und deren Beschreibung:
 | ID           | Nachbar        | Beschreibung |
 |--------------|----------------|-------------------|
@@ -91,10 +95,10 @@ Liste von Nachbaren zum System und deren Beschreibung:
 | 2 | CarbonInterface | Ist eine API zur Berechnung der CO²-Emissionen einer Aktivität. CarbonScore verwendet das CarbonInterface direkt und ist über einen API-Key angebunden.|
 | 3 | Auth0 Interface | Ist eine API, welche die Userauthentifizierung übernimmt und nur über Auth0 authentifizierte User in die Anwendung lässt. CarbonScore verwenden Auth0 direkt als Authentifizierungsmöglichkeit. |
 | 4 | Database | CarbonScore speichert die Daten der User in der Datenbank für persistente Datenhaltung.|
-| 5 | CarbonScore | Implementiert die Schnittstellen CarbonInterface zur Berechnung der CO²-Emissionen einer Aktivität, Auth0 als Authentifizierungsmöglichkeit und eine Datenbank als persistenten Datenspeicher. Die Anwendung stellt dem User eine Benutzeroberfläche als Webanwendung zur Verfügung. |
-| 6 | API | CarbonScore stelle eine eigene API zur Verfügung gegen welche entwickelt werden kann. |
+| 5 | API | CarbonScore stelle eine eigene API zur Verfügung gegen welche entwickelt werden kann. |
 
-*Risiko: Aufgrund der Vielfältigkeit des Internets und der unterschiedlichen Browser und Infrastrukturen der Anwender kann es bei diesen Systemen durch die Fernverbindung zu Netzwerk- und Latenzproblemen kommen. Die Absicherung und Robustheit der Schnittstelle muss daher speziell betrachtet werden. 
+*Risiko: Aufgrund der Vielfältigkeit des Internets und der unterschiedlichen Browser und Infrastrukturen der Anwender kann es bei diesen Systemen durch die Fernverbindung zu Netzwerk- und Latenzproblemen kommen. Die Absicherung und Robustheit der Schnittstelle muss daher speziell betrachtet werden.
+
 
 Liste der Kommunikationsbeziehungen:
 | ID           | Nachbar | Kommunikationsbeziehung/Schnittstelle |
