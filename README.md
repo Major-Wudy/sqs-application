@@ -103,7 +103,7 @@ Liste von Nachbaren zum System und deren Beschreibung:
 Liste der Kommunikationsbeziehungen:
 | ID           | Nachbar | Kommunikationsbeziehung/Schnittstelle |
 |--------------|----------------|-------------------|
-| 1 | User | - Liefert Inputdaten zu einer CO²-Emissionsaktivität - Erhält CO²-Emissionen zur eingegeben Aktivität und einen montalichen CO²-Emissionen Score |
+| 1 | User | - Liefert Inputdaten zu einer CO²-Emissionsaktivität - Erhält CO²-Emissionen zur eingegeben Aktivität und einen montalichen CO²-Emissionen Score - Liefert Eingaben für die Anwendung über ein Userinterface (UI)  |
 | 2 | CarbonInterface | - Erhält über https und Api-Key eine JSON Anfrage mit Details zu einer CO²-Emissionsaktivität - Gibt als Antwort ein JSON über http zurück | 
 | 3 | Auth0 | - Erhält über http einen Request für die Authentifizierung - Sendet User Infos als JSON und Access Tokes über http |
 | 4 | Database | - Verbindet sich per Verbindungsstring mit der Anwendung - Tauscht über einen Connector SQL Queries mit der Anwendung aus |
@@ -122,9 +122,8 @@ Liste der Kommunikationsbeziehungen:
 
 ## Technischer Kontext
 
-  
 
-**\<Diagramm oder Tabelle>**
+![technisches Kontextdiagramm](https://github.com/Major-Wudy/sqs-application/assets/47253607/2cee32e4-49d2-4d28-aaf9-be901545418a)
 
   
 
@@ -136,9 +135,11 @@ Liste der Kommunikationsbeziehungen:
 | 2 | Auth0 | tdb |
   
 
-**\<Mapping fachliche auf technische Schnittstellen>**
-
-  
+**Mapping fachliche auf technische Schnittstellen**
+| ID | Schnittstelle | Mapping |
+|--------------|----------------|-------------------|-------------------|
+| 1 | CarbonInterface | - Authentifizierung einer Anfrage über CarbonScore per Bearer Token - Stellt die Daten der CO²-Emissionsaktivität als JSON für die CarbonInterface API zur Verfügung - CarbonScore erhält von CarbonInterface eine JSON Antwort zur Weiterverarbeitung |
+| 2 | Auth0 | - Anwender wird über die Authentifizierungsmethode per Socials für CarbonScore authentifiziert und erlangt Zugriff auf CarbonScore - Anwenderdaten für CarbonScore werden per Access Token als JSON angefordert. |
 
 # Lösungsstrategie
 
@@ -420,7 +421,7 @@ Zuordnung von Bausteinen zu Infrastruktur  
 
 # Architekturentscheidungen
 
-  | **Kategorie** | **Bemerkung** |
+| **Kategorie** | **Bemerkung** |
 |-----------------|-------------------|
 | Titel | Programmiersprache der Anwendung |
 | Kontext | In welcher Programmiersprache soll die Anwendung entwickelt werden? Zur Auswahl stehen Java, .Net oder python |
