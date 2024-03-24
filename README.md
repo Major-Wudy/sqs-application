@@ -103,12 +103,12 @@ Liste von Nachbaren zum System und deren Beschreibung:
 Liste der Kommunikationsbeziehungen:
 | ID           | Nachbar | Kommunikationsbeziehung/Schnittstelle |
 |--------------|----------------|-------------------|
-| 1 | User | - Liefert Inputdaten zu einer CO²-Emissionsaktivität - Erhält CO²-Emissionen zur eingegeben Aktivität und einen montalichen CO²-Emissionen Score - Liefert Eingaben für die Anwendung über ein Userinterface (UI)  |
-| 2 | CarbonInterface | - Erhält über https und Api-Key eine JSON Anfrage mit Details zu einer CO²-Emissionsaktivität - Gibt als Antwort ein JSON über http zurück | 
-| 3 | Auth0 | - Erhält über http einen Request für die Authentifizierung - Sendet User Infos als JSON und Access Tokes über http |
-| 4 | Database | - Verbindet sich per Verbindungsstring mit der Anwendung - Tauscht über einen Connector SQL Queries mit der Anwendung aus |
-| 5 | CarbonScore | - Stellt dem User eine Oberfläche zur Verfügung, welche über den Browser mit http angesprochen werden kann |
-| 6 | API | - Erhält Anfragen als JSON über http - Sendet Antworten als JSON über http | 
+| 1 | User |  <ul> <li>Liefert Inputdaten zu einer CO²-Emissionsaktivität</li> <li>Erhält CO²-Emissionen zur eingegeben Aktivität und einen montalichen CO²-Emissionen Score</li>  <li>Liefert Eingaben für die Anwendung über ein Userinterface (UI)</li> </ul>  |
+| 2 | CarbonInterface | <ul> <li>Erhält über https und Api-Key eine JSON Anfrage mit Details zu einer CO²-Emissionsaktivität</li> <li>Gibt als Antwort ein JSON über http zurück</li> </ul> | 
+| 3 | Auth0 | <ul> <li>Erhält über http einen Request für die Authentifizierung</li> <li>Sendet User Infos als JSON und Access Tokes über http</li> </ul> |
+| 4 | Database | <ul> <li>Verbindet sich per Verbindungsstring mit der Anwendung</li> <li>Tauscht über einen Connector SQL Queries mit der Anwendung aus</li> </ul> |
+| 5 | CarbonScore | <ul> <li>Stellt dem User eine Oberfläche zur Verfügung, welche über den Browser mit http angesprochen werden kann</li> </ul> |
+| 6 | API | <ul> <li>Erhält Anfragen als JSON über http</li> <li>Sendet Antworten als JSON über http</li> </ul> | 
 
  
 
@@ -116,8 +116,8 @@ Liste der Kommunikationsbeziehungen:
 
 | ID | Schnittstelle | Beschreibung |
 |--------------|----------------|-------------------|
-| 1 | CarbonInterface | - Der Schnittstelle müssen Details zur Aktivität zur Verfügung gestellt werden, die CO² abgeben - Verwendet die präziseste Methodik im Bereich zur Berechnung der geschätzten CO² Emission - Sendet eine Antwort, zur Verwendung im System |
-| 2 | Auth0 | - Stellt eine Anmeldeverfahren/Authentifizierungsverfahren für das System zur Verfügung - Verwaltet die Userverbindung zur Anwendung und deren Access Tokens |
+| 1 | CarbonInterface | <ul> <li>Der Schnittstelle müssen Details zur Aktivität zur Verfügung gestellt werden, die CO² abgeben</li> <li>Verwendet die präziseste Methodik im Bereich zur Berechnung der geschätzten CO² Emission</li> - Sendet eine Antwort, zur Verwendung im System</li> </ul> |
+| 2 | Auth0 | <ul> <li>Stellt eine Anmeldeverfahren/Authentifizierungsverfahren für das System zur Verfügung</li> <li>Verwaltet die Userverbindung zur Anwendung und deren Access Tokens</li></ul> |
   
 
 ## Technischer Kontext
@@ -131,15 +131,15 @@ Liste der Kommunikationsbeziehungen:
 
 | ID | Schnittstelle | Beschreibung |
 |--------------|----------------|-------------------|
-| 1 | CarbonInterface | - Authorisierung über ein Bearer Token  - Input als JSON mit Content-Type application/json - Sendet JSON als Antwort |
+| 1 | CarbonInterface | <ul><li>Authorisierung über ein Bearer Token  - <li>Input als JSON mit Content-Type application/json - <li>Sendet JSON als Antwort |
 | 2 | Auth0 | tdb |
   
 
 **Mapping fachliche auf technische Schnittstellen**
 | ID | Schnittstelle | Mapping |
 |--------------|----------------|-------------------|-------------------|
-| 1 | CarbonInterface | - Authentifizierung einer Anfrage über CarbonScore per Bearer Token - Stellt die Daten der CO²-Emissionsaktivität als JSON für die CarbonInterface API zur Verfügung - CarbonScore erhält von CarbonInterface eine JSON Antwort zur Weiterverarbeitung |
-| 2 | Auth0 | - Anwender wird über die Authentifizierungsmethode per Socials für CarbonScore authentifiziert und erlangt Zugriff auf CarbonScore - Anwenderdaten für CarbonScore werden per Access Token als JSON angefordert. |
+| 1 | CarbonInterface | <ul><li>Authentifizierung einer Anfrage über CarbonScore per Bearer Token</li><li>Stellt die Daten der CO²-Emissionsaktivität als JSON für die CarbonInterface API zur Verfügung</li> <li>CarbonScore erhält von CarbonInterface eine JSON Antwort zur Weiterverarbeitung </li></ul> |
+| 2 | Auth0 | <ul><li>Anwender wird über die Authentifizierungsmethode per Socials für CarbonScore authentifiziert und erlangt Zugriff auf CarbonScore</li> <li>Anwenderdaten für CarbonScore werden per Access Token als JSON angefordert.</li> </ul> |
 
 # Lösungsstrategie
 
