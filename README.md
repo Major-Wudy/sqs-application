@@ -435,30 +435,34 @@ Zuordnung von Bausteinen zu Infrastruktur  
 
   
 
-<div class="formalpara-title">
-
-  
-
-**Weiterführende Informationen**
-
-  
-
-</div>
-
-  
-
-Siehe [Qualitätsanforderungen](https://docs.arc42.org/section-10/) in
-
-der online-Dokumentation (auf Englisch!).
-
-  
-
 ## Qualitätsbaum
 
-  
+| **Qualitätskategorie** | **Qualität** | **Beschreibung** | **Qualitätsszenario** |
+|-----------------|-------------------|-------------------|-------------------|
+| Zuverlässigkeit (1) | Robustheit | Das System soll zuverlässig unter den angegebenen Laufzeitumgebung laufen. | |
+| | Geringe meantime to recovery | Das System soll nach einem Ausfall schnellstmöglich wieder verfügbar sein. | |
+| | Ausfallsicherheit | Das System soll multiinstanzfähig sein. | |
+| | Verfügbarkeit | Bei nicht vorhanden sein der externen Schnittstellen soll das System den Anwender über die eingeschränkte Funktionalität informieren. | 
+| | Tests | Das System soll eine Codecoverage von >= 80% aufweisen. | |
+| Wartbarkeit (2) | Wartung | Es sollen außerhalb des fachlichen Kerns der Anwendung Komponenten ausgetauscht werden können, ohne die Fachlichkeit der Anwendung zu beeinflussen. | |
+| | Verbesserung | Es sollen Verbesserungen für die Anwendung implementiert werden können, die die bestehende Fachlichkeit erweitern ohne diese zu verändern. | | 
+| | Reparatur | Bei einem Ausfall soll die Anwendung einen Recovery und Backup Plan verfolgen für sachgerechtes wiederaufsetzen des Systems | |
+| Benutzerfreundlichkeit (3) | einfache Handhabung | Einfache Handhabung für umweltbewusste Personen, speziell bezogen auf eine kurze Zeit zur Eingabe der Daten und bis zum Ergebnis. | | 
+| | einfaches Erlernen | Die Oberfläche der Anwendung ist selbsterklärend und Funktionen, die komplexer sind, sind Hilfestellungen für den Anwender leicht einsehbar und ersichtlich | |
+| | Effizienz | Die Anwendung soll in zufriedenstellender Zeit eine Antowrt auf die Eingaben des Anwenders liefern. | |
+| | Rechtschreibung | Die Oberflächen sollen keine Rechtschreibfehler enthalten. | |
+| | Grammatik | Die Oberflächen sollen keine Grammatikfehler enthalten. | |
+| Übertragbarkeit (4) | Betriebssystem unabhängig | Das System soll unabhängig vom Betriebssystem lauffähig sein. | |
+| | Übertragbar | Das System soll leicht von einem System auf ein anderes überführt werden können. | |
+| Sicherheit | Abgesichert | Anfragen sollen nur von authentifizierten Anwendern getätigt werden können. | |
+| | Datensicherheit | Bei einem Ausfall sollen die Daten gesichert und persistent verfügbar sein. | |  
+| Kulturell und Regional | Mehrsprachig | Die Benutzeroberflächen der Anwendung sollen in deutscher und englischer Sprache verfügbar sein. | | 
 
 ## Qualitätsszenarien
 
+| **ID** | **Beschreibung** |
+|-----------------|-------------------|
+| 1 | tbd | 
   
 
 # Risiken und technische Schulden
