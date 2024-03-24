@@ -101,6 +101,7 @@ Liste von Nachbaren zum System und deren Beschreibung:
 
 
 Liste der Kommunikationsbeziehungen:
+
 | ID           | Nachbar | Kommunikationsbeziehung/Schnittstelle |
 |--------------|----------------|-------------------|
 | 1 | User |  <ul> <li>Liefert Inputdaten zu einer CO²-Emissionsaktivität</li> <li>Erhält CO²-Emissionen zur eingegeben Aktivität und einen montalichen CO²-Emissionen Score</li>  <li>Liefert Eingaben für die Anwendung über ein Userinterface (UI)</li> </ul>  |
@@ -116,7 +117,7 @@ Liste der Kommunikationsbeziehungen:
 
 | ID | Schnittstelle | Beschreibung |
 |--------------|----------------|-------------------|
-| 1 | CarbonInterface | <ul> <li>Der Schnittstelle müssen Details zur Aktivität zur Verfügung gestellt werden, die CO² abgeben</li> <li>Verwendet die präziseste Methodik im Bereich zur Berechnung der geschätzten CO² Emission</li> - Sendet eine Antwort, zur Verwendung im System</li> </ul> |
+| 1 | CarbonInterface | <ul> <li>Der Schnittstelle müssen Details zur Aktivität zur Verfügung gestellt werden, die CO² abgeben</li> <li>Verwendet die präziseste Methodik im Bereich zur Berechnung der geschätzten CO² Emission</li> <li>Sendet eine Antwort, zur Verwendung im System</li> </ul> |
 | 2 | Auth0 | <ul> <li>Stellt eine Anmeldeverfahren/Authentifizierungsverfahren für das System zur Verfügung</li> <li>Verwaltet die Userverbindung zur Anwendung und deren Access Tokens</li></ul> |
   
 
@@ -131,13 +132,14 @@ Liste der Kommunikationsbeziehungen:
 
 | ID | Schnittstelle | Beschreibung |
 |--------------|----------------|-------------------|
-| 1 | CarbonInterface | <ul><li>Authorisierung über ein Bearer Token  - <li>Input als JSON mit Content-Type application/json - <li>Sendet JSON als Antwort |
+| 1 | CarbonInterface | <ul><li>Authorisierung über ein Bearer Token</li> <li>Input als JSON mit Content-Type application/json</li> <li>Sendet JSON als Antwort</li></ul> |
 | 2 | Auth0 | tdb |
   
 
 **Mapping fachliche auf technische Schnittstellen**
+
 | ID | Schnittstelle | Mapping |
-|--------------|----------------|-------------------|-------------------|
+|--------------|----------------|-------------------|
 | 1 | CarbonInterface | <ul><li>Authentifizierung einer Anfrage über CarbonScore per Bearer Token</li><li>Stellt die Daten der CO²-Emissionsaktivität als JSON für die CarbonInterface API zur Verfügung</li> <li>CarbonScore erhält von CarbonInterface eine JSON Antwort zur Weiterverarbeitung </li></ul> |
 | 2 | Auth0 | <ul><li>Anwender wird über die Authentifizierungsmethode per Socials für CarbonScore authentifiziert und erlangt Zugriff auf CarbonScore</li> <li>Anwenderdaten für CarbonScore werden per Access Token als JSON angefordert.</li> </ul> |
 
