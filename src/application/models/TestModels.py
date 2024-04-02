@@ -23,3 +23,7 @@ print(leg.destination_airport)
 print(leg.depature_airport)
 print(leg.cabin_class)
 leg = Leg('MUC', 'DUB', '1')
+
+from IATAAirport import *
+link = IATAAirport.getIATAAirportUrl()
+print(link)
