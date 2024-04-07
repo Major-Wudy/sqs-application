@@ -7,19 +7,19 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
-from models.distance.distance_unit import distance_unit
+from models.distance.distance_unit import DistanceUnit
 
-def create_distance_unit(unit: str) -> distance_unit:
+def create_distance_unit(unit: str) -> DistanceUnit:
     try:
         if not isinstance(unit, str):
             raise TypeError()
 
         if unit == "km":
-            return distance_unit.KM
+            return DistanceUnit.KM
         elif unit == "mi":
-            return distance_unit.MI
+            return DistanceUnit.MI
         else:
             # Set Km as default value
-            return distance_unit.KM
+            return DistanceUnit.KM
     except TypeError:
-        print("Wrong parameters")
+        return DistanceUnit.KM

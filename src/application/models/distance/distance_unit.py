@@ -1,5 +1,5 @@
 from strenum import StrEnum
 
-class distance_unit(StrEnum):
+class DistanceUnit(StrEnum):
     KM = "km"
     MI = "mi"
