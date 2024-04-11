@@ -1,5 +1,5 @@
-from enum import Enum
+from strenum import StrEnum
 
-class ElectricityUnit(Enum):
-    KWH = 1
-    MWH = 2
+class ElectricityUnit(StrEnum):
+    KWH = "kwh"
+    MWH = "mwh"

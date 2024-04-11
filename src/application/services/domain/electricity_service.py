@@ -12,8 +12,8 @@ from models.electricity.electricity_unit import ElectricityUnit
 from models.activity.activity_type import ActivityType
 from decimal import Decimal
 
-def create_electricity_entity(type: ActivityType, consumption_value: Decimal, country: str, state: str) -> Electricity:
-    elec = Electricity(type, consumption_value, country, state)
+def create_electricity_entity(consumption_value: Decimal, country: str, state: str) -> Electricity:
+    elec = Electricity(ActivityType.ELECTRICITY, consumption_value, country, state)
     return elec
 
 def get_estimate_for_electricity_use(cirs, elec: Electricity) -> Electricity:
