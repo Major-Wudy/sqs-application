@@ -1,6 +1,6 @@
 from strenum import StrEnum
 
-class activity_type(StrEnum):
+class ActivityType(StrEnum):
     ELECTRICITY = 'electricity'
     FLIGHT = 'flight'
     VEHICLE = 'vehicle'

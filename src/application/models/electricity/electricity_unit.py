@@ -1,5 +1,5 @@
 from enum import Enum
 
-class electricity_unit(Enum):
+class ElectricityUnit(Enum):
     KWH = 1
     MWH = 2
