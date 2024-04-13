@@ -82,3 +82,32 @@ class FlightServiceTestCase(TestCase):
     def test_iata_airport_info_url(self):
         url = iata_airport_info_url()
         self.assertEqual(url, "https://www.iata.org/en/publications/directories/code-search/?")
+
+from services.domain.fuel_combustion_service import create_fuel_combustion_entity
+from models.fuel.fuel_source_type import FuelSourceType
+# Test fuel combustion service
+class FuelCombustionServiceTestCase(TestCase):
+    def test_create_fuel_combustion_entity(self):
+        fuel = create_fuel_combustion_entity("Bituminous Coal", Decimal(120.56))
+        self.assertEqual(fuel.type, "fuel_combustion")
+        self.assertEqual(fuel.fuel_source_type, "bit")
+        self.assertEqual(fuel.fuel_source_unit, "short_ton")
+        self.assertEqual(fuel.consumption_value, Decimal(120.56))
+        fuel_none = create_fuel_combustion_entity("Kohle", 12)
+        self.assertEqual(fuel_none, None)
+
+    def test_fuel_source_type(self):
+        fst = FuelSourceType()
+        waste_unit = fst.get_unit_by_name("Waste Oil")
+        waste = fst.get_api_name_by_name("Waste Oil")
+        natural_unit = fst.get_unit_by_name("Natural Gas")
+        natural = fst.get_api_name_by_name("Natural Gas")
+        fusion_unit = fst.get_unit_by_name("Atomic")
+        fusion = fst.get_api_name_by_name("Atomic")
+        self.assertEqual(waste_unit, "barrel")
+        self.assertEqual(waste, "wo")
+        self.assertEqual(natural_unit, "thousand_cubic_feet")
+        self.assertEqual(natural, "ng")
+        self.assertEqual(fusion_unit, "")
+        self.assertEqual(fusion, "")
+
