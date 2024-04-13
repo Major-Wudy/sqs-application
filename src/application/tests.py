@@ -111,3 +111,48 @@ class FuelCombustionServiceTestCase(TestCase):
         self.assertEqual(fusion_unit, "")
         self.assertEqual(fusion, "")
 
+from services.domain.shipping_service import create_shipping_entity
+from services.domain.weight_unit_service import create_weight_unit
+from services.domain.transport_service import create_transport
+# Test shipping service
+class ShippingServiceTestCase(TestCase):
+    def test_create_shipping_entity(self):
+        shipping = create_shipping_entity("kg", Decimal(2.05), "km", Decimal(250.3), "train")
+        self.assertEqual(shipping.type, "shipping")
+        self.assertEqual(shipping.weight_unit, "kg")
+        self.assertEqual(shipping.weight_value, Decimal(2.05))
+        self.assertEqual(shipping.distance_unit, "km")
+        self.assertEqual(shipping.distance_value, Decimal(250.3))
+        self.assertEqual(shipping.transport_method, "train")
+
+        shipping_defaults = create_shipping_entity("gramm", Decimal(2.05), "kilometer", Decimal(250.3), "LKW")
+        self.assertEqual(shipping_defaults.type, "shipping")
+        self.assertEqual(shipping_defaults.weight_unit, "g")
+        self.assertEqual(shipping_defaults.weight_value, Decimal(2.05))
+        self.assertEqual(shipping_defaults.distance_unit, "km")
+        self.assertEqual(shipping_defaults.distance_value, Decimal(250.3))
+        self.assertEqual(shipping_defaults.transport_method, "truck")
+
+        shipping_none = create_shipping_entity("gramm", "2.05", "kilometer", Decimal(250.3), "LKW")
+        self.assertEqual(shipping_none, None)
+
+    def test_create_weight_unit(self):
+        wu = create_weight_unit("lb")
+        self.assertEqual(wu, "lb")
+        # LB != lb sets default
+        wu = create_weight_unit("LB")
+        self.assertEqual(wu, "g")
+        # Default
+        wu = create_weight_unit("pounds")
+        self.assertEqual(wu, "g")
+        # TypeError sets default
+        wu = create_weight_unit(1)
+        self.assertEqual(wu, "g")
+
+    def test_create_transport(self):
+        method = create_transport("plane")
+        self.assertEqual(method, "plane")
+        method = create_transport("Zug")
+        self.assertEqual(method, "truck")
+        method = create_transport(1)
+        self.assertEqual(method, "truck")
