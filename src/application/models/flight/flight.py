@@ -1,6 +1,6 @@
 class Flight:
-    def __init__(self, type, passangers, leg, distance_unit):
+    def __init__(self, type, passengers, leg, distance_unit):
         self.type = type
-        self.passangers = passangers
+        self.passengers = passengers
         self.leg = leg
         self.distance_unit = distance_unit

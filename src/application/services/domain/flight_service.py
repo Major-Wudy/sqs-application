@@ -14,14 +14,16 @@ from models.flight.iata_airport import IATAAirport
 from models.flight.cabin_class import CabinClass
 from services.domain.distance_unit_service import create_distance_unit
 
-def create_flight(type: ActivityType, passengers: int, depature: str, destination: str, distance_unit: str, cabin: str) -> Flight:
+def create_flight_entity(passengers: int, depature: str, destination: str, distance_unit: str, cabin: str) -> Flight:
     try:
-        if not isinstance(type, ActivityType) or not isinstance(passengers, int) or not isinstance(depature, str) or not isinstance(destination, str) or not isinstance(distance_unit, str) or not isinstance(cabin: str):
+        if not isinstance(passengers, int) or not isinstance(depature, str) or not isinstance(destination, str) or not isinstance(distance_unit, str) or not isinstance(cabin, str):
             raise TypeError()
         
         distance_unit = create_distance_unit(distance_unit)
         legObject = create_leg_object(depature, destination, cabin)
-        return Flight(ActivityType.FLIGHT, passengers, legObject, distanceUnit)
+        return Flight(ActivityType.FLIGHT, passengers, legObject, distance_unit)
+    except TypeError:
+        print("Wreong parameters")
 
 def create_leg_object(depature: str, destination: str, cabin: str) -> Leg:
         cabin_class = get_cabin_class(cabin)
@@ -29,12 +31,12 @@ def create_leg_object(depature: str, destination: str, cabin: str) -> Leg:
 
 def get_cabin_class(type: str) -> CabinClass:
     try: 
-        if not isinstance(type: str):
+        if not isinstance(type, str):
             raise TypeError()
 
-        if unit == "economy":
+        if type == "economy":
             return CabinClass.ECONOMY
-        elif unit == "premium":
+        elif type == "premium":
             return CabinClass.PREMIUM
         else:
             # Set Km as default value
@@ -43,6 +45,7 @@ def get_cabin_class(type: str) -> CabinClass:
         return CabinClass.ECONOMY
 
 def get_estimate_for_flight():
+    return ""
 
 def iata_airport_info_url() -> str:
     link = IATAAirport()

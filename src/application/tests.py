@@ -49,3 +49,36 @@ class ElectricityServiceTestCase(TestCase):
         self.assertEqual(elec.electricity_unit, "kwh")
         change_electricity_unit(elec, ElectricityUnit.MWH)
         self.assertEqual(elec.electricity_unit, "mwh")
+
+
+from services.domain.flight_service import create_flight_entity
+from services.domain.flight_service import create_leg_object
+from services.domain.flight_service import get_cabin_class
+from services.domain.flight_service import iata_airport_info_url
+# Test flight service
+class FlightServiceTestCase(TestCase):
+    def test_create_flight_entity(self):
+        fl = create_flight_entity(2, "MUC", "DUB", "KM", "economy")
+        self.assertEqual(fl.type, "flight")
+        self.assertEqual(fl.passengers, 2)
+        self.assertEqual(fl.leg.depature_airport, "MUC")
+        self.assertEqual(fl.leg.destination_airport, "DUB")
+        self.assertEqual(fl.leg.cabin_class, "economy")
+
+    def test_create_leg_object(self):
+        leg = create_leg_object("MUC", "DUB", "premium")
+        self.assertEqual(leg.depature_airport, "MUC")
+        self.assertEqual(leg.destination_airport, "DUB")
+        self.assertEqual(leg.cabin_class, "premium")
+
+    def test_get_cabin_class(self):
+        cabin_economy = get_cabin_class("economy")
+        cabin_premium = get_cabin_class("premium")
+        cabin_default = get_cabin_class("fist_class")
+        self.assertEqual(cabin_economy, "economy")
+        self.assertEqual(cabin_premium, "premium")
+        self.assertEqual(cabin_default, "economy")
+
+    def test_iata_airport_info_url(self):
+        url = iata_airport_info_url()
+        self.assertEqual(url, "https://www.iata.org/en/publications/directories/code-search/?")
