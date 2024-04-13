@@ -156,3 +156,10 @@ class ShippingServiceTestCase(TestCase):
         self.assertEqual(method, "truck")
         method = create_transport(1)
         self.assertEqual(method, "truck")
+
+from services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
+# Test Carbon Interface API
+class CarbonInterfaceRequestServiceTestCase(TestCase):
+    def test_auth(self):
+        cirs = CarbonInterfaceRequestService()
+        cirs.auth_request()
