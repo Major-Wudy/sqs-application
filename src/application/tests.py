@@ -26,14 +26,14 @@ class DistanceUnitTestCase(TestCase):
         self.assertEqual(default_du, "km")
         self.assertEqual(type_error_default_du, "km")
 
-from services.domain.electricity_service import create_electricity_entity
-from services.domain.electricity_service import change_electricity_unit
+from services.domain.electricity_service import ElectricityService
 from models.electricity.electricity_unit import ElectricityUnit
 from decimal import Decimal
 # Test electricity service
 class ElectricityServiceTestCase(TestCase):
     def test_create_electricity_entity(self):
-        elec = create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
+        e = ElectricityService()
+        elec = e.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
         self.assertEqual(elec.type, "electricity")
         self.assertEqual(elec.electricity_value, Decimal(1678.5))
         self.assertEqual(elec.country, "Germany")
@@ -41,13 +41,14 @@ class ElectricityServiceTestCase(TestCase):
         self.assertEqual(elec.electricity_unit, "kwh")
 
     def test_change_electricity_unit(self):
-        elec = create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
+        e = ElectricityService()
+        elec = e.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
         self.assertEqual(elec.type, "electricity")
         self.assertEqual(elec.electricity_value, Decimal(1678.5))
         self.assertEqual(elec.country, "Germany")
         self.assertEqual(elec.state, "Bavaria")
         self.assertEqual(elec.electricity_unit, "kwh")
-        change_electricity_unit(elec, ElectricityUnit.MWH)
+        e.change_electricity_unit(elec, ElectricityUnit.MWH)
         self.assertEqual(elec.electricity_unit, "mwh")
 
 
@@ -163,3 +164,11 @@ class CarbonInterfaceRequestServiceTestCase(TestCase):
     def test_auth(self):
         cirs = CarbonInterfaceRequestService()
         cirs.auth_request()
+
+
+from services.infrastructure.estimates_service import EstimatesService
+class EstimatesServiceTestCase(TestCase):
+    def test_post(self):
+        es = EstimatesService()
+        data = {"type" : "electricity", "unit" : "kwh", "value" : Decimal(1650), "country": "us", "state": "fl"}
+        es.get_estimate_for_electricity_use(data)
