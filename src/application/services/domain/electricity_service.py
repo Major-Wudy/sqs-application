@@ -32,8 +32,13 @@ class ElectricityService():
             print("Wrong parameters")
 
     @classmethod
-    def convert_electricity_entity_to_dict(self, elec: Electricity) -> dict:
-        return {"type" : elec.type, "unit" : elec.electricity_unit, "value" : elec.electricity_value, "country": elec.country, "state": elec.state}
+    def convert_electricity_entity_to_json(self, elec: Electricity) -> json:
+        return json.dumps({
+                "type": elec.type,
+                "electricity_unit": elec.electricity_unit,
+                "electricity_value": elec.electricity_value,
+                "country": elec.country
+                })
 
     @abstractmethod
     def get_estimate_for_electricity_use(self, data: dict):

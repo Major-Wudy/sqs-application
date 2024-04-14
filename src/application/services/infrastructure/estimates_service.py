@@ -48,17 +48,10 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService):
             es = ElectricityService()
             elec = es.create_electricity_entity(Decimal(data.get('value')), data.get('country'), data.get('state'), data.get('unit'))
             
-            url = self.base_url + self.url_estimates_addon
-            headers = {'Authorization': 'Bearer ' + self.api_key, 'Content-Type':'application/json'}
-            data = {'type': "electricity", 'electricity_unit': data.get('unit'), 'electricity_value': Decimal(data.get('value')), 'country' : data.get('country'), 'state': data.get('state')}
-            #data = {'type': elec.type, 'electricity_unit': elec.electricity_unit, 'electricity_value': elec.electricity_value, 'country' : elec.country, 'state': elec.state}
+            url = self.get_estimates_url()
+            headers = self.get_authorization_and_content_type_header()
             
-            payload = json.dumps({
-                "type": elec.type,
-                "electricity_unit": elec.electricity_unit,
-                "electricity_value": elec.electricity_value,
-                "country": elec.country
-                })
+            payload = 
             
             self.post(url, data=payload, headers=headers)
         except Exception as err:

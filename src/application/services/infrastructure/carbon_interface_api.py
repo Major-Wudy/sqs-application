@@ -17,7 +17,7 @@ class CarbonInterfaceRequestService(object):
 
     def auth_request(cls):
         try:
-            headers = {'Authorization': 'Bearer ' + cls.api_key}
+            headers = get_authoriztaion_header()
             url = cls.base_url + cls.url_auth_addon
             response = requests.get(url, headers=headers)
             response.raise_for_status()
@@ -28,6 +28,22 @@ class CarbonInterfaceRequestService(object):
         else:
             print(response.text)
 
+    @classmethod
+    def get_authoriztaion_header(self) -> dict:
+        return {'Authorization': 'Bearer ' + cls.api_key}
+
+    @classmethod
+    def get_authorization_and_content_type_header(self) -> dict:
+        return {'Authorization': 'Bearer ' + cls.api_key, 'Content-Type':'application/json'}
+    
+    @classmethod
+    def get_auth_url(self) -> str:
+        return cls.base_url + cls.url_auth_addon
+
+    @classmethod
+    def get_estimates_url(self) -> str:
+        return cls.base_url + cls.url_estimates_addon
+        
     @abstractmethod
     def post(self, url: str, data: dict = None, json: dict = None, headers: dict = None) -> dict:
         """
