@@ -12,6 +12,7 @@ from models.electricity.electricity_unit import ElectricityUnit
 from models.activity.activity_type import ActivityType
 from decimal import Decimal
 from abc import ABC, abstractmethod
+import simplejson as json
 
 class ElectricityService():
     @classmethod

@@ -91,11 +91,10 @@ CarbonScore ist das zu entwicklende System und implementiert die Schnittstellen 
 Liste von Nachbaren zum System und deren Beschreibung:
 | ID           | Nachbar        | Beschreibung |
 |--------------|----------------|-------------------|
-| 1 | User | Hier wird der Input für die Anwendung generiert. Benutzt die Schnittstellen CarbonInterface indirekt und die Schnittstelle Auth0 direkt zur Anmeldung am System. Greift direkt auf das System CarbonScore zu. |
+| 1 | User | Hier wird der Input für die Anwendung generiert. Benutzt die Schnittstellen CarbonInterface indirekt. Greift direkt auf das System CarbonScore zu. |
 | 2 | CarbonInterface | Ist eine API zur Berechnung der CO²-Emissionen einer Aktivität. CarbonScore verwendet das CarbonInterface direkt und ist über einen API-Key angebunden.|
-| 3 | Auth0 Interface | Ist eine API, welche die Userauthentifizierung übernimmt und nur über Auth0 authentifizierte User in die Anwendung lässt. CarbonScore verwenden Auth0 direkt als Authentifizierungsmöglichkeit. |
-| 4 | Database | CarbonScore speichert die Daten der User in der Datenbank für persistente Datenhaltung.|
-| 5 | API | CarbonScore stelle eine eigene API zur Verfügung gegen welche entwickelt werden kann. |
+| 3 | Database | CarbonScore speichert die Daten der Anfragen von Usern und den CarbonScore in der Datenbank für persistente Datenhaltung.|
+| 4 | API | CarbonScore stelle eine eigene API zur Verfügung gegen welche entwickelt werden kann. |
 
 *Risiko: Aufgrund der Vielfältigkeit des Internets und der unterschiedlichen Browser und Infrastrukturen der Anwender kann es bei diesen Systemen durch die Fernverbindung zu Netzwerk- und Latenzproblemen kommen. Die Absicherung und Robustheit der Schnittstelle muss daher speziell betrachtet werden.
 
@@ -104,12 +103,11 @@ Liste der Kommunikationsbeziehungen:
 
 | ID           | Nachbar | Kommunikationsbeziehung/Schnittstelle |
 |--------------|----------------|-------------------|
-| 1 | User |  <ul> <li>Liefert Inputdaten zu einer CO²-Emissionsaktivität</li> <li>Erhält CO²-Emissionen zur eingegeben Aktivität und einen montalichen CO²-Emissionen Score</li>  <li>Liefert Eingaben für die Anwendung über ein Userinterface (UI)</li> </ul>  |
+| 1 | User |  <ul> <li>Liefert Inputdaten zu einer CO²-Emissionsaktivität</li> <li>Liefert Eingaben für die Anwendung über ein Userinterface (UI)</li> </ul>  |
 | 2 | CarbonInterface | <ul> <li>Erhält über https und Api-Key eine JSON Anfrage mit Details zu einer CO²-Emissionsaktivität</li> <li>Gibt als Antwort ein JSON über http zurück</li> </ul> | 
-| 3 | Auth0 | <ul> <li>Erhält über http einen Request für die Authentifizierung</li> <li>Sendet User Infos als JSON und Access Tokes über http</li> </ul> |
-| 4 | Database | <ul> <li>Verbindet sich per Verbindungsstring mit der Anwendung</li> <li>Tauscht über einen Connector SQL Queries mit der Anwendung aus</li> </ul> |
-| 5 | CarbonScore | <ul> <li>Stellt dem User eine Oberfläche zur Verfügung, welche über den Browser mit http angesprochen werden kann</li> </ul> |
-| 6 | API | <ul> <li>Erhält Anfragen als JSON über http</li> <li>Sendet Antworten als JSON über http</li> </ul> | 
+| 3 | Database | <ul> <li>Verbindet sich per Verbindungsstring mit der Anwendung</li> <li>Tauscht über einen Connector SQL Queries mit der Anwendung aus</li> </ul> |
+| 4 | CarbonScore | <ul> <li>Stellt dem User eine Oberfläche zur Verfügung, welche über den Browser mit http angesprochen werden kann</li> </ul> |
+| 5 | API | <ul> <li>Erhält Anfragen als JSON über http</li> <li>Sendet Antworten als JSON über http</li> </ul> | 
 
  
 
@@ -118,7 +116,6 @@ Liste der Kommunikationsbeziehungen:
 | ID | Schnittstelle | Beschreibung |
 |--------------|----------------|-------------------|
 | 1 | CarbonInterface | <ul> <li>Der Schnittstelle müssen Details zur Aktivität zur Verfügung gestellt werden, die CO² abgeben</li> <li>Verwendet die präziseste Methodik im Bereich zur Berechnung der geschätzten CO² Emission</li> <li>Sendet eine Antwort, zur Verwendung im System</li> </ul> |
-| 2 | Auth0 | <ul> <li>Stellt eine Anmeldeverfahren/Authentifizierungsverfahren für das System zur Verfügung</li> <li>Verwaltet die Userverbindung zur Anwendung und deren Access Tokens</li></ul> |
   
 
 ## Technischer Kontext
@@ -133,7 +130,6 @@ Liste der Kommunikationsbeziehungen:
 | ID | Schnittstelle | Beschreibung |
 |--------------|----------------|-------------------|
 | 1 | CarbonInterface | <ul><li>Authorisierung über ein Bearer Token</li> <li>Input als JSON mit Content-Type application/json</li> <li>Sendet JSON als Antwort</li></ul> |
-| 2 | Auth0 | tdb |
   
 
 **Mapping fachliche auf technische Schnittstellen**
@@ -141,7 +137,6 @@ Liste der Kommunikationsbeziehungen:
 | ID | Schnittstelle | Mapping |
 |--------------|----------------|-------------------|
 | 1 | CarbonInterface | <ul><li>Authentifizierung einer Anfrage über CarbonScore per Bearer Token</li><li>Stellt die Daten der CO²-Emissionsaktivität als JSON für die CarbonInterface API zur Verfügung</li> <li>CarbonScore erhält von CarbonInterface eine JSON Antwort zur Weiterverarbeitung </li></ul> |
-| 2 | Auth0 | <ul><li>Anwender wird über die Authentifizierungsmethode per Socials für CarbonScore authentifiziert und erlangt Zugriff auf CarbonScore</li> <li>Anwenderdaten für CarbonScore werden per Access Token als JSON angefordert.</li> </ul> |
 
 # Lösungsstrategie
 
@@ -426,8 +421,48 @@ Zuordnung von Bausteinen zu Infrastruktur  
 | **Kategorie** | **Bemerkung** |
 |-----------------|-------------------|
 | Titel | Programmiersprache der Anwendung |
-| Kontext | In welcher Programmiersprache soll die Anwendung entwickelt werden? Zur Auswahl stehen Java, .Net oder python |
-| Entscheidung | tbd | 
+| Kontext | In welcher Programmiersprache soll die Anwendung entwickelt werden? Zur Auswahl stehen Java, .Net oder python* |
+| Entscheidung | python | 
+| Status | accepted | 
+| Konsequenzen | Die Anwendung wird in der Programmiersprache Python programmiert. |
+
+*Liste der Pro und Cons für jede Programmiersprache:
+Java:
+| Pro                                           | Con                                                                            |
+| --------------------------------------------- | ------------------------------------------------------------------------------ |
+| Skills aus dem Bachelorstudium                | Letzte Erfahrung 7 Jahre her                                                   |
+| Java basierte Sprache Groovy Skills vorhanden | Nur Basics keine weiterführenden Skills notwendig bei aktueller Groovy Nutzung |
+| easy to learn                                 | nicht hard to master aber definitv langer Zeitraum                             |
+| gut für leistungsintensive Anwendungen        |                                                                                |
+
+.Net:
+| Pro | Con                                        |
+| --- | ------------------------------------------ |
+|     | Keine Erfahrungen                          |
+|     | Kein persönliches Interesse in der Sprache |
+
+python:
+| Pro                                                                         | Con               |
+| --------------------------------------------------------------------------- | ----------------- |
+| leicht zu erlernende Sprache                                                | Keine Erfahrungen |
+| Weitverbreitete Sprache im wissenschaftlichen Bereich                       |                   |
+| für web programming                                                         |                   |
+| gut für Geschwindigkeit, Einfachheit bei der Entwicklung                    |                   |
+| Rückgriff auf Tutoren im python Bereich mit persönlicher Erfahrung möglich |                   |
+
+| **Kategorie** | **Bemerkung** |
+|-----------------|-------------------|
+| Titel | Architektur der Anwendung |
+| Kontext | In welchem Architektur Modell soll die Anwendung entwickelt werden? Layer oder Oinion |
+| Entscheidung | Onion architecture | 
+| Status | accepted | 
+| Konsequenzen | Die Anwendung wird aufgrund der angestrebten Wartbarkeit in der onion Architektur entwickelt. |
+
+| **Kategorie** | **Bemerkung** |
+|-----------------|-------------------|
+| Titel | Deployment der Anwendung |
+| Kontext | Auf welche Art soll die Anwendung deployed werden? |
+| Entscheidung | Docker | 
 | Status | proposed | 
 | Konsequenzen | tbd |
 
