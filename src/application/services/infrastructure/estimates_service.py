@@ -7,11 +7,12 @@ application_dir = os.path.dirname(parent_dir)
 from infrastructure.carbon_interface_api import CarbonInterfaceRequestService
 from services.domain.electricity_service import ElectricityService
 from services.domain.flight_service import FlightService
+from services.domain.shipping_service import ShippingService
 from decimal import Decimal
 import requests
 import simplejson as json
 
-class EstimatesService(CarbonInterfaceRequestService, ElectricityService, FlightService):
+class EstimatesService(CarbonInterfaceRequestService, ElectricityService, FlightService, ShippingService):
     def post(self, url: str, data: dict = None, json: dict = None, headers: dict = None) -> dict:
         try:
             if url == None or url == "":
@@ -68,6 +69,20 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
             headers = self.get_authorization_and_content_type_header()
             
             payload = fs.convert_flight_entity_to_json(fl)
+
+            return self.post(url, data=payload, headers=headers)
+        except Exception as err:
+            print(f'An error occurred: {err}')
+    
+    def get_estimate_for_shipping(self, data: dict):
+        try:
+            ship_s = ShippingService()
+            ship = ship_s.create_shipping_entity(data.get('weight_unit'), Decimal(data.get('weight_value')), data.get('distance_unit'), Decimal(data.get('distance_value')), data.get('transport_method'))
+
+            url = self.get_estimates_url()
+            headers = self.get_authorization_and_content_type_header()
+        
+            payload = ship_s.convert_shipping_entity_to_json(ship)
 
             return self.post(url, data=payload, headers=headers)
         except Exception as err:

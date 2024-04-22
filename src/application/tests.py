@@ -113,13 +113,14 @@ class FuelCombustionServiceTestCase(TestCase):
         self.assertEqual(fusion_unit, "")
         self.assertEqual(fusion, "")
 
-from services.domain.shipping_service import create_shipping_entity
+from services.domain.shipping_service import ShippingService
 from services.domain.weight_unit_service import create_weight_unit
 from services.domain.transport_service import create_transport
 # Test shipping service
 class ShippingServiceTestCase(TestCase):
     def test_create_shipping_entity(self):
-        shipping = create_shipping_entity("kg", Decimal(2.05), "km", Decimal(250.3), "train")
+        s = ShippingService()
+        shipping = s.create_shipping_entity("kg", Decimal(2.05), "km", Decimal(250.3), "train")
         self.assertEqual(shipping.type, "shipping")
         self.assertEqual(shipping.weight_unit, "kg")
         self.assertEqual(shipping.weight_value, Decimal(2.05))
@@ -127,7 +128,7 @@ class ShippingServiceTestCase(TestCase):
         self.assertEqual(shipping.distance_value, Decimal(250.3))
         self.assertEqual(shipping.transport_method, "train")
 
-        shipping_defaults = create_shipping_entity("gramm", Decimal(2.05), "kilometer", Decimal(250.3), "LKW")
+        shipping_defaults = s.create_shipping_entity("gramm", Decimal(2.05), "kilometer", Decimal(250.3), "LKW")
         self.assertEqual(shipping_defaults.type, "shipping")
         self.assertEqual(shipping_defaults.weight_unit, "g")
         self.assertEqual(shipping_defaults.weight_value, Decimal(2.05))
@@ -135,7 +136,7 @@ class ShippingServiceTestCase(TestCase):
         self.assertEqual(shipping_defaults.distance_value, Decimal(250.3))
         self.assertEqual(shipping_defaults.transport_method, "truck")
 
-        shipping_none = create_shipping_entity("gramm", "2.05", "kilometer", Decimal(250.3), "LKW")
+        shipping_none = s.create_shipping_entity("gramm", "2.05", "kilometer", Decimal(250.3), "LKW")
         self.assertEqual(shipping_none, None)
 
     def test_create_weight_unit(self):
@@ -179,4 +180,10 @@ class EstimatesServiceTestCase(TestCase):
         fs = EstimatesService()
         data = {"passengers": int(2), "depature" : "MUC", "destination": "DUB", "unit" : "km", "class":"premium"}
         carbon = fs.get_estimate_for_flight(data)
+        print(carbon)
+    
+    def test_get_estimate_for_shipping(self):
+        es = EstimatesService()
+        data = {"weight_unit": "kg", "weight_value" : Decimal(500), "distance_unit": "km", "distance_value" : Decimal(254), "transport_method":"truck"}
+        carbon = es.get_estimate_for_shipping(data)
         print(carbon)
