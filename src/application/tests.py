@@ -52,14 +52,12 @@ class ElectricityServiceTestCase(TestCase):
         self.assertEqual(elec.electricity_unit, "mwh")
 
 
-from services.domain.flight_service import create_flight_entity
-from services.domain.flight_service import create_leg_object
-from services.domain.flight_service import get_cabin_class
-from services.domain.flight_service import iata_airport_info_url
+from services.domain.flight_service import FlightService
 # Test flight service
 class FlightServiceTestCase(TestCase):
     def test_create_flight_entity(self):
-        fl = create_flight_entity(2, "MUC", "DUB", "KM", "economy")
+        fs = FlightService()
+        fl = fs.create_flight_entity(2, "MUC", "DUB", "KM", "economy")
         self.assertEqual(fl.type, "flight")
         self.assertEqual(fl.passengers, 2)
         self.assertEqual(fl.leg.depature_airport, "MUC")
@@ -67,21 +65,24 @@ class FlightServiceTestCase(TestCase):
         self.assertEqual(fl.leg.cabin_class, "economy")
 
     def test_create_leg_object(self):
-        leg = create_leg_object("MUC", "DUB", "premium")
+        fs = FlightService()
+        leg = fs.create_leg_object("MUC", "DUB", "premium")
         self.assertEqual(leg.depature_airport, "MUC")
         self.assertEqual(leg.destination_airport, "DUB")
         self.assertEqual(leg.cabin_class, "premium")
 
     def test_get_cabin_class(self):
-        cabin_economy = get_cabin_class("economy")
-        cabin_premium = get_cabin_class("premium")
-        cabin_default = get_cabin_class("fist_class")
+        fs = FlightService()
+        cabin_economy = fs.get_cabin_class("economy")
+        cabin_premium = fs.get_cabin_class("premium")
+        cabin_default = fs.get_cabin_class("fist_class")
         self.assertEqual(cabin_economy, "economy")
         self.assertEqual(cabin_premium, "premium")
         self.assertEqual(cabin_default, "economy")
 
     def test_iata_airport_info_url(self):
-        url = iata_airport_info_url()
+        fs = FlightService()
+        url = fs.iata_airport_info_url()
         self.assertEqual(url, "https://www.iata.org/en/publications/directories/code-search/?")
 
 from services.domain.fuel_combustion_service import create_fuel_combustion_entity
@@ -168,7 +169,14 @@ class CarbonInterfaceRequestServiceTestCase(TestCase):
 
 from services.infrastructure.estimates_service import EstimatesService
 class EstimatesServiceTestCase(TestCase):
-    def test_post(self):
+    def test_get_estimate_for_electricity_use(self):
         es = EstimatesService()
         data = {"type" : "electricity", "unit" : "kwh", "value" : Decimal(1650), "country": "us", "state": "fl"}
-        es.get_estimate_for_electricity_use(data)
+        carbon = es.get_estimate_for_electricity_use(data)
+        print(carbon)
+
+    def test_get_estimate_for_flight(self):
+        fs = EstimatesService()
+        data = {"passengers": int(2), "depature" : "MUC", "destination": "DUB", "unit" : "km", "class":"premium"}
+        carbon = fs.get_estimate_for_flight(data)
+        print(carbon)

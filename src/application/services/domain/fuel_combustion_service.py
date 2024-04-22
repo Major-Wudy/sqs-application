@@ -28,8 +28,8 @@ def create_fuel_combustion_entity(source_type_name: str, consumption_value: Deci
 
         return FuelCombustion(ActivityType.FUEL_COMBUSTION, fuel_api_name, fuel_unit, consumption_value)
     except TypeError:
-        print("Wrong parameters")
+        print("Wrong fuel parameters")
         return None
     except ValueError:
-        print("Variables are empty")
+        print("fuel Variables are empty")
         return None

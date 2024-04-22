@@ -15,10 +15,10 @@ class CarbonInterfaceRequestService(object):
     url_estimates_addon = "estimates"
     api_key = os.environ.get('API_KEY')
 
-    def auth_request(cls):
+    def auth_request(self):
         try:
-            headers = get_authoriztaion_header()
-            url = cls.base_url + cls.url_auth_addon
+            headers = self.get_authoriztaion_header()
+            url = self.base_url + self.url_auth_addon
             response = requests.get(url, headers=headers)
             response.raise_for_status()
         except requests.exceptions.HTTPError as http_err:
@@ -30,19 +30,19 @@ class CarbonInterfaceRequestService(object):
 
     @classmethod
     def get_authoriztaion_header(self) -> dict:
-        return {'Authorization': 'Bearer ' + cls.api_key}
+        return {'Authorization': 'Bearer ' + self.api_key}
 
     @classmethod
     def get_authorization_and_content_type_header(self) -> dict:
-        return {'Authorization': 'Bearer ' + cls.api_key, 'Content-Type':'application/json'}
+        return {'Authorization': 'Bearer ' + self.api_key, 'Content-Type':'application/json'}
     
     @classmethod
     def get_auth_url(self) -> str:
-        return cls.base_url + cls.url_auth_addon
+        return self.base_url + self.url_auth_addon
 
     @classmethod
     def get_estimates_url(self) -> str:
-        return cls.base_url + cls.url_estimates_addon
+        return self.base_url + self.url_estimates_addon
         
     @abstractmethod
     def post(self, url: str, data: dict = None, json: dict = None, headers: dict = None) -> dict:

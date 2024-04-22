@@ -30,7 +30,7 @@ class ElectricityService():
                 raise TypeError()
             elec.electricity_unit = unit
         except TypeError:
-            print("Wrong parameters")
+            print("Wrong elec parameters")
 
     @classmethod
     def convert_electricity_entity_to_json(self, elec: Electricity) -> json:
