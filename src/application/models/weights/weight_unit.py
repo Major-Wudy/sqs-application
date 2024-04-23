@@ -1,7 +1,7 @@
-from enum import Enum
+from strenum import StrEnum
 
-class weight_unit(Enum):
-    G = 1
-    LB = 2
-    KG = 4
-    MT = 5
+class WeightUnit(StrEnum):
+    G = "g"
+    LB = "lb"
+    KG = "kg"
+    MT = "mt"

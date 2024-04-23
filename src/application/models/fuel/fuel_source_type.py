@@ -15,13 +15,26 @@ class FuelSourceType:
              ]
 
     @classmethod
-    def getApiNameByName(cls, name: str) -> str:
+    def get_api_name_by_name(cls, name: str) -> str:
         try:
             if not isinstance(name, str):
                 raise TypeError()
             for fuel_type in cls.types:
                 if fuel_type['name'] == name:
                     return fuel_type['api_name']
+            return ''
+        except TypeError:
+            print("name parameter must be a string")
+            return ''
+    
+    @classmethod
+    def get_unit_by_name(cls, name: str) -> str:
+        try:
+            if not isinstance(name, str):
+                raise TypeError()
+            for fuel_type in cls.types:
+                if fuel_type['name'] == name:
+                    return fuel_type['unit']
             return ''
         except TypeError:
             print("name parameter must be a string")

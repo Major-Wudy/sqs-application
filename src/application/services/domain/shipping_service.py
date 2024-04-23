@@ -7,40 +7,62 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
-from models.shipping.shipping import shipping
-from models.shipping.transport import transport
-from models.weights.weight_unit import weight_unit
-from models.activity.activity_type import activity_type
+from models.shipping.shipping import Shipping
+from models.shipping.transport import Transport
+from models.weights.weight_unit import WeightUnit
+from models.activity.activity_type import ActivityType
 from services.domain.distance_unit_service import create_distance_unit
+from services.domain.weight_unit_service import create_weight_unit
+from services.domain.transport_service import create_transport
 from decimal import Decimal
+from abc import ABC, abstractmethod
+import simplejson as json
 
-def create_shipping_entity(type: activity_type, w_unit: weight_unit, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: transport) -> shipping:
-    try:
-        if not isinstance(type, activity_type) or not isinstance(w_unit, weight_unit) or not isinstance(weight_value, Decimal) or not isinstance(distance_unit, str) or not isinstance(distance_value, Decimal) or not isinstance(transport_method, transport):
-            raise TypeError()
+class ShippingService():
 
-        distance_unit = create_distance_unit(distance_unit)
-        return shipping(type, w_unit, weight_value, distance_unit, distance_value, transport_method)
-    except TypeError:
-        if not isinstance(type, activity_type): 
-            print("activity_type is wrong")
-        if not isinstance(w_unit, weight_unit):
-            print("w_unit is wrong")
-        if not isinstance(weight_value, Decimal):
-            print("weight_value is wrong")
-        if not isinstance(distance_unit, str):
-            print("distance_unit is wrong")
-        if not isinstance(distance_value, Decimal):
-            print("distance_value is wrong") 
-        if not isinstance(transport_method, transport):
-            print("transport_method is wrong")
+    @classmethod
+    def create_shipping_entity(self, w_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str) -> Shipping:
+        try:
+            if not isinstance(w_unit, str) or not isinstance(weight_value, Decimal) or not isinstance(distance_unit, str) or not isinstance(distance_value, Decimal) or not isinstance(transport_method, str):
+                raise TypeError()
 
-"""
-ship = create_shipping_entity(activity_type.SHIPPING, weight_unit.KG, Decimal("100.5"), "mi", Decimal("110.5"), transport.TRUCK)
-print(ship.type)
-print(ship.weight_unit)
-print(ship.weight_value)
-print(ship.distance_unit)
-print(ship.distance_value)
-print(ship.transport_method)
-"""
+            distance_unit = create_distance_unit(distance_unit)
+            weight_unit = create_weight_unit(w_unit)
+            transport = create_transport(transport_method)
+            return Shipping(ActivityType.SHIPPING, weight_unit, weight_value, distance_unit, distance_value, transport)
+        except TypeError:
+            if not isinstance(w_unit, str):
+                print("w_unit is wrong")
+            if not isinstance(weight_value, Decimal):
+                print("weight_value is wrong")
+            if not isinstance(distance_unit, str):
+                print("distance_unit is wrong")
+            if not isinstance(distance_value, Decimal):
+                print("distance_value is wrong") 
+            if not isinstance(transport_method, str):
+                print("transport_method is wrong")
+            return None
+        except Exception as err:
+            print(f'an error occured {err}')
+    
+    @abstractmethod
+    def get_estimate_for_shipping(self, data: dict):
+        """
+        Args:
+            api_interface (CarbonInterfaceRequestService): Das API Interface, welches den direkten HTTP-Call an die externe API sendet
+
+        Returns:
+            dict: Die Antwortdaten als Python-Datenstruktur (z. B. ein JSON-Objekt).
+        """
+        pass
+
+    @classmethod
+    def convert_shipping_entity_to_json(self, ship: Shipping) -> json:
+        return json.dumps({
+                "type": ship.type,
+                "weight_value": ship.weight_value,
+                "weight_unit": ship.weight_unit,
+                "distance_value": ship.distance_value,
+                "distance_unit": ship.distance_unit,
+                "transport_method": ship.transport_method,
+                })

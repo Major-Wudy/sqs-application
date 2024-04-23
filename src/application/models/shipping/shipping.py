@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-class shipping:
+class Shipping:
     def __init__(self, type, weight_unit, weight_value, distance_unit, distance_value, transport_method):
             self.type = type
             self.weight_unit = weight_unit
