@@ -169,21 +169,25 @@ class CarbonInterfaceRequestServiceTestCase(TestCase):
 
 
 from services.infrastructure.estimates_service import EstimatesService
+import simplejson as json
 class EstimatesServiceTestCase(TestCase):
     def test_get_estimate_for_electricity_use(self):
         es = EstimatesService()
         data = {"type" : "electricity", "unit" : "kwh", "value" : Decimal(1650), "country": "us", "state": "fl"}
         carbon = es.get_estimate_for_electricity_use(data)
-        print(carbon)
+        carbon = json.dumps(carbon)
+        self.assertTrue(carbon, dict)
 
     def test_get_estimate_for_flight(self):
         fs = EstimatesService()
         data = {"passengers": int(2), "depature" : "MUC", "destination": "DUB", "unit" : "km", "class":"premium"}
         carbon = fs.get_estimate_for_flight(data)
-        print(carbon)
+        carbon = json.dumps(carbon)
+        self.assertTrue(carbon, dict)
     
     def test_get_estimate_for_shipping(self):
         es = EstimatesService()
         data = {"weight_unit": "kg", "weight_value" : Decimal(500), "distance_unit": "km", "distance_value" : Decimal(254), "transport_method":"truck"}
         carbon = es.get_estimate_for_shipping(data)
-        print(carbon)
+        carbon = json.dumps(carbon)
+        self.assertTrue(carbon, dict)
