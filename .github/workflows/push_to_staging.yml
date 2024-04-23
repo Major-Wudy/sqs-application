@@ -1,9 +1,10 @@
 name: Push to Staging
 
 on:
-  push:
-    branches:
-      - dev
+  workflow_run:
+    workflows: ["Django CI"]
+    types:
+      - completed
 
 jobs:
   push_to_staging:
