@@ -1,3 +1,4 @@
+django>=5.0
 python-dotenv
 StrEnum
 simplejson
