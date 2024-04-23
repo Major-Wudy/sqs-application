@@ -11,13 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+       - name: Checkout code
+         uses: actions/checkout@v4
 
-      - name: Push to Staging
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git checkout staging
-          git merge dev
-          git push origin staging
+       - name: Check if staging branch exists
+         run: git show-ref --verify --quiet refs/heads/staging
+
+       - name: Create staging branch if it doesn't exist
+         run: |
+           if [ $? -ne 0 ]; then
+             git checkout -b staging
+             git push origin staging
+           fi
+
+       - name: Push to Staging
+         run: |
+           git config user.name github-actions
+           git config user.email github-actions@github.com
+           git checkout staging
+           git merge dev
+           git push origin staging
