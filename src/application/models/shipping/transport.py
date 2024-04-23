@@ -1,6 +1,6 @@
 from strenum import StrEnum
 
-class transport(StrEnum):
+class Transport(StrEnum):
     SHIP = "ship"
     TRAIN = "train"
     TRUCK = "truck"

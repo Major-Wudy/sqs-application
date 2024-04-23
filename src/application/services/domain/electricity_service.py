@@ -7,27 +7,48 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
-from models.electricity.electricity import electricity
-from models.electricity.electricity_unit import electricity_unit
-from models.activity.activity_type import activity_type
+from models.electricity.electricity import Electricity
+from models.electricity.electricity_unit import ElectricityUnit
+from models.activity.activity_type import ActivityType
 from decimal import Decimal
+from abc import ABC, abstractmethod
+import simplejson as json
 
-def create_electricity_entity(type: activity_type, consumption_value: Decimal, country: str, state: str) -> electricity:
-    elec = electricity(type, consumption_value, country, state)
-    return elec
+class ElectricityService():
+    @classmethod
+    def create_electricity_entity(self, consumption_value: Decimal, country: str, state: str, unit: str = ElectricityUnit.KWH) -> Electricity:
+        if unit != None:
+            elec = Electricity(ActivityType.ELECTRICITY, consumption_value, country, state)
+        if unit == None:
+            elec = Electricity(ActivityType.ELECTRICITY, consumption_value, country, state, unit)
+        return elec
 
-def get_estimate_for_electricity_use(cirs, elec: electricity) -> electricity:
-    return elec
+    @classmethod
+    def change_electricity_unit(self, elec: Electricity, unit: ElectricityUnit):
+        try:
+            if not isinstance(elec, Electricity) or not isinstance(unit, ElectricityUnit):
+                raise TypeError()
+            elec.electricity_unit = unit
+        except TypeError:
+            print("Wrong elec parameters")
 
-def change_electricity_unit(elec: electricity, unit: electricity_unit):
-    try:
-        if not isinstance(elec, electricity) or not isinstance(unit, electricity_unit):
-            raise TypeError()
-        elec.electricity_unit = unit
-    except TypeError:
-        print("Wrong parameters")
+    @classmethod
+    def convert_electricity_entity_to_json(self, elec: Electricity) -> json:
+        return json.dumps({
+                "type": elec.type,
+                "electricity_unit": elec.electricity_unit,
+                "electricity_value": elec.electricity_value,
+                "country": elec.country
+                })
 
-# Testing Code Section
+    @abstractmethod
+    def get_estimate_for_electricity_use(self, data: dict):
+        """
+        Args:
+            api_interface (CarbonInterfaceRequestService): Das API Interface, welches den direkten HTTP-Call an die externe API sendet
 
-elec = create_electricity_entity(activity_type.ELECTRICITY, 105.5, "Germany", "Bavaria")
-print(elec.type)
+        Returns:
+            dict: Die Antwortdaten als Python-Datenstruktur (z. B. ein JSON-Objekt).
+        """
+        pass
+

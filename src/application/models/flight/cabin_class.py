@@ -1,5 +1,5 @@
-from enum import Enum
+from strenum import StrEnum
 
-class CabinClass(Enum):
-    ECONOMY = 1
-    PREMIUM = 2
+class CabinClass(StrEnum):
+    ECONOMY = "economy"
+    PREMIUM = "premium"
