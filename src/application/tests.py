@@ -183,7 +183,7 @@ class EstimatesServiceTestCase(TestCase):
         data = {"passengers": int(2), "depature" : "MUC", "destination": "DUB", "unit" : "km", "class":"premium"}
         carbon = fs.get_estimate_for_flight(data)
         carbon = json.dumps(carbon)
-        self.assertTrue(carbon, dict)
+        self.assertTrue(carbon, dict) 
     
     def test_get_estimate_for_shipping(self):
         es = EstimatesService()
