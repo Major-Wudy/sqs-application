@@ -15,9 +15,11 @@ jobs:
          uses: actions/checkout@v4
 
        - name: Check if staging branch exists
-         run: git show-ref --verify --quiet refs/heads/staging
+         run: |
+           git fetch
+           git show-ref --verify --quiet refs/heads/staging
 
-       - name: Create staging branch if it doesn't exist
+       - name: Create staging branch if it doesnt exist
          run: |
            if [ $? -ne 0 ]; then
              git checkout -b staging
