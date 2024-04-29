@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "django"
+        versions: ["<5.0"]  # ignores updates for django-versions lower than 5.0
+      - dependency-name: "python"
+        versions: ["<3.10"]  # ignores update for python-versions lower than 3.10
