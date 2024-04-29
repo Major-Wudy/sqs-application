@@ -25,4 +25,6 @@ jobs:
     - name: Run Tests
       run: |
         cd src
-        python manage.py test
+        coverage run manage.py test
+        coverage html
+        cp -b /htmlcov/index.html /coverage-report
