@@ -26,4 +26,4 @@ jobs:
       run: |
         cd src
         coverage run manage.py test
-        coverage html
+        coverage html --directory ../coverage-report
