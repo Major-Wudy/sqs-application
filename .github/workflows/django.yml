@@ -27,4 +27,4 @@ jobs:
         cd src
         coverage run manage.py test
         coverage html
-        cp -b /htmlcov/index.html /coverage-report
+        cp -b /src/htmlcov/index.html /coverage-report
