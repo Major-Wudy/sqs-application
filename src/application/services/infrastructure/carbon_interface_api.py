@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class CarbonInterfaceRequestService(object):
-    base_url = "https://www.carboninterface.com/api/v1/"
+    base_url = os.environ.get('API_BASE_URL')
     url_auth_addon = "auth"
     url_estimates_addon = "estimates"
     api_key = os.environ.get('API_KEY')
