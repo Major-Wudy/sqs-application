@@ -4,3 +4,4 @@ StrEnum
 simplejson
 requests
 coverage
+import-linter

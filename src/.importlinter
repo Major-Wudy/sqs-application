@@ -1,0 +1,31 @@
+[importlinter]
+root_package = application
+
+[importlinter:contract:1]
+name=Domain Models doesn´t import anything outside Domain Models
+type=forbidden
+source_modules=
+    application.models.electricity
+forbidden_modules=
+    application.services.domain.electricity_service
+    application.migrations
+
+[importlinter:contract:2]
+name=Domain Services doesn´t import anything outside Domain Models and Domain Services
+type=forbidden
+source_modules=
+    application.services.domain.shipping_service
+forbidden_modules=
+    application.services.application
+    application.services.domain.transport_service
+    application.services.infrastructure
+    application.migrations
+
+[importlinter:contract:my-independence-contract]
+name = Domain services are independent 
+type = independence
+modules =
+    application.services.domain.electricity_service
+    application.services.domain.flight_service
+    application.services.domain.fuel_combustion_service
+    application.services.domain.shipping_service

@@ -26,13 +26,14 @@ class DistanceUnitTestCase(TestCase):
         self.assertEqual(default_du, "km")
         self.assertEqual(type_error_default_du, "km")
 
-from services.domain.electricity_service import ElectricityService
+#from services.domain.electricity_service import ElectricityService
+import application.services.domain.electricity_service as es
 from models.electricity.electricity_unit import ElectricityUnit
 from decimal import Decimal
 # Test electricity service
 class ElectricityServiceTestCase(TestCase):
     def test_create_electricity_entity(self):
-        e = ElectricityService()
+        e = es.ElectricityService()
         elec = e.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
         self.assertEqual(elec.type, "electricity")
         self.assertEqual(elec.electricity_value, Decimal(1678.5))
@@ -41,7 +42,7 @@ class ElectricityServiceTestCase(TestCase):
         self.assertEqual(elec.electricity_unit, "kwh")
 
     def test_change_electricity_unit(self):
-        e = ElectricityService()
+        e = es.ElectricityService()
         elec = e.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
         self.assertEqual(elec.type, "electricity")
         self.assertEqual(elec.electricity_value, Decimal(1678.5))
