@@ -194,4 +194,4 @@ class EstimatesServiceTestCase(TestCase):
         es = EstimatesService()
         data = {"source_type_name": "Natural Gas", "value" : Decimal(5)}
         carbon = es.get_estimate_for_fuel_use(data)
-        self.assertEquals(carbon.get("data").get("type"), "estimate")
+        self.assertEquals(carbon['data']['type'], "estimate")
