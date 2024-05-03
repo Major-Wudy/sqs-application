@@ -13,7 +13,7 @@ from models.weights.weight_unit import WeightUnit
 from models.activity.activity_type import ActivityType
 from services.domain.distance_unit_service import create_distance_unit
 from services.domain.weight_unit_service import create_weight_unit
-from services.domain.transport_service import create_transport
+from application.services.domain import transport_service as ts
 from decimal import Decimal
 from abc import ABC, abstractmethod
 import simplejson as json
@@ -28,7 +28,7 @@ class ShippingService():
 
             distance_unit = create_distance_unit(distance_unit)
             weight_unit = create_weight_unit(w_unit)
-            transport = create_transport(transport_method)
+            transport = ts.create_transport(transport_method)
             return Shipping(ActivityType.SHIPPING, weight_unit, weight_value, distance_unit, distance_value, transport)
         except TypeError:
             if not isinstance(w_unit, str):
