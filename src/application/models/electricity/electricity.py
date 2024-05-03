@@ -1,12 +1,8 @@
 from decimal import Decimal
-import models.electricity.electricity_unit as eu
-
-# Negativ Beispiel
-# import application.services.domain.electricity_service as es
-# from application.services.domain import electricity_service as es
+from application.models.electricity.electricity_unit import ElectricityUnit
 
 class Electricity:
-    def __init__(self, type, electricity_value, country, state, electricity_unit=eu.ElectricityUnit.KWH):
+    def __init__(self, type, electricity_value, country, state, electricity_unit=ElectricityUnit.KWH):
         self.type = type
         self.electricity_value = Decimal(electricity_value)
         self.country = country

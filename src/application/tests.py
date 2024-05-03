@@ -5,8 +5,8 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
 
 # Create your tests here.
-from services.domain.distance_unit_service import create_distance_unit
-from models.distance.distance_unit import DistanceUnit
+from application.services.domain.distance_unit_service import create_distance_unit
+from application.models.distance.distance_unit import DistanceUnit
 
 # Test DistanceUnitService and DistanceUnit
 class DistanceUnitTestCase(TestCase):
@@ -26,14 +26,13 @@ class DistanceUnitTestCase(TestCase):
         self.assertEqual(default_du, "km")
         self.assertEqual(type_error_default_du, "km")
 
-#from services.domain.electricity_service import ElectricityService
-import application.services.domain.electricity_service as es
-from models.electricity.electricity_unit import ElectricityUnit
+from application.services.domain.electricity_service import ElectricityService
+from application.models.electricity.electricity_unit import ElectricityUnit
 from decimal import Decimal
 # Test electricity service
 class ElectricityServiceTestCase(TestCase):
     def test_create_electricity_entity(self):
-        e = es.ElectricityService()
+        e = ElectricityService()
         elec = e.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
         self.assertEqual(elec.type, "electricity")
         self.assertEqual(elec.electricity_value, Decimal(1678.5))
@@ -42,7 +41,7 @@ class ElectricityServiceTestCase(TestCase):
         self.assertEqual(elec.electricity_unit, "kwh")
 
     def test_change_electricity_unit(self):
-        e = es.ElectricityService()
+        e = ElectricityService()
         elec = e.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
         self.assertEqual(elec.type, "electricity")
         self.assertEqual(elec.electricity_value, Decimal(1678.5))
@@ -53,7 +52,7 @@ class ElectricityServiceTestCase(TestCase):
         self.assertEqual(elec.electricity_unit, "mwh")
 
 
-from services.domain.flight_service import FlightService
+from application.services.domain.flight_service import FlightService
 # Test flight service
 class FlightServiceTestCase(TestCase):
     def test_create_flight_entity(self):
@@ -86,8 +85,8 @@ class FlightServiceTestCase(TestCase):
         url = fs.iata_airport_info_url()
         self.assertEqual(url, "https://www.iata.org/en/publications/directories/code-search/?")
 
-from services.domain.fuel_combustion_service import create_fuel_combustion_entity
-from models.fuel.fuel_source_type import FuelSourceType
+from application.services.domain.fuel_combustion_service import create_fuel_combustion_entity
+from application.models.fuel.fuel_source_type import FuelSourceType
 # Test fuel combustion service
 class FuelCombustionServiceTestCase(TestCase):
     def test_create_fuel_combustion_entity(self):
@@ -114,9 +113,9 @@ class FuelCombustionServiceTestCase(TestCase):
         self.assertEqual(fusion_unit, "")
         self.assertEqual(fusion, "")
 
-from services.domain.shipping_service import ShippingService
-from services.domain.weight_unit_service import create_weight_unit
-from services.domain.transport_service import create_transport
+from application.services.domain.shipping_service import ShippingService
+from application.services.domain.weight_unit_service import create_weight_unit
+from application.services.domain.transport_service import create_transport
 # Test shipping service
 class ShippingServiceTestCase(TestCase):
     def test_create_shipping_entity(self):
@@ -161,7 +160,7 @@ class ShippingServiceTestCase(TestCase):
         method = create_transport(1)
         self.assertEqual(method, "truck")
 
-from services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
+from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
 # Test Carbon Interface API
 class CarbonInterfaceRequestServiceTestCase(TestCase):
     def test_auth(self):
@@ -169,7 +168,7 @@ class CarbonInterfaceRequestServiceTestCase(TestCase):
         cirs.auth_request()
 
 
-from services.infrastructure.estimates_service import EstimatesService
+from application.services.infrastructure.estimates_service import EstimatesService
 import simplejson as json
 class EstimatesServiceTestCase(TestCase):
     def test_get_estimate_for_electricity_use(self):

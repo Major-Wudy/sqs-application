@@ -4,10 +4,10 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
 
-from infrastructure.carbon_interface_api import CarbonInterfaceRequestService
-from services.domain.electricity_service import ElectricityService
-from services.domain.flight_service import FlightService
-from services.domain.shipping_service import ShippingService
+from application.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
+from application.services.domain.electricity_service import ElectricityService
+from application.services.domain.flight_service import FlightService
+from application.services.domain.shipping_service import ShippingService
 from decimal import Decimal
 import requests
 import simplejson as json

@@ -7,9 +7,9 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
-from models.activity.activity_type import ActivityType
-from models.fuel.fuel_combustion import FuelCombustion
-from models.fuel.fuel_source_type import FuelSourceType
+from application.models.activity.activity_type import ActivityType
+from application.models.fuel.fuel_combustion import FuelCombustion
+from application.models.fuel.fuel_source_type import FuelSourceType
 from decimal import Decimal
 
 def create_fuel_combustion_entity(source_type_name: str, consumption_value: Decimal) -> FuelCombustion:

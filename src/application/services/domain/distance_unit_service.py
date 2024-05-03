@@ -7,7 +7,7 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
-from models.distance.distance_unit import DistanceUnit
+from application.models.distance.distance_unit import DistanceUnit
 
 def create_distance_unit(unit: str) -> DistanceUnit:
     try:

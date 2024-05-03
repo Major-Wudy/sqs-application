@@ -7,9 +7,9 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
-from models.electricity.electricity import Electricity
-from models.electricity.electricity_unit import ElectricityUnit
-from models.activity.activity_type import ActivityType
+from application.models.electricity.electricity import Electricity
+from application.models.electricity.electricity_unit import ElectricityUnit
+from application.models.activity.activity_type import ActivityType
 from decimal import Decimal
 from abc import ABC, abstractmethod
 import simplejson as json

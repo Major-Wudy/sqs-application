@@ -31,7 +31,7 @@ forbidden_modules=
     requests
 
 [importlinter:contract:infrastructure-services]
-name=Infrastructure Services doesn´t import Domain Models only accesses them via Domain Services
+name=Infrastructure Services doesn´t import Domain Models only accesses them via Domain Services (allow indirect imports / Import chains)
 type=forbidden
 source_modules=
     application.services.infrastructure
@@ -41,6 +41,7 @@ forbidden_modules=
     django
     coverage
     import-linter
+allow_indirect_imports=True
 
 [importlinter:contract:Main-domain-independence-contract]
 name = Main Domain services are independent (Main: electricity, flight, fuel_combustion and shipping - supportive: distance_unit_service, transport_service, weight_unit_service) 

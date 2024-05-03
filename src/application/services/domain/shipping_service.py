@@ -7,13 +7,13 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
-from models.shipping.shipping import Shipping
-from models.shipping.transport import Transport
-from models.weights.weight_unit import WeightUnit
-from models.activity.activity_type import ActivityType
-from services.domain.distance_unit_service import create_distance_unit
-from services.domain.weight_unit_service import create_weight_unit
-from application.services.domain import transport_service as ts
+from application.models.shipping.shipping import Shipping
+from application.models.shipping.transport import Transport
+from application.models.weights.weight_unit import WeightUnit
+from application.models.activity.activity_type import ActivityType
+from application.services.domain.distance_unit_service import create_distance_unit
+from application.services.domain.weight_unit_service import create_weight_unit
+from application.services.domain.transport_service import create_transport
 from decimal import Decimal
 from abc import ABC, abstractmethod
 import simplejson as json
@@ -28,7 +28,7 @@ class ShippingService():
 
             distance_unit = create_distance_unit(distance_unit)
             weight_unit = create_weight_unit(w_unit)
-            transport = ts.create_transport(transport_method)
+            transport = create_transport(transport_method)
             return Shipping(ActivityType.SHIPPING, weight_unit, weight_value, distance_unit, distance_value, transport)
         except TypeError:
             if not isinstance(w_unit, str):

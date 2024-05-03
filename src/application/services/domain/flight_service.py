@@ -7,12 +7,12 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
-from models.activity.activity_type import ActivityType
-from models.flight.flight import Flight
-from models.flight.leg import Leg
-from models.flight.iata_airport import IATAAirport
-from models.flight.cabin_class import CabinClass
-from services.domain.distance_unit_service import create_distance_unit
+from application.models.activity.activity_type import ActivityType
+from application.models.flight.flight import Flight
+from application.models.flight.leg import Leg
+from application.models.flight.iata_airport import IATAAirport
+from application.models.flight.cabin_class import CabinClass
+from application.services.domain.distance_unit_service import create_distance_unit
 from abc import ABC, abstractmethod
 import simplejson as json
 
