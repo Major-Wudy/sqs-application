@@ -176,26 +176,22 @@ class EstimatesServiceTestCase(TestCase):
         es = EstimatesService()
         data = {"type" : "electricity", "unit" : "kwh", "value" : Decimal(1650), "country": "us", "state": "fl"}
         carbon = es.get_estimate_for_electricity_use(data)
-        self.assertTrue(carbon, dict)
         self.assertEquals(carbon.get("data").get("type"), "estimate")
 
     def test_get_estimate_for_flight(self):
         fs = EstimatesService()
         data = {"passengers": int(2), "depature" : "MUC", "destination": "DUB", "unit" : "km", "class":"premium"}
         carbon = fs.get_estimate_for_flight(data)
-        self.assertTrue(carbon, dict)
         self.assertEquals(carbon.get("data").get("type"), "estimate")
     
     def test_get_estimate_for_shipping(self):
         es = EstimatesService()
         data = {"weight_unit": "kg", "weight_value" : Decimal(500), "distance_unit": "km", "distance_value" : Decimal(254), "transport_method":"truck"}
         carbon = es.get_estimate_for_shipping(data)
-        self.assertTrue(carbon, dict)
         self.assertEquals(carbon.get("data").get("type"), "estimate")
     
     def test_get_estimate_for_fuel_use(self):
         es = EstimatesService()
         data = {"source_type_name": "Natural Gas", "value" : Decimal(5)}
         carbon = es.get_estimate_for_fuel_use(data)
-        self.assertTrue(carbon, dict)
         self.assertEquals(carbon.get("data").get("type"), "estimate")
