@@ -85,17 +85,18 @@ class FlightServiceTestCase(TestCase):
         url = fs.iata_airport_info_url()
         self.assertEqual(url, "https://www.iata.org/en/publications/directories/code-search/?")
 
-from application.services.domain.fuel_combustion_service import create_fuel_combustion_entity
+from application.services.domain.fuel_combustion_service import FuelService
 from application.models.fuel.fuel_source_type import FuelSourceType
 # Test fuel combustion service
 class FuelCombustionServiceTestCase(TestCase):
     def test_create_fuel_combustion_entity(self):
-        fuel = create_fuel_combustion_entity("Bituminous Coal", Decimal(120.56))
+        fs = FuelService()
+        fuel = fs.create_fuel_combustion_entity("Bituminous Coal", Decimal(120.56))
         self.assertEqual(fuel.type, "fuel_combustion")
         self.assertEqual(fuel.fuel_source_type, "bit")
         self.assertEqual(fuel.fuel_source_unit, "short_ton")
         self.assertEqual(fuel.consumption_value, Decimal(120.56))
-        fuel_none = create_fuel_combustion_entity("Kohle", 12)
+        fuel_none = fs.create_fuel_combustion_entity("Kohle", 12)
         self.assertEqual(fuel_none, None)
 
     def test_fuel_source_type(self):
@@ -177,13 +178,15 @@ class EstimatesServiceTestCase(TestCase):
         carbon = es.get_estimate_for_electricity_use(data)
         carbon = json.dumps(carbon)
         self.assertTrue(carbon, dict)
+        self.assertEquals(carbon.get("data").get("type"), "estimate")
 
     def test_get_estimate_for_flight(self):
         fs = EstimatesService()
         data = {"passengers": int(2), "depature" : "MUC", "destination": "DUB", "unit" : "km", "class":"premium"}
         carbon = fs.get_estimate_for_flight(data)
         carbon = json.dumps(carbon)
-        self.assertTrue(carbon, dict) 
+        self.assertTrue(carbon, dict)
+        self.assertEquals(carbon.get("data").get("type"), "estimate")
     
     def test_get_estimate_for_shipping(self):
         es = EstimatesService()
@@ -191,3 +194,11 @@ class EstimatesServiceTestCase(TestCase):
         carbon = es.get_estimate_for_shipping(data)
         carbon = json.dumps(carbon)
         self.assertTrue(carbon, dict)
+        self.assertEquals(carbon.get("data").get("type"), "estimate")
+    
+    def test_get_estimate_for_fuel_use(self):
+        es = EstimatesService()
+        data = {"source_type_name": "Natural Gas", "value" : Decimal(5)}
+        carbon = es.get_estimate_for_fuel_use(data)
+        self.assertTrue(carbon, dict)
+        self.assertEquals(carbon.get("data").get("type"), "estimate")

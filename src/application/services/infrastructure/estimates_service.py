@@ -4,15 +4,15 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
 
-from application.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
+from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
 from application.services.domain.electricity_service import ElectricityService
 from application.services.domain.flight_service import FlightService
 from application.services.domain.shipping_service import ShippingService
+from application.services.domain.fuel_combustion_service import FuelService
 from decimal import Decimal
 import requests
-import simplejson as json
 
-class EstimatesService(CarbonInterfaceRequestService, ElectricityService, FlightService, ShippingService):
+class EstimatesService(CarbonInterfaceRequestService, ElectricityService, FlightService, ShippingService, FuelService):
     def post(self, url: str, data: dict = None, json: dict = None, headers: dict = None) -> dict:
         try:
             if url == None or url == "":
@@ -36,7 +36,7 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
                 response = requests.post(url, headers=headers, json=json)
             response.raise_for_status()
 
-            return response.text
+            return response.json()
         except requests.exceptions.HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')
         except Exception as err:
@@ -44,7 +44,7 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         except ValueError as ve:
             print(f'Value error occured: {ve}')
         else:
-            print(response.text)
+            print(response.json())
 
     def get_estimate_for_electricity_use(self, data: dict):
         try:
@@ -83,6 +83,20 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
             headers = self.get_authorization_and_content_type_header()
         
             payload = ship_s.convert_shipping_entity_to_json(ship)
+
+            return self.post(url, data=payload, headers=headers)
+        except Exception as err:
+            print(f'An error occurred: {err}')
+
+    def get_estimate_for_fuel_use(self, data: dict): 
+        try:
+            fs = FuelService()
+            fuel = fs.create_fuel_combustion_entity(data.get('source_type_name'), Decimal(data.get('value')))
+
+            url = self.get_estimates_url()
+            headers = self.get_authorization_and_content_type_header()
+        
+            payload = fs.convert_fuel_entity_to_json(fuel)
 
             return self.post(url, data=payload, headers=headers)
         except Exception as err:
