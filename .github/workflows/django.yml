@@ -27,3 +27,7 @@ jobs:
         cd src
         coverage run manage.py test
         coverage html --directory ../coverage-report
+    - name: Run ArchUnit with Import-linter
+      run: |
+        cd src
+        lint-imports
