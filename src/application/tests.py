@@ -177,13 +177,18 @@ class CarbonInterfaceRequestServiceTestCase(unittest.TestCase):
 from application.services.infrastructure.estimates_service import EstimatesService
 import simplejson as json
 class EstimatesServiceTestCase(unittest.TestCase):
+    natural_gas = "Natural Gas"
     def test_get_estimate_for_electricity_use(self):
         es = EstimatesService()
-        data = {"type" : "electricity", "unit" : "kwh", "value" : Decimal(1650), "country": "us", "state": "fl"}
+        data = {"unit" : "kwh", "value" : Decimal(1650), "country": "us", "state": "fl"}
         carbon = es.get_estimate_for_electricity_use(data)
         carbon = json.dumps(carbon)
         self.assertTrue(carbon, dict)
         #self.assertEquals(carbon.get("data").get("type"), "estimate")
+
+        data = {"unit" : "kwh", "country": "us", "state": "fl"}
+        carbon = es.get_estimate_for_electricity_use(data)
+        self.assertIsInstance(carbon, dict)
 
     def test_get_estimate_for_flight(self):
         fs = EstimatesService()
@@ -192,6 +197,10 @@ class EstimatesServiceTestCase(unittest.TestCase):
         carbon = json.dumps(carbon)
         self.assertTrue(carbon, dict)
         #self.assertEquals(carbon.get("data").get("type"), "estimate")
+
+        data = {"passengers": int(2), "depature" : "MUC", "unit" : "km", "class":"premium"}
+        carbon = fs.get_estimate_for_flight(data)
+        self.assertIsInstance(carbon, dict)
     
     def test_get_estimate_for_shipping(self):
         es = EstimatesService()
@@ -200,14 +209,32 @@ class EstimatesServiceTestCase(unittest.TestCase):
         carbon = json.dumps(carbon)
         self.assertTrue(carbon, dict)
         #self.assertEquals(carbon.get("data").get("type"), "estimate")
+
+        data = {"weight_unit": "kg", "weight_value" : Decimal(500), "distance_unit": "km", "transport_method":"truck"}
+        carbon = es.get_estimate_for_shipping(data)
+        self.assertIsInstance(carbon, dict)
     
     def test_get_estimate_for_fuel_use(self):
         es = EstimatesService()
-        data = {"source_type_name": "Natural Gas", "value" : Decimal(5)}
+        data = {"source_type_name": self.natural_gas, "value" : Decimal(5)}
         carbon = es.get_estimate_for_fuel_use(data)
         carbon = json.dumps(carbon)
         self.assertTrue(carbon, dict)
         #self.assertEquals(carbon['data']['type'], "estimate")
+
+        data = {"source_type_name": self.natural_gas}
+        carbon = es.get_estimate_for_fuel_use(data)
+        self.assertIsInstance(carbon, dict)
+
+
+    def test_post(self):
+        es = EstimatesService()
+        response = es.post(url="")
+        test_dict = {'error': 'something went wrong . Url provided?'}
+        self.assertDictContainsSubset(response, test_dict)
+
+        response = es.post(url="https://carbon-score123.wiremockapi.cloud/api/v1/")
+        self.assertIsInstance(response, dict)
 
 if __name__ == '__main__':
     with open('./src/test-reports/results.xml', 'wb') as output:
