@@ -21,7 +21,7 @@ import simplejson as json
 class ShippingService():
 
     @classmethod
-    def create_shipping_entity(self, w_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str) -> Shipping:
+    def create_shipping_entity(cls, w_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str) -> Shipping | None:
         try:
             if not isinstance(w_unit, str) or not isinstance(weight_value, Decimal) or not isinstance(distance_unit, str) or not isinstance(distance_value, Decimal) or not isinstance(transport_method, str):
                 raise TypeError()
@@ -57,7 +57,7 @@ class ShippingService():
         pass
 
     @classmethod
-    def convert_shipping_entity_to_json(self, ship: Shipping) -> json:
+    def convert_shipping_entity_to_json(cls, ship: Shipping) -> json:
         return json.dumps({
                 "type": ship.type,
                 "weight_value": ship.weight_value,

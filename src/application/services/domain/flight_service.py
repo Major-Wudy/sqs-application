@@ -18,24 +18,24 @@ import simplejson as json
 
 class FlightService():
     @classmethod
-    def create_flight_entity(self, passengers: int, depature: str, destination: str, distance_unit: str, cabin: str) -> Flight:
+    def create_flight_entity(cls, passengers: int, depature: str, destination: str, distance_unit: str, cabin: str) -> Flight:
         try:
             if not isinstance(passengers, int) or not isinstance(depature, str) or not isinstance(destination, str) or not isinstance(distance_unit, str) or not isinstance(cabin, str):
                 raise TypeError()
             
             distance_unit = create_distance_unit(distance_unit)
-            legObject = self.create_leg_object(depature, destination, cabin)
-            return Flight(ActivityType.FLIGHT, passengers, legObject, distance_unit)
+            leg_object = cls.create_leg_object(depature, destination, cabin)
+            return Flight(ActivityType.FLIGHT, passengers, leg_object, distance_unit)
         except TypeError:
             print("Wrong parameters flight")
 
     @classmethod
-    def create_leg_object(self, depature: str, destination: str, cabin: str) -> Leg:
-            cabin_class = self.get_cabin_class(cabin)
+    def create_leg_object(cls, depature: str, destination: str, cabin: str) -> Leg:
+            cabin_class = cls.get_cabin_class(cabin)
             return Leg(depature, destination, cabin_class)
 
     @classmethod
-    def get_cabin_class(self, type: str) -> CabinClass:
+    def get_cabin_class(cls, type: str) -> CabinClass:
         try: 
             if not isinstance(type, str):
                 raise TypeError()
@@ -62,12 +62,12 @@ class FlightService():
         pass
     
     @classmethod
-    def iata_airport_info_url(self) -> str:
+    def iata_airport_info_url(cls) -> str:
         link = IATAAirport()
         return link.get_iata_airport_url()
 
     @classmethod
-    def convert_flight_entity_to_json(self, flight: Flight) -> json:
+    def convert_flight_entity_to_json(cls, flight: Flight) -> json:
         return json.dumps({
                 "type": flight.type,
                 "passengers": flight.passengers,

@@ -22,7 +22,7 @@ class DistanceUnitTestCase(TestCase):
 
     def test_default_distance_unit(self):
         default_du = create_distance_unit("meters")
-        type_error_default_du = create_distance_unit(1)
+        type_error_default_du = create_distance_unit("12")
         self.assertEqual(default_du, "km")
         self.assertEqual(type_error_default_du, "km")
 
@@ -96,17 +96,20 @@ class FuelCombustionServiceTestCase(TestCase):
         self.assertEqual(fuel.fuel_source_type, "bit")
         self.assertEqual(fuel.fuel_source_unit, "short_ton")
         self.assertEqual(fuel.consumption_value, Decimal(120.56))
-        fuel_none = fs.create_fuel_combustion_entity("Kohle", 12)
+        fuel_none = fs.create_fuel_combustion_entity("Kohle", Decimal(12))
         self.assertEqual(fuel_none, None)
 
     def test_fuel_source_type(self):
         fst = FuelSourceType()
-        waste_unit = fst.get_unit_by_name("Waste Oil")
-        waste = fst.get_api_name_by_name("Waste Oil")
-        natural_unit = fst.get_unit_by_name("Natural Gas")
-        natural = fst.get_api_name_by_name("Natural Gas")
-        fusion_unit = fst.get_unit_by_name("Atomic")
-        fusion = fst.get_api_name_by_name("Atomic")
+        natural_gas = "Natural Gas"
+        waste_oil = "Waste Oil"
+        atomic = "Atomic"
+        waste_unit = fst.get_unit_by_name(waste_oil)
+        waste = fst.get_api_name_by_name(waste_oil)
+        natural_unit = fst.get_unit_by_name(natural_gas)
+        natural = fst.get_api_name_by_name(natural_gas)
+        fusion_unit = fst.get_unit_by_name(atomic)
+        fusion = fst.get_api_name_by_name(atomic)
         self.assertEqual(waste_unit, "barrel")
         self.assertEqual(waste, "wo")
         self.assertEqual(natural_unit, "thousand_cubic_feet")
@@ -150,7 +153,7 @@ class ShippingServiceTestCase(TestCase):
         wu = create_weight_unit("pounds")
         self.assertEqual(wu, "g")
         # TypeError sets default
-        wu = create_weight_unit(1)
+        wu = create_weight_unit("12")
         self.assertEqual(wu, "g")
 
     def test_create_transport(self):
@@ -158,7 +161,7 @@ class ShippingServiceTestCase(TestCase):
         self.assertEqual(method, "plane")
         method = create_transport("Zug")
         self.assertEqual(method, "truck")
-        method = create_transport(1)
+        method = create_transport("12")
         self.assertEqual(method, "truck")
 
 from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService

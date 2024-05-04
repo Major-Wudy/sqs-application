@@ -17,23 +17,17 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         try:
             if url == None or url == "":
                 raise ValueError()
+
+            request_args = {'url': url}
+
+            if headers is not None:
+                request_args['headers'] = headers
+            if data is not None:
+                request_args['data'] = data
+            if json is not None:
+                request_args['json'] = json
             
-            if headers == None and data == None and json == None:
-                response = requests.post(url)
-            if headers != None and data == None and json == None:
-                response = requests.post(url, headers=headers)
-            if headers != None and data != None and json == None:
-                response = requests.post(url, data=data, headers=headers)
-            if headers != None and data != None and json != None:
-                response = requests.post(url, headers=headers, data=data, json=json)
-            if headers == None and data != None and json == None:
-                response = requests.post(url, data=data)
-            if headers == None and data != None and json != None:
-                response = requests.post(url, data=data, json=json)
-            if headers == None and data == None and json != None:
-                response = requests.post(url, json=json)
-            if headers != None and data == None and json != None:
-                response = requests.post(url, headers=headers, json=json)
+            response = requests.post(**request_args)
             response.raise_for_status()
 
             return response.json()
@@ -41,8 +35,6 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
             print(f'HTTP error occurred: {http_err}')
         except Exception as err:
             print(f'Other error occurred: {err}')
-        except ValueError as ve:
-            print(f'Value error occured: {ve}')
         else:
             print(response.json())
 

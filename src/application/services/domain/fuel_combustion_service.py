@@ -16,7 +16,7 @@ import simplejson as json
 
 class FuelService():
     @classmethod
-    def create_fuel_combustion_entity(self, source_type_name: str, consumption_value: Decimal) -> FuelCombustion:
+    def create_fuel_combustion_entity(cls, source_type_name: str, consumption_value: Decimal) -> FuelCombustion | None:
         try:    
             if not isinstance(source_type_name, str) or not isinstance(consumption_value, Decimal):
                 raise TypeError()
@@ -39,7 +39,7 @@ class FuelService():
             return None
 
     @classmethod
-    def convert_fuel_entity_to_json(self, fuel: FuelCombustion) -> json:
+    def convert_fuel_entity_to_json(cls, fuel: FuelCombustion) -> json:
         return json.dumps({
                 "type": fuel.type,
                 "fuel_source_type": fuel.fuel_source_type,
