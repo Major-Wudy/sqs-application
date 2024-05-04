@@ -5,3 +5,4 @@ simplejson
 requests
 coverage
 import-linter
+unittest-xml-reporting

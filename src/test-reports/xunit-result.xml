@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+	<testsuite name="application.tests.CarbonInterfaceRequestServiceTestCase-20240504142636" tests="1" file="application/tests.py" time="0.375" timestamp="2024-05-04T14:26:36" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.CarbonInterfaceRequestServiceTestCase" name="test_auth" time="0.375" timestamp="2024-05-04T14:26:36" file="application/tests.py" line="172">
+			<system-out><![CDATA[{
+  "message": "auth successful"
+}
+]]></system-out>
+		</testcase>
+	</testsuite>
+	<testsuite name="application.tests.DistanceUnitTestCase-20240504142636" tests="3" file="application/tests.py" time="0.001" timestamp="2024-05-04T14:26:36" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.DistanceUnitTestCase" name="test_default_distance_unit" time="0.001" timestamp="2024-05-04T14:26:36" file="application/tests.py" line="25"/>
+		<testcase classname="application.tests.DistanceUnitTestCase" name="test_distance_unit" time="0.000" timestamp="2024-05-04T14:26:36" file="application/tests.py" line="15"/>
+		<testcase classname="application.tests.DistanceUnitTestCase" name="test_if_distance_unit" time="0.000" timestamp="2024-05-04T14:26:36" file="application/tests.py" line="21"/>
+	</testsuite>
+	<testsuite name="application.tests.ElectricityServiceTestCase-20240504142636" tests="2" file="application/tests.py" time="0.001" timestamp="2024-05-04T14:26:36" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.ElectricityServiceTestCase" name="test_change_electricity_unit" time="0.001" timestamp="2024-05-04T14:26:36" file="application/tests.py" line="45"/>
+		<testcase classname="application.tests.ElectricityServiceTestCase" name="test_create_electricity_entity" time="0.001" timestamp="2024-05-04T14:26:36" file="application/tests.py" line="36"/>
+	</testsuite>
+	<testsuite name="application.tests.EstimatesServiceTestCase-20240504142636" tests="4" file="application/tests.py" time="1.446" timestamp="2024-05-04T14:26:37" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_electricity_use" time="0.358" timestamp="2024-05-04T14:26:36" file="application/tests.py" line="180"/>
+		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_flight" time="0.365" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="188"/>
+		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_fuel_use" time="0.361" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="204"/>
+		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_shipping" time="0.362" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="196"/>
+	</testsuite>
+	<testsuite name="application.tests.FlightServiceTestCase-20240504142636" tests="4" file="application/tests.py" time="0.002" timestamp="2024-05-04T14:26:37" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.FlightServiceTestCase" name="test_create_flight_entity" time="0.001" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="60"/>
+		<testcase classname="application.tests.FlightServiceTestCase" name="test_create_leg_object" time="0.000" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="69"/>
+		<testcase classname="application.tests.FlightServiceTestCase" name="test_get_cabin_class" time="0.000" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="76"/>
+		<testcase classname="application.tests.FlightServiceTestCase" name="test_iata_airport_info_url" time="0.000" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="85"/>
+	</testsuite>
+	<testsuite name="application.tests.FuelCombustionServiceTestCase-20240504142636" tests="2" file="application/tests.py" time="0.001" timestamp="2024-05-04T14:26:37" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.FuelCombustionServiceTestCase" name="test_create_fuel_combustion_entity" time="0.001" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="94">
+			<system-out><![CDATA[fuel Variables are empty
+]]></system-out>
+		</testcase>
+		<testcase classname="application.tests.FuelCombustionServiceTestCase" name="test_fuel_source_type" time="0.001" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="104"/>
+	</testsuite>
+	<testsuite name="application.tests.ShippingServiceTestCase-20240504142636" tests="3" file="application/tests.py" time="0.001" timestamp="2024-05-04T14:26:37" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.ShippingServiceTestCase" name="test_create_shipping_entity" time="0.001" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="127">
+			<system-out><![CDATA[weight_value is wrong
+]]></system-out>
+		</testcase>
+		<testcase classname="application.tests.ShippingServiceTestCase" name="test_create_transport" time="0.000" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="161"/>
+		<testcase classname="application.tests.ShippingServiceTestCase" name="test_create_weight_unit" time="0.000" timestamp="2024-05-04T14:26:37" file="application/tests.py" line="148"/>
+	</testsuite>
+</testsuites>

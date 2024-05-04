@@ -1,4 +1,6 @@
-from django.test import TestCase
+import random
+import unittest
+import xmlrunner
 import sys
 import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -9,7 +11,7 @@ from application.services.domain.distance_unit_service import create_distance_un
 from application.models.distance.distance_unit import DistanceUnit
 
 # Test DistanceUnitService and DistanceUnit
-class DistanceUnitTestCase(TestCase):
+class DistanceUnitTestCase(unittest.TestCase):
     def test_distance_unit(self):
         km_du = create_distance_unit("km")
         mi_du = create_distance_unit("mi")
@@ -18,7 +20,7 @@ class DistanceUnitTestCase(TestCase):
 
     def test_if_distance_unit(self):
         du = create_distance_unit("km")
-        self.assertTrue(isinstance(du, DistanceUnit))
+        self.assertIsInstance(du, DistanceUnit)
 
     def test_default_distance_unit(self):
         default_du = create_distance_unit("meters")
@@ -30,7 +32,7 @@ from application.services.domain.electricity_service import ElectricityService
 from application.models.electricity.electricity_unit import ElectricityUnit
 from decimal import Decimal
 # Test electricity service
-class ElectricityServiceTestCase(TestCase):
+class ElectricityServiceTestCase(unittest.TestCase):
     def test_create_electricity_entity(self):
         e = ElectricityService()
         elec = e.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
@@ -54,7 +56,7 @@ class ElectricityServiceTestCase(TestCase):
 
 from application.services.domain.flight_service import FlightService
 # Test flight service
-class FlightServiceTestCase(TestCase):
+class FlightServiceTestCase(unittest.TestCase):
     def test_create_flight_entity(self):
         fs = FlightService()
         fl = fs.create_flight_entity(2, "MUC", "DUB", "KM", "economy")
@@ -88,7 +90,7 @@ class FlightServiceTestCase(TestCase):
 from application.services.domain.fuel_combustion_service import FuelService
 from application.models.fuel.fuel_source_type import FuelSourceType
 # Test fuel combustion service
-class FuelCombustionServiceTestCase(TestCase):
+class FuelCombustionServiceTestCase(unittest.TestCase):
     def test_create_fuel_combustion_entity(self):
         fs = FuelService()
         fuel = fs.create_fuel_combustion_entity("Bituminous Coal", Decimal(120.56))
@@ -97,7 +99,7 @@ class FuelCombustionServiceTestCase(TestCase):
         self.assertEqual(fuel.fuel_source_unit, "short_ton")
         self.assertEqual(fuel.consumption_value, Decimal(120.56))
         fuel_none = fs.create_fuel_combustion_entity("Kohle", Decimal(12))
-        self.assertEqual(fuel_none, None)
+        self.assertIsNone(fuel_none, None)
 
     def test_fuel_source_type(self):
         fst = FuelSourceType()
@@ -121,7 +123,7 @@ from application.services.domain.shipping_service import ShippingService
 from application.services.domain.weight_unit_service import create_weight_unit
 from application.services.domain.transport_service import create_transport
 # Test shipping service
-class ShippingServiceTestCase(TestCase):
+class ShippingServiceTestCase(unittest.TestCase):
     def test_create_shipping_entity(self):
         s = ShippingService()
         shipping = s.create_shipping_entity("kg", Decimal(2.05), "km", Decimal(250.3), "train")
@@ -141,7 +143,7 @@ class ShippingServiceTestCase(TestCase):
         self.assertEqual(shipping_defaults.transport_method, "truck")
 
         shipping_none = s.create_shipping_entity("gramm", "2.05", "kilometer", Decimal(250.3), "LKW")
-        self.assertEqual(shipping_none, None)
+        self.assertIsNone(shipping_none, None)
 
     def test_create_weight_unit(self):
         wu = create_weight_unit("lb")
@@ -166,7 +168,7 @@ class ShippingServiceTestCase(TestCase):
 
 from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
 # Test Carbon Interface API
-class CarbonInterfaceRequestServiceTestCase(TestCase):
+class CarbonInterfaceRequestServiceTestCase(unittest.TestCase):
     def test_auth(self):
         cirs = CarbonInterfaceRequestService()
         cirs.auth_request()
@@ -174,7 +176,7 @@ class CarbonInterfaceRequestServiceTestCase(TestCase):
 
 from application.services.infrastructure.estimates_service import EstimatesService
 import simplejson as json
-class EstimatesServiceTestCase(TestCase):
+class EstimatesServiceTestCase(unittest.TestCase):
     def test_get_estimate_for_electricity_use(self):
         es = EstimatesService()
         data = {"type" : "electricity", "unit" : "kwh", "value" : Decimal(1650), "country": "us", "state": "fl"}
@@ -206,3 +208,9 @@ class EstimatesServiceTestCase(TestCase):
         carbon = json.dumps(carbon)
         self.assertTrue(carbon, dict)
         #self.assertEquals(carbon['data']['type'], "estimate")
+
+if __name__ == '__main__':
+    with open('./src/test-reports/results.xml', 'wb') as output:
+        unittest.main(
+            testRunner=xmlrunner.XMLTestRunner(output=output),
+            failfast=False, buffer=False, catchbreak=False)
