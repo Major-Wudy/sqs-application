@@ -32,8 +32,7 @@ class ElectricityService():
         except TypeError:
             print("Wrong elec parameters")
 
-    @classmethod
-    def convert_electricity_entity_to_json(cls, elec: Electricity) -> json:
+    def convert_electricity_entity_to_json(self, elec: Electricity) -> json:
         return json.dumps({
                 "type": elec.type,
                 "electricity_unit": elec.electricity_unit,
@@ -42,7 +41,7 @@ class ElectricityService():
                 })
 
     @abstractmethod
-    def get_estimate_for_electricity_use(self, data: dict):
+    def get_estimate_for_electricity_use(self, value: Decimal, country: str, state: str, unit: str):
         """
         Args:
             api_interface (CarbonInterfaceRequestService): Das API Interface, welches den direkten HTTP-Call an die externe API sendet

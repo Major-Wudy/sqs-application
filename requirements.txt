@@ -6,3 +6,5 @@ requests
 coverage
 import-linter
 unittest-xml-reporting
+django_rest_framework
+jsonpickle

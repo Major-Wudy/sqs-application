@@ -32,16 +32,16 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
 
             return response.json()
         except requests.exceptions.HTTPError as http_err:
-            print(f'HTTP error occurred: {http_err}')
+            return {'error': f'HTTP error occurred: {http_err}'}
         except Exception as err:
-            print(f'Other error occurred: {err}')
+            return {'error': f'something went wrong {err}. Url provided?'}
         else:
             print(response.json())
 
-    def get_estimate_for_electricity_use(self, data: dict):
+    def get_estimate_for_electricity_use(self, value: Decimal, country: str, state: str, unit: str):
         try:
             es = ElectricityService()
-            elec = es.create_electricity_entity(Decimal(data.get('value')), data.get('country'), data.get('state'), data.get('unit'))
+            elec = es.create_electricity_entity(Decimal(value), country, state, unit)
             
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
@@ -50,7 +50,7 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
             
             return self.post(url, data=payload, headers=headers)
         except Exception as err:
-            print(f'An error occurred: {err}')
+            return {'error': f'Please check params. Error message {err}'}
     
     def get_estimate_for_flight(self, data: dict):
         try:
@@ -64,7 +64,7 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
 
             return self.post(url, data=payload, headers=headers)
         except Exception as err:
-            print(f'An error occurred: {err}')
+            return {'error': f'Please check params. Error message {err}'}
     
     def get_estimate_for_shipping(self, data: dict):
         try:
@@ -78,7 +78,7 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
 
             return self.post(url, data=payload, headers=headers)
         except Exception as err:
-            print(f'An error occurred: {err}')
+            return {'error': f'Please check params. Error message {err}'}
 
     def get_estimate_for_fuel_use(self, data: dict): 
         try:
@@ -92,4 +92,4 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
 
             return self.post(url, data=payload, headers=headers)
         except Exception as err:
-            print(f'An error occurred: {err}')
+            return {'error': f'Please check params. Error message {err}'}
