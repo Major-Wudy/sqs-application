@@ -9,7 +9,8 @@ from rest_framework import authentication
 from application.services.infrastructure.estimates_service import EstimatesService
 from application.services.domain.electricity_service import ElectricityService
 from decimal import Decimal
-import jsonpickle
+#import jsonpickle
+import simplejson as json
 
 class BearerAuthentication(authentication.TokenAuthentication):
     '''
@@ -24,10 +25,20 @@ class BearerAuthentication(authentication.TokenAuthentication):
 
 class ApiServices():
     @classmethod
-    def create_electricity_from_post(cls, value: Decimal, country: str, state: str, unit: str):
+    def create_electricity_from_post(cls, value: Decimal, country: str, state: str, unit: str) -> json:
         try:
             es = ElectricityService()
             elec = es.create_electricity_entity(Decimal(value), country, state, unit)
-            return jsonpickle.encode(elec)
+            return es.convert_electricity_entity_to_json(elec)
+        except Exception as err:
+            return {'error': f'could not create electricity entity. Check your post request. {err}'}
+
+    @classmethod
+    def get_estimate_for_electricity_from_post(cls, electricity: json):
+        try:
+            # ToDo check json for missing values and correct syntax
+
+            es = EstimatesService()
+            return es.get_estimate_for_electricity_use(Decimal(electricity.get("electricity_value")), electricity.get("country"), electricity.get("state"), electricity.get("electricity_unit"))
         except Exception as err:
             return {'error': f'could not create electricity entity. Check your post request. {err}'}

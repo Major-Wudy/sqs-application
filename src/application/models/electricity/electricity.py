@@ -8,6 +8,3 @@ class Electricity:
         self.country = country
         self.state = state
         self.electricity_unit = electricity_unit
-
-    def __json__(self):
-        return {'data': self.data}

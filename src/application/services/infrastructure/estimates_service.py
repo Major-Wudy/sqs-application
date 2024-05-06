@@ -32,7 +32,8 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
 
             return response.json()
         except requests.exceptions.HTTPError as http_err:
-            return {'error': f'HTTP error occurred: {http_err}'}
+            message = request_args
+            return {'error': f'HTTP error occurred: {http_err}. {message}'}
         except Exception as err:
             return {'error': f'something went wrong {err}. Url provided?'}
         else:
@@ -48,7 +49,7 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
             
             payload = es.convert_electricity_entity_to_json(elec)
             
-            return self.post(url, data=payload, headers=headers)
+            return self.post(url, json=payload, headers=headers)
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
     

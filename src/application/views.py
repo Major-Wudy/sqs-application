@@ -61,8 +61,10 @@ def create_electricity(request):
 
 @api_view(['POST'])
 def get_estimate_electricity(request):
-    post = {'message':'post get_estimate_electricity'}
-    return Response(post)
+    data = request.data
+    api = ApiServices()
+    estimate = api.get_estimate_for_electricity_from_post(data)
+    return Response(estimate)
 
 @api_view(['POST'])
 def create_flight(request):

@@ -7,7 +7,7 @@ urlpatterns = [
     path('', views.getData),
     path('post/', views.postData),
     path('create/electricity/', views.create_electricity),
-    #path('get/estimate/electricity/', views.postData),
+    path('get/estimate/electricity/', views.get_estimate_electricity),
     #path('create/flight/', views.postData),
     #path('get/estimate/flight/', views.postData),
     #path('create/shipping/', views.postData),
