@@ -60,15 +60,16 @@ def create_shipping(request):
     """
         JSON 
         {
-           "value":123,
-           "country":"us"
-           "state":"fl"
-           "unit":"kwm"    
+            "weight_value": 123.45,
+            "weight_unit": "kg",
+            "distance_value": 500.01,
+            "distance_unit": "km",
+            "transport_method": "truck",
         }
     """
     data = request.data
     api = ApiServices()
-    return api.create_electricity_from_post(data)
+    return api.create_shipping_from_post(data)
 
 @api_view(['POST'])
 def get_estimate_shipping(request):

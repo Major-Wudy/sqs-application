@@ -9,6 +9,7 @@ from rest_framework import authentication
 from application.services.infrastructure.estimates_service import EstimatesService
 from application.services.domain.electricity_service import ElectricityService
 from application.services.domain.flight_service import FlightService
+from application.services.domain.shipping_service import ShippingService
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
@@ -29,7 +30,7 @@ class ApiServices():
     @classmethod
     def create_electricity_from_post(cls, data: json) -> json:
         try:
-            value = Decimal(data.get('value'))
+            value = Decimal(data.get('value')).quantize(Decimal('0.01'))
             if not isinstance(value, Decimal):
                 raise TypeError('value is no decimal value')
 
@@ -90,6 +91,39 @@ class ApiServices():
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except TypeError as typeErr:
-            leg_type = type(legs)
+            error = {"error":f"Wrong parameter type: {typeErr}"}
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)
+
+    @classmethod
+    def create_shipping_from_post(cls, data: json) -> json:
+        try:
+            weight = Decimal(data.get('weight_value')).quantize(Decimal('0.01'))
+            if not isinstance(weight, Decimal):
+                raise TypeError('weight is no decimal value')
+
+            weight_unit = data.get('weight_unit')
+            if not isinstance(weight_unit, str):
+                raise TypeError('weight_unit is not a string')
+
+            distance = Decimal(data.get('distance_value')).quantize(Decimal('0.01'))
+            if not isinstance(distance, Decimal):
+                raise TypeError('distance is no decimal value')
+
+            distance_unit = data.get('distance_unit')
+            if not isinstance(distance_unit, str):
+                raise TypeError('distance_unit is no string')
+            
+            transport = data.get('transport_method')
+            if not isinstance(transport, str):
+                raise TypeError('distance_unit is no string')
+
+            ship_s = ShippingService()
+            ship = ship_s.create_shipping_entity(weight_unit, weight, distance_unit, distance, transport)
+            json =  ship_s.convert_shipping_entity_to_json(ship)
+            return Response(json, status=status.HTTP_201_CREATED)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
             return Response(error, status=status.HTTP_400_BAD_REQUEST)

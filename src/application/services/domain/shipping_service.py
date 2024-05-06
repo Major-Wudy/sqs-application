@@ -58,11 +58,11 @@ class ShippingService():
 
     @classmethod
     def convert_shipping_entity_to_json(cls, ship: Shipping) -> json:
-        return json.dumps({
-                "type": ship.type,
-                "weight_value": ship.weight_value,
-                "weight_unit": ship.weight_unit,
-                "distance_value": ship.distance_value,
-                "distance_unit": ship.distance_unit,
-                "transport_method": ship.transport_method,
-                })
+        return {
+                "type": ship.type.value,
+                "weight_value": str(ship.weight_value),
+                "weight_unit": ship.weight_unit.value,
+                "distance_value": str(ship.distance_value),
+                "distance_unit": ship.distance_unit.value,
+                "transport_method": ship.transport_method.value,
+                }
