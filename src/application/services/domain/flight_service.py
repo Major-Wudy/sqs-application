@@ -68,9 +68,9 @@ class FlightService():
 
     @classmethod
     def convert_flight_entity_to_json(cls, flight: Flight) -> json:
-        return json.dumps({
-                "type": flight.type,
+        return {
+                "type": flight.type.value,
                 "passengers": flight.passengers,
-                "legs": [{"departure_airport":flight.leg.depature_airport, "destination_airport":flight.leg.destination_airport, "cabin_class": flight.leg.cabin_class}],
-                "distance_unit": flight.distance_unit,
-                })
+                "legs": [{"departure_airport":flight.leg.depature_airport, "destination_airport":flight.leg.destination_airport, "cabin_class": flight.leg.cabin_class.value}],
+                "distance_unit": flight.distance_unit.value,
+                }

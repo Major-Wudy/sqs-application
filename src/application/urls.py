@@ -1,14 +1,13 @@
 from django.urls import path, include
 from . import views
+from . import api
 from django.conf import settings
 
 urlpatterns = [
     #path("", views.index, name="index"),
-    path('', views.getData),
-    path('post/', views.postData),
-    path('create/electricity/', views.create_electricity),
-    path('get/estimate/electricity/', views.get_estimate_electricity),
-    #path('create/flight/', views.postData),
+    path('create/electricity/', api.create_electricity),
+    path('get/estimate/electricity/', api.get_estimate_electricity),
+    path('create/flight/', api.create_flight),
     #path('get/estimate/flight/', views.postData),
     #path('create/shipping/', views.postData),
     #path('get/estimate/shipping/', views.postData),
