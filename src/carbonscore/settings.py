@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'carbonscore',
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -137,5 +138,14 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'application.services.infrastructure.api_service.BearerAuthentication',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Carbon Score API',
+    'DESCRIPTION': 'SQS Application for master course in computer sience',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }

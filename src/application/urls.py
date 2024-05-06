@@ -2,6 +2,7 @@ from django.urls import path, include
 from . import views
 from . import api
 from django.conf import settings
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
     #path("", views.index, name="index"),
@@ -13,4 +14,8 @@ urlpatterns = [
     #path('get/estimate/shipping/', views.postData),
     path('create/fuel/', api.create_fuel),
     #path('get/estimate/fuel/', views.postData),
+     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
