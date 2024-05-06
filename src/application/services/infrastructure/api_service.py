@@ -10,6 +10,7 @@ from application.services.infrastructure.estimates_service import EstimatesServi
 from application.services.domain.electricity_service import ElectricityService
 from application.services.domain.flight_service import FlightService
 from application.services.domain.shipping_service import ShippingService
+from application.services.domain.fuel_combustion_service import FuelService
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
@@ -120,6 +121,28 @@ class ApiServices():
             ship_s = ShippingService()
             ship = ship_s.create_shipping_entity(weight_unit, weight, distance_unit, distance, transport)
             json =  ship_s.convert_shipping_entity_to_json(ship)
+            return Response(json, status=status.HTTP_201_CREATED)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except TypeError as typeErr:
+            error = {"error":f"Wrong parameter type: {typeErr}"}
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)
+
+    @classmethod
+    def create_fuel_from_post(cls, data: json) -> json:
+        try:
+            source = data.get('source')
+            if not isinstance(source, str):
+                raise TypeError('source is not a string')
+
+            consumption = Decimal(data.get('value')).quantize(Decimal('0.01'))
+            if not isinstance(consumption, Decimal):
+                raise TypeError('consumption is no decimal value')
+
+            fs = FuelService()
+            fuel = fs.create_fuel_combustion_entity(source, consumption)
+            json =  fs.convert_fuel_entity_to_json(fuel)
             return Response(json, status=status.HTTP_201_CREATED)
         except Exception as err:
             error = {"error":f"Something went wrong {err}"}

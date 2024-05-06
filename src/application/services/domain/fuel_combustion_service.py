@@ -40,12 +40,12 @@ class FuelService():
 
     @classmethod
     def convert_fuel_entity_to_json(cls, fuel: FuelCombustion) -> json:
-        return json.dumps({
-                "type": fuel.type,
+        return {
+                "type": fuel.type.value,
                 "fuel_source_type": fuel.fuel_source_type,
                 "fuel_source_unit": fuel.fuel_source_unit,
                 "fuel_source_value": fuel.consumption_value
-                })
+                }
 
     @abstractmethod
     def get_estimate_for_fuel_use(self, data: dict):

@@ -81,15 +81,13 @@ def create_fuel(request):
     """
         JSON 
         {
-           "value":123,
-           "country":"us"
-           "state":"fl"
-           "unit":"kwm"    
+           "source":"Natural Gas",
+           "value":500.01  
         }
     """
     data = request.data
     api = ApiServices()
-    return api.create_electricity_from_post(data)
+    return api.create_fuel_from_post(data)
 
 @api_view(['POST'])
 def get_estimate_fuel(request):

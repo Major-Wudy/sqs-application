@@ -11,6 +11,6 @@ urlpatterns = [
     #path('get/estimate/flight/', views.postData),
     path('create/shipping/', api.create_shipping),
     #path('get/estimate/shipping/', views.postData),
-    #path('create/fuel/', views.postData),
+    path('create/fuel/', api.create_fuel),
     #path('get/estimate/fuel/', views.postData),
 ]
