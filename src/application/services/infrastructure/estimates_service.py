@@ -53,10 +53,10 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
     
-    def get_estimate_for_flight(self, data: dict):
+    def get_estimate_for_flight(self, passengers: int, depature: str, destination: str, unit: str, cabin: str):
         try:
             fs = FlightService()
-            fl = fs.create_flight_entity(data.get('passengers'), data.get('depature'), data.get('destination'), data.get('unit'), data.get('class'))
+            fl = fs.create_flight_entity(passengers, depature, destination, unit, cabin)
 
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
@@ -67,10 +67,10 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
     
-    def get_estimate_for_shipping(self, data: dict):
+    def get_estimate_for_shipping(self, weight_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str):
         try:
             ship_s = ShippingService()
-            ship = ship_s.create_shipping_entity(data.get('weight_unit'), Decimal(data.get('weight_value')), data.get('distance_unit'), Decimal(data.get('distance_value')), data.get('transport_method'))
+            ship = ship_s.create_shipping_entity(weight_unit, weight_value, distance_unit, distance_value, transport_method)
 
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
@@ -81,10 +81,10 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
 
-    def get_estimate_for_fuel_use(self, data: dict): 
+    def get_estimate_for_fuel_use(self, source_type_name: str, value: Decimal): 
         try:
             fs = FuelService()
-            fuel = fs.create_fuel_combustion_entity(data.get('source_type_name'), Decimal(data.get('value')))
+            fuel = fs.create_fuel_combustion_entity(source_type_name, Decimal('value'))
 
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()

@@ -51,11 +51,24 @@ def create_flight(request):
     return api.create_flight_from_post(data)
 
 @api_view(['POST'])
+@authentication_classes([BearerAuthentication])
+@permission_classes([IsAuthenticated])
 def get_estimate_flight(request):
-    post = {'message':'post get_estimate_electricity'}
-    return Response(post)
+    """
+        JSON 
+        {
+           "passengers":2,
+           "legs":[{"destination":"DUB","depature":"MUC","class":"economy}],
+           "distance_unit":"km"
+        }
+    """
+    data = request.data
+    api = ApiServices()
+    return api.get_estimate_for_flight_from_post(data)
 
 @api_view(['POST'])
+@authentication_classes([BearerAuthentication])
+@permission_classes([IsAuthenticated])
 def create_shipping(request):
     """
         JSON 
@@ -73,10 +86,23 @@ def create_shipping(request):
 
 @api_view(['POST'])
 def get_estimate_shipping(request):
-    post = {'message':'post get_estimate_electricity'}
-    return Response(post)
+    """
+        JSON 
+        {
+            "weight_value": 123.45,
+            "weight_unit": "kg",
+            "distance_value": 500.01,
+            "distance_unit": "km",
+            "transport_method": "truck",
+        }
+    """
+    data = request.data
+    api = ApiServices()
+    return api.get_estimate_for_shipping_from_post(data)
 
 @api_view(['POST'])
+@authentication_classes([BearerAuthentication])
+@permission_classes([IsAuthenticated])
 def create_fuel(request):
     """
         JSON 

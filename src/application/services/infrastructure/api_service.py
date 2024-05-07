@@ -96,6 +96,21 @@ class ApiServices():
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
     @classmethod
+    def get_estimate_for_flight_from_post(cls, flight: json) -> json:
+        try:
+            # ToDo check json for missing values and correct syntax
+            legs = flight.get('legs')
+            if not isinstance(legs, list):
+                raise TypeError('leg is not a dict')
+
+            es = EstimatesService()
+            json = es.get_estimate_for_flight(flight.get("passengers"), legs[0]['departure_airport'], legs[0]['destination_airport'], flight.get("distance_unit"), legs[0]['cabin_class'])
+            return Response(json, status=status.HTTP_201_CREATED)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @classmethod
     def create_shipping_from_post(cls, data: json) -> json:
         try:
             weight = Decimal(data.get('weight_value')).quantize(Decimal('0.01'))
@@ -130,6 +145,18 @@ class ApiServices():
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
     @classmethod
+    def get_estimate_for_shipping_from_post(cls, shipping: json) -> json:
+        try:
+            # ToDo check json for missing values and correct syntax
+
+            es = EstimatesService()
+            json = es.get_estimate_for_shipping(shipping.get("weight_unit"), Decimal(shipping.get("weight_value")), shipping.get("distance_unit"), Decimal(shipping.get("distance_value")), shipping.get("transport_method"))
+            return Response(json, status=status.HTTP_201_CREATED)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @classmethod
     def create_fuel_from_post(cls, data: json) -> json:
         try:
             source = data.get('source')
@@ -150,3 +177,15 @@ class ApiServices():
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
+
+    @classmethod
+    def get_estimate_for_fuel_from_post(cls, fuel: json) -> json:
+        try:
+            # ToDo check json for missing values and correct syntax
+
+            es = EstimatesService()
+            json = es.get_estimate_for_fuel_use(fuel.get("source"), Decimal(fuel.get("value")))
+            return Response(json, status=status.HTTP_201_CREATED)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

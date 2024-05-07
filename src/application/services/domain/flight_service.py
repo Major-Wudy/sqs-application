@@ -51,7 +51,7 @@ class FlightService():
             return CabinClass.ECONOMY
     
     @abstractmethod
-    def get_estimate_for_flight(self, data: dict):
+    def get_estimate_for_flight(self, passengers: int, depature: str, destination: str, unit: str, cabin: str):
         """
         Args:
             api_interface (CarbonInterfaceRequestService): Das API Interface, welches den direkten HTTP-Call an die externe API sendet
@@ -70,7 +70,7 @@ class FlightService():
     def convert_flight_entity_to_json(cls, flight: Flight) -> json:
         return {
                 "type": flight.type.value,
-                "passengers": flight.passengers,
+                "passengers": str(flight.passengers),
                 "legs": [{"departure_airport":flight.leg.depature_airport, "destination_airport":flight.leg.destination_airport, "cabin_class": flight.leg.cabin_class.value}],
                 "distance_unit": flight.distance_unit.value,
                 }

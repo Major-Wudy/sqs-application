@@ -46,7 +46,7 @@ class ShippingService():
             print(f'an error occured {err}')
     
     @abstractmethod
-    def get_estimate_for_shipping(self, data: dict):
+    def get_estimate_for_shipping(self, weight_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str):
         """
         Args:
             api_interface (CarbonInterfaceRequestService): Das API Interface, welches den direkten HTTP-Call an die externe API sendet

@@ -48,7 +48,7 @@ class FuelService():
                 }
 
     @abstractmethod
-    def get_estimate_for_fuel_use(self, data: dict):
+    def get_estimate_for_fuel_use(self, source_type_name: str, value: Decimal):
         """
         Args:
             api_interface (CarbonInterfaceRequestService): Das API Interface, welches den direkten HTTP-Call an die externe API sendet
