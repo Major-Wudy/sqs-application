@@ -13,8 +13,8 @@ urlpatterns = [
     path('create/fuel/', api.create_fuel),
     path('get/estimate/fuel/', api.get_estimate_fuel),
     # OpenAPI
-    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('v1/schema/', SpectacularAPIView.as_view(api_version='v1'), name='schema'),
     # Optional UI:
-    path('schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path('v1/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    #path('v1/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
