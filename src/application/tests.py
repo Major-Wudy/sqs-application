@@ -235,7 +235,7 @@ class ApiTestCase(unittest.TestCase):
         self.assertEquals(json.get('country'), "us")
         self.assertEquals(json.get('state'), "fl")
     
-    def test_api_create_electricity_401(self):
+    def test_api_create_electricity_401(self): 
         response = self.c.post("/api/create/electricity/", {"value":123.45, "country":"us","state":"fl","unit":"kwh"})
         status_code = response.status_code
         self.assertEquals(status_code, 401)
