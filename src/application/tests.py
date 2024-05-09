@@ -93,7 +93,7 @@ from application.models.fuel.fuel_source_type import FuelSourceType
 class FuelCombustionServiceTestCase(unittest.TestCase):
     def test_create_fuel_combustion_entity(self):
         fs = FuelService()
-        fuel = fs.create_fuel_combustion_entity("Bituminous Coal", Decimal(120.56))
+        fuel = fs.create_fuel_combustion_entity(Decimal(120.56), "Bituminous Coal")
         self.assertEqual(fuel.type, "fuel_combustion")
         self.assertEqual(fuel.fuel_source_type, "bit")
         self.assertEqual(fuel.fuel_source_unit, "short_ton")
