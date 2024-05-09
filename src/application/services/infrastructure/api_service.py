@@ -168,7 +168,7 @@ class ApiServices():
                 raise TypeError('consumption is no decimal value')
 
             fs = FuelService()
-            fuel = fs.create_fuel_combustion_entity(source, consumption)
+            fuel = fs.create_fuel_combustion_entity(consumption, source)
             json =  fs.convert_fuel_entity_to_json(fuel)
             return Response(json, status=status.HTTP_201_CREATED)
         except Exception as err:
