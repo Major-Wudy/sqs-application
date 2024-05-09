@@ -220,13 +220,16 @@ class EstimatesServiceTestCase(unittest.TestCase):
 # Automated API Tests
 from django.test import Client
 from dotenv import load_dotenv
+import simplejson as json
 class ApiTestCase(unittest.TestCase):
     token = os.environ.get('TOKEN_UNIT_TEST')
     c = Client()
     electricity_endpoint = "/api/create/electricity/"
     flight_endpoint = "/api/create/flight/"
+    shipping_endpoint = "/api/create/shipping/"
+    fuel_endpoint = "/api/create/fuel/"
     def test_api_create_electricity(self):
-        response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': f'Bearer {os.environ.get("TOKEN_UNIT_TEST")}'})
+        response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': 'Bearer ' + self.token})
         status_code = response.status_code
         json = response.json()
         self.assertEquals(status_code, 201)
@@ -243,28 +246,80 @@ class ApiTestCase(unittest.TestCase):
         self.assertEquals(status_code, 401)
    
     def test_api_create_electricity_500(self):
-        response = self.c.post(self.electricity_endpoint, {"value":"test", "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': f'Bearer {os.environ.get("TOKEN_UNIT_TEST")}'})
+        response = self.c.post(self.electricity_endpoint, {"value":"test", "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': 'Bearer ' + self.token})
         status_code = response.status_code
         self.assertEquals(status_code, 500)
-"""
+
     # Api test flight
-    #def test_api_create_flight(self):
-        response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers={'Authorization': 'Bearer ' + self.token})
+    def test_api_create_flight(self):
+        response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers={'Authorization': 'Bearer ' + self.token}, content_type='application/json')
         status_code = response.status_code
-        json = response.json()
+        result = response.json()
         self.assertEquals(status_code, 201)
-        self.assertIsInstance(json, dict)
+        self.assertIsInstance(result, dict)
+        self.assertEquals(result.get('type'), "flight")
+        self.assertEquals(result.get('passengers'), "2")
+        self.assertEquals(result.get('legs')[0]["departure_airport"], "MUC")
+        self.assertEquals(result.get('legs')[0]['destination_airport'], "DUB")
+        self.assertEquals(result.get('legs')[0]['cabin_class'], "premium")
+        self.assertEquals(result.get('distance_unit'), "km")
     
-    #def test_api_create_flight_401(self): 
+    def test_api_create_flight_401(self): 
         response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"})
         status_code = response.status_code
         self.assertEquals(status_code, 401)
    
-    #def test_api_create_flight_500(self):
+    def test_api_create_flight_500(self):
         response = self.c.post(self.flight_endpoint, {"passengers":"test","legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers={'Authorization': 'Bearer ' + self.token})
         status_code = response.status_code
         self.assertEquals(status_code, 500)
-"""
+
+    # Api test shipping
+    def test_api_create_shipping(self):
+        response = self.c.post(self.shipping_endpoint, {"weight_value":123.45,"weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}, headers={'Authorization': 'Bearer ' + self.token}, content_type='application/json')
+        status_code = response.status_code
+        result = response.json()
+        self.assertEquals(status_code, 201)
+        self.assertIsInstance(result, dict)
+        self.assertEquals(result.get('type'), "shipping")
+        self.assertEquals(result.get('weight_value'), "123.45")
+        self.assertEquals(result.get('weight_unit'), "g")
+        self.assertEquals(result.get('distance_value'), "500.01")
+        self.assertEquals(result.get('distance_unit'), "km")
+        self.assertEquals(result.get('transport_method'), "plane")
+    
+    def test_api_create_shipping_401(self): 
+        response = self.c.post(self.shipping_endpoint, {"weight_value":123.45,"weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"})
+        status_code = response.status_code
+        self.assertEquals(status_code, 401)
+   
+    def test_api_create_shipping_500(self):
+        response = self.c.post(self.shipping_endpoint, {"weight_value":"error","weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}, headers={'Authorization': 'Bearer ' + self.token})
+        status_code = response.status_code
+        self.assertEquals(status_code, 500)
+
+    # Api test flight
+    def test_api_create_fuel(self):
+        response = self.c.post(self.fuel_endpoint, {"source":"Natural Gas","value":500}, headers={'Authorization': 'Bearer ' + self.token}, content_type='application/json')
+        status_code = response.status_code
+        result = response.json()
+        self.assertEquals(status_code, 201)
+        self.assertIsInstance(result, dict)
+        self.assertEquals(result.get('type'), "fuel_combustion")
+        self.assertEquals(result.get('fuel_source_type'), "ng")
+        self.assertEquals(result.get('fuel_source_unit'), "thousand_cubic_feet")
+        self.assertEquals(result.get('fuel_source_value'), "500.00")
+    
+    def test_api_create_fuel_401(self): 
+        response = self.c.post(self.fuel_endpoint, {"source":"Natural Gas","value":500})
+        status_code = response.status_code
+        self.assertEquals(status_code, 401)
+   
+    def test_api_create_fuel_500(self):
+        response = self.c.post(self.fuel_endpoint, {"source":"Natural Gas","value":"error"}, headers={'Authorization': 'Bearer ' + self.token})
+        status_code = response.status_code
+        self.assertEquals(status_code, 500)
+
 if __name__ == '__main__':
     with open('./src/test-reports/results.xml', 'wb') as output:
         unittest.main(

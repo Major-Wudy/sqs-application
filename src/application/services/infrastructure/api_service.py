@@ -73,9 +73,6 @@ class ApiServices():
     def create_flight_from_post(cls, data: json) -> json:
         try:
             passengers = data.get('passengers')
-            if not isinstance(passengers, int):
-                raise TypeError('passengers is no int')
-
             unit = data.get('distance_unit')
             if not isinstance(unit, str):
                 raise TypeError('unit is not a string')
@@ -85,7 +82,7 @@ class ApiServices():
                 raise TypeError('leg is not a dict')
 
             fs = FlightService()
-            flight = fs.create_flight_entity(passengers, legs[0]['depature'], legs[0]['destination'], unit, legs[0]['class'])
+            flight = fs.create_flight_entity(int(passengers), legs[0]['depature'], legs[0]['destination'], unit, legs[0]['class'])
             json =  fs.convert_flight_entity_to_json(flight)
             return Response(json, status=status.HTTP_201_CREATED)
         except Exception as err:
