@@ -24,7 +24,7 @@ jobs:
         source tutorial-env/bin/activate 
     - name: env
       run: |
-        echo "django_secret_key=topsecretvalue" >> $GITHUB_ENV
+        echo "SECRET_KEY=topsecretvalue" >> $GITHUB_ENV
     - name: Run Tests
       run: |
         cd src
