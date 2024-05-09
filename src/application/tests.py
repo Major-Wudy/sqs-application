@@ -226,7 +226,7 @@ class ApiTestCase(unittest.TestCase):
     electricity_endpoint = "/api/create/electricity/"
     flight_endpoint = "/api/create/flight/"
     def test_api_create_electricity(self):
-        response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': 'Bearer ae7c53dcaafe8887d331003252fa90f6c5ff5059'})
+        response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': f'Bearer {os.environ.get("TOKEN_UNIT_TEST")}'})
         status_code = response.status_code
         json = response.json()
         self.assertEquals(status_code, 201)
@@ -243,7 +243,7 @@ class ApiTestCase(unittest.TestCase):
         self.assertEquals(status_code, 401)
    
     def test_api_create_electricity_500(self):
-        response = self.c.post(self.electricity_endpoint, {"value":"test", "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': 'Bearer ae7c53dcaafe8887d331003252fa90f6c5ff5059'})
+        response = self.c.post(self.electricity_endpoint, {"value":"test", "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': f'Bearer {os.environ.get("TOKEN_UNIT_TEST")}'})
         status_code = response.status_code
         self.assertEquals(status_code, 500)
 """
