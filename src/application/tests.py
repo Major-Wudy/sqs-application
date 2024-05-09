@@ -217,6 +217,34 @@ class EstimatesServiceTestCase(unittest.TestCase):
         response = es.post(url="https://carbon-score123.wiremockapi.cloud/api/v1/")
         self.assertIsInstance(response, dict)
 
+# Automated API Tests
+from django.test import Client
+from dotenv import load_dotenv
+class ApiTestCase(unittest.TestCase):
+    token = os.environ.get('TOKEN_UNIT_TEST')
+    c = Client()
+    def test_api_create_electricity(self):
+        response = self.c.post("/api/create/electricity/", {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': 'Bearer ' + self.token})
+        status_code = response.status_code
+        json = response.json()
+        self.assertEquals(status_code, 201)
+        self.assertIsInstance(json, dict)
+        self.assertEquals(json.get('type'), "electricity")
+        self.assertEquals(json.get('electricity_unit'), "kwh")
+        self.assertEquals(json.get('electricity_value'), "123.45")
+        self.assertEquals(json.get('country'), "us")
+        self.assertEquals(json.get('state'), "fl")
+    
+    def test_api_create_electricity_401(self):
+        response = self.c.post("/api/create/electricity/", {"value":123.45, "country":"us","state":"fl","unit":"kwh"})
+        status_code = response.status_code
+        self.assertEquals(status_code, 401)
+   
+    def test_api_create_electricity_500(self):
+        response = self.c.post("/api/create/electricity/", {"value":"test", "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': 'Bearer ' + self.token})
+        status_code = response.status_code
+        self.assertEquals(status_code, 500)
+
 if __name__ == '__main__':
     with open('./src/test-reports/results.xml', 'wb') as output:
         unittest.main(

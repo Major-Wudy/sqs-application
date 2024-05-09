@@ -50,12 +50,12 @@ class ApiServices():
             elec = es.create_electricity_entity(Decimal(value), country, state, unit)
             json =  es.convert_electricity_entity_to_json(elec)
             return Response(json, status=status.HTTP_201_CREATED)
-        except Exception as err:
-            error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @classmethod
     def get_estimate_for_electricity_from_post(cls, electricity: json):
