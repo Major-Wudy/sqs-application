@@ -63,7 +63,7 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
             
             payload = fs.convert_flight_entity_to_json(fl)
 
-            return self.post(url, data=payload, headers=headers)
+            return self.post(url, json=payload, headers=headers)
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
     
@@ -77,20 +77,24 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         
             payload = ship_s.convert_shipping_entity_to_json(ship)
 
-            return self.post(url, data=payload, headers=headers)
+            return self.post(url, json=payload, headers=headers)
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
 
-    def get_estimate_for_fuel_use(self, source_type_name: str, value: Decimal): 
+    def get_estimate_for_fuel_use(self, value: Decimal, source_type_name: str = "", api_unit: str = "", api_name: str = ""): 
         try:
             fs = FuelService()
-            fuel = fs.create_fuel_combustion_entity(source_type_name, Decimal('value'))
+            if source_type_name == "":
+                fuel = fs.create_fuel_combustion_entity(value, "", api_unit, api_name)
+
+            if api_unit == "" and api_name == "":
+                fuel = fs.create_fuel_combustion_entity(value, source_type_name)
 
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
         
             payload = fs.convert_fuel_entity_to_json(fuel)
 
-            return self.post(url, data=payload, headers=headers)
+            return self.post(url, json=payload, headers=headers)
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}

@@ -16,14 +16,19 @@ import simplejson as json
 
 class FuelService():
     @classmethod
-    def create_fuel_combustion_entity(cls, source_type_name: str, consumption_value: Decimal) -> FuelCombustion | None:
+    def create_fuel_combustion_entity(cls,consumption_value: Decimal, source_type_name: str = "", api_unit: str = "", api_name: str = "") -> FuelCombustion | None:
         try:    
             if not isinstance(source_type_name, str) or not isinstance(consumption_value, Decimal):
                 raise TypeError()
             
-            fuel = FuelSourceType()
-            fuel_unit = fuel.get_unit_by_name(source_type_name)
-            fuel_api_name = fuel.get_api_name_by_name(source_type_name)
+            if api_unit == "" and api_name == "":
+                fuel = FuelSourceType()
+                fuel_unit = fuel.get_unit_by_name(source_type_name)
+                fuel_api_name = fuel.get_api_name_by_name(source_type_name)
+
+            if not api_unit == "" and not api_name == "":
+                fuel_unit = api_unit
+                fuel_api_name = api_name
 
             if fuel_unit == "":
                 raise ValueError()
@@ -44,11 +49,11 @@ class FuelService():
                 "type": fuel.type.value,
                 "fuel_source_type": fuel.fuel_source_type,
                 "fuel_source_unit": fuel.fuel_source_unit,
-                "fuel_source_value": fuel.consumption_value
+                "fuel_source_value": str(fuel.consumption_value)
                 }
 
     @abstractmethod
-    def get_estimate_for_fuel_use(self, source_type_name: str, value: Decimal):
+    def get_estimate_for_fuel_use(self, value: Decimal, source_type_name: str = "", api_unit: str = "", api_name: str = ""):
         """
         Args:
             api_interface (CarbonInterfaceRequestService): Das API Interface, welches den direkten HTTP-Call an die externe API sendet

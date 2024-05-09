@@ -183,46 +183,29 @@ class EstimatesServiceTestCase(unittest.TestCase):
         carbon = es.get_estimate_for_electricity_use(Decimal(1650), "us", "fl", "kwm")
         carbon = json.dumps(carbon)
         self.assertTrue(carbon, dict)
-        #self.assertEquals(carbon.get("data").get("type"), "estimate")
 
         carbon = es.get_estimate_for_electricity_use("test","us", "fl", "kwm")
         self.assertIsInstance(carbon, dict)
 
     def test_get_estimate_for_flight(self):
         fs = EstimatesService()
-        data = {"passengers": int(2), "depature" : "MUC", "destination": "DUB", "unit" : "km", "class":"premium"}
-        carbon = fs.get_estimate_for_flight(data)
-        carbon = json.dumps(carbon)
-        self.assertTrue(carbon, dict)
-        #self.assertEquals(carbon.get("data").get("type"), "estimate")
-
-        data = {"passengers": int(2), "depature" : "MUC", "unit" : "km", "class":"premium"}
-        carbon = fs.get_estimate_for_flight(data)
+        carbon = fs.get_estimate_for_flight(int(2), "MUC", "DUB", "km", "premium")
         self.assertIsInstance(carbon, dict)
     
     def test_get_estimate_for_shipping(self):
         es = EstimatesService()
-        data = {"weight_unit": "kg", "weight_value" : Decimal(500), "distance_unit": "km", "distance_value" : Decimal(254), "transport_method":"truck"}
-        carbon = es.get_estimate_for_shipping(data)
-        carbon = json.dumps(carbon)
-        self.assertTrue(carbon, dict)
-        #self.assertEquals(carbon.get("data").get("type"), "estimate")
-
-        data = {"weight_unit": "kg", "weight_value" : Decimal(500), "distance_unit": "km", "transport_method":"truck"}
-        carbon = es.get_estimate_for_shipping(data)
+        carbon = es.get_estimate_for_shipping("kg", Decimal(1.5), "km", Decimal(500), "truck")
         self.assertIsInstance(carbon, dict)
     
     def test_get_estimate_for_fuel_use(self):
         es = EstimatesService()
-        data = {"source_type_name": self.natural_gas, "value" : Decimal(5)}
-        carbon = es.get_estimate_for_fuel_use(data)
+        carbon = es.get_estimate_for_fuel_use(Decimal(5), self.natural_gas)
         carbon = json.dumps(carbon)
         self.assertTrue(carbon, dict)
-        #self.assertEquals(carbon['data']['type'], "estimate")
-
-        data = {"source_type_name": self.natural_gas}
-        carbon = es.get_estimate_for_fuel_use(data)
-        self.assertIsInstance(carbon, dict)
+        
+        carbon = es.get_estimate_for_fuel_use(Decimal(5), "", "ng", "thousand_cubic_feet")
+        carbon = json.dumps(carbon)
+        self.assertTrue(carbon, dict)
 
 
     def test_post(self):

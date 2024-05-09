@@ -9,7 +9,9 @@ urlpatterns = [
     path('create/flight/', api.create_flight),
     path('get/estimate/flight/', api.get_estimate_flight),
     path('create/shipping/', api.create_shipping),
+    path('get/estimate/shipping/', api.get_estimate_shipping),
     path('create/fuel/', api.create_fuel),
+    path('get/estimate/fuel/', api.get_estimate_fuel),
     # OpenAPI
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     # Optional UI:

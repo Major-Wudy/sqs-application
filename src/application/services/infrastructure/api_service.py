@@ -184,7 +184,7 @@ class ApiServices():
             # ToDo check json for missing values and correct syntax
 
             es = EstimatesService()
-            json = es.get_estimate_for_fuel_use(fuel.get("source"), Decimal(fuel.get("value")))
+            json = es.get_estimate_for_fuel_use(Decimal(fuel.get("fuel_source_value")), "", fuel.get("fuel_source_unit"), fuel.get("fuel_source_type"))
             return Response(json, status=status.HTTP_201_CREATED)
         except Exception as err:
             error = {"error":f"Something went wrong {err}"}
