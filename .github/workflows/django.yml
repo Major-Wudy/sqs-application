@@ -22,10 +22,12 @@ jobs:
       run: |
         cd src/.venv
         source tutorial-env/bin/activate 
+    - name: env
+      run: |
+        echo "django_secret_key=topsecretvalue" >> $GITHUB_ENV
     - name: Run Tests
       run: |
         cd src
-        python manage.py runserver
         coverage run manage.py test
         coverage xml -o coverage-reports/coverage.xml
     - name: Run ArchUnit with Import-linter
