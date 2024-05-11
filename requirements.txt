@@ -8,3 +8,5 @@ import-linter
 unittest-xml-reporting
 django_rest_framework
 drf-spectacular
+testcontainers
+wiremock
