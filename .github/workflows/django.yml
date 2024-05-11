@@ -35,3 +35,7 @@ jobs:
       run: |
         cd src
         lint-imports
+    - name: Run Wiremock Tests
+      run: |
+        cd src/application
+        python -m pytest restassured_tests.py
