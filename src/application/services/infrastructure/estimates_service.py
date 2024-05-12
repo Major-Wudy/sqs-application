@@ -11,6 +11,7 @@ from application.services.domain.shipping_service import ShippingService
 from application.services.domain.fuel_combustion_service import FuelService
 from decimal import Decimal
 import requests
+import simplejson
 
 class EstimatesService(CarbonInterfaceRequestService, ElectricityService, FlightService, ShippingService, FuelService):
     def post(self, url: str, data: dict = None, json: dict = None, headers: dict = None) -> dict:
@@ -19,7 +20,6 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
                 raise ValueError()
 
             request_args = {'url': url}
-
             if headers is not None:
                 request_args['headers'] = headers
             if data is not None:
@@ -48,7 +48,6 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
             headers = self.get_authorization_and_content_type_header()
             
             payload = es.convert_electricity_entity_to_json(elec)
-            
             return self.post(url, json=payload, headers=headers)
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}

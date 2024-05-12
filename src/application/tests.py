@@ -221,6 +221,7 @@ class EstimatesServiceTestCase(unittest.TestCase):
 from django.test import Client
 from dotenv import load_dotenv
 import simplejson as json
+import requests
 class ApiTestCase(unittest.TestCase):
     token = os.environ.get('TOKEN_UNIT_TEST')
     c = Client()
@@ -228,7 +229,7 @@ class ApiTestCase(unittest.TestCase):
     flight_endpoint = "/api/create/flight/"
     shipping_endpoint = "/api/create/shipping/"
     fuel_endpoint = "/api/create/fuel/"
-    estimate_electricity_endpoitn = "/api/get/estimate/electricity/"
+    estimate_electricity_endpoint = "/api/get/estimate/electricity/"
     def test_api_create_electricity(self):
         response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': 'Bearer ' + self.token})
         status_code = response.status_code
@@ -245,7 +246,16 @@ class ApiTestCase(unittest.TestCase):
         response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"})
         status_code = response.status_code
         self.assertEquals(status_code, 401)
-   
+    
+    
+    def test_api_create_electricity_estimate(self):
+        json_data ={"type": "electricity", "electricity_unit": "kwh", "electricity_value": "1650", "country": "us", "state": "fl"}
+        
+        result = self.c.post(self.estimate_electricity_endpoint, json_data, headers={'Authorization': 'Bearer ' + self.token})
+        print(result.json())
+        status_code = result.status_code
+        self.assertEquals(status_code, 201)
+
     def test_api_create_electricity_500(self):
         response = self.c.post(self.electricity_endpoint, {"value":"test", "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': 'Bearer ' + self.token})
         status_code = response.status_code
