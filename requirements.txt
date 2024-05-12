@@ -11,3 +11,4 @@ django_rest_framework
 drf-spectacular
 testcontainers
 wiremock
+locust

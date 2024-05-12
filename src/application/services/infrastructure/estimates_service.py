@@ -56,7 +56,6 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         try:
             fs = FlightService()
             fl = fs.create_flight_entity(passengers, depature, destination, unit, cabin)
-
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
             

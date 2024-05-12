@@ -97,11 +97,11 @@ class ApiServices():
             # ToDo check json for missing values and correct syntax
             legs = flight.get('legs')
             if not isinstance(legs, list):
-                raise TypeError('leg is not a dict')
+                raise TypeError('legs is not a list')
 
             es = EstimatesService()
-            json = es.get_estimate_for_flight(flight.get("passengers"), legs[0]['departure_airport'], legs[0]['destination_airport'], flight.get("distance_unit"), legs[0]['cabin_class'])
-            return Response(json, status=status.HTTP_201_CREATED, content_type="application/json")
+            json_data = es.get_estimate_for_flight(flight.get("passengers"), legs[0]['departure_airport'], legs[0]['destination_airport'], flight.get("distance_unit"), legs[0]['cabin_class'])
+            return Response(json_data, status=status.HTTP_201_CREATED, content_type="application/json")
         except Exception as err:
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type="application/json")
