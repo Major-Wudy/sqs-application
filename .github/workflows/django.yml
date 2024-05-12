@@ -28,6 +28,7 @@ jobs:
         echo "TOKEN_UNIT_TEST=ae7c53dcaafe8887d331003252fa90f6c5ff5059" >> $GITHUB_ENV
         echo "API_BASE_URL=https://carbon-score.wiremockapi.cloud/api/v1/" >> $GITHUB_ENV
         echo "API_KEY=API_KEY" >> $GITHUB_ENV
+        echo "DEBUG=TRUE" >> $GITHUB_ENV
     - name: Run Tests
       run: |
         cd src
