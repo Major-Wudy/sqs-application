@@ -39,3 +39,7 @@ jobs:
       run: |
         cd src/application
         python -m pytest restassured_tests.py
+    - name: locust load test
+      run: |
+        cd src/application
+        locust -H http://127.0.0.1:8000/ -f locustfile.py -u 50 -t 2m --autostart --autoquit 0 --html locust_report.html  
