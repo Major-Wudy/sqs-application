@@ -17,6 +17,6 @@ jobs:
                 LOCUSTFILE: "locustfile.py"
                 REQUIREMENTS: "requirements.txt"
                 URL:  "http://127.0.0.1:8000/"
-                USERS: "5"
+                USERS: "10"
                 RATE: "5"
                 RUNTIME: "10s"
