@@ -1,12 +1,13 @@
 import time
 import os
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from locust import HttpUser, task, between
 from json import JSONDecodeError
 
 class QuickstartUser(HttpUser):
     wait_time = between(1, 5)
-    token = os.environ.get('TOKEN_UNIT_TEST')
+    token = "ae7c53dcaafe8887d331003252fa90f6c5ff5059"
+    #token = os.environ.get('TOKEN_UNIT_TEST')
 
     @task(1)
     def create_electricity(self):
