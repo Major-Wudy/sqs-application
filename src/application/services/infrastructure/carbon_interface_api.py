@@ -10,15 +10,16 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class CarbonInterfaceRequestService(object):
-    base_url = "https://www.carboninterface.com/api/v1/"
+    base_url = os.environ.get('API_BASE_URL')
     url_auth_addon = "auth"
     url_estimates_addon = "estimates"
     api_key = os.environ.get('API_KEY')
 
-    def auth_request(self):
+    @classmethod
+    def auth_request(cls):
         try:
-            headers = self.get_authoriztaion_header()
-            url = self.base_url + self.url_auth_addon
+            headers = cls.get_authoriztaion_header()
+            url = cls.base_url + cls.url_auth_addon
             response = requests.get(url, headers=headers)
             response.raise_for_status()
         except requests.exceptions.HTTPError as http_err:
@@ -29,20 +30,20 @@ class CarbonInterfaceRequestService(object):
             print(response.text)
 
     @classmethod
-    def get_authoriztaion_header(self) -> dict:
-        return {'Authorization': 'Bearer ' + self.api_key}
+    def get_authoriztaion_header(cls) -> dict:
+        return {'Authorization': 'Bearer ' + cls.api_key}
 
     @classmethod
-    def get_authorization_and_content_type_header(self) -> dict:
-        return {'Authorization': 'Bearer ' + self.api_key, 'Content-Type':'application/json'}
+    def get_authorization_and_content_type_header(cls) -> dict:
+        return {'Authorization': 'Bearer ' + cls.api_key, 'Content-Type':'application/json'}
     
     @classmethod
-    def get_auth_url(self) -> str:
-        return self.base_url + self.url_auth_addon
+    def get_auth_url(cls) -> str:
+        return cls.base_url + cls.url_auth_addon
 
     @classmethod
-    def get_estimates_url(self) -> str:
-        return self.base_url + self.url_estimates_addon
+    def get_estimates_url(cls) -> str:
+        return cls.base_url + cls.url_estimates_addon
         
     @abstractmethod
     def post(self, url: str, data: dict = None, json: dict = None, headers: dict = None) -> dict:

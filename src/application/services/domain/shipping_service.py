@@ -7,13 +7,13 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
-from models.shipping.shipping import Shipping
-from models.shipping.transport import Transport
-from models.weights.weight_unit import WeightUnit
-from models.activity.activity_type import ActivityType
-from services.domain.distance_unit_service import create_distance_unit
-from services.domain.weight_unit_service import create_weight_unit
-from services.domain.transport_service import create_transport
+from application.models.shipping.shipping import Shipping
+from application.models.shipping.transport import Transport
+from application.models.weights.weight_unit import WeightUnit
+from application.models.activity.activity_type import ActivityType
+from application.services.domain.distance_unit_service import create_distance_unit
+from application.services.domain.weight_unit_service import create_weight_unit
+from application.services.domain.transport_service import create_transport
 from decimal import Decimal
 from abc import ABC, abstractmethod
 import simplejson as json
@@ -21,7 +21,7 @@ import simplejson as json
 class ShippingService():
 
     @classmethod
-    def create_shipping_entity(self, w_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str) -> Shipping:
+    def create_shipping_entity(cls, w_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str) -> Shipping | None:
         try:
             if not isinstance(w_unit, str) or not isinstance(weight_value, Decimal) or not isinstance(distance_unit, str) or not isinstance(distance_value, Decimal) or not isinstance(transport_method, str):
                 raise TypeError()
@@ -46,7 +46,7 @@ class ShippingService():
             print(f'an error occured {err}')
     
     @abstractmethod
-    def get_estimate_for_shipping(self, data: dict):
+    def get_estimate_for_shipping(self, weight_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str):
         """
         Args:
             api_interface (CarbonInterfaceRequestService): Das API Interface, welches den direkten HTTP-Call an die externe API sendet
@@ -57,12 +57,12 @@ class ShippingService():
         pass
 
     @classmethod
-    def convert_shipping_entity_to_json(self, ship: Shipping) -> json:
-        return json.dumps({
-                "type": ship.type,
-                "weight_value": ship.weight_value,
-                "weight_unit": ship.weight_unit,
-                "distance_value": ship.distance_value,
-                "distance_unit": ship.distance_unit,
-                "transport_method": ship.transport_method,
-                })
+    def convert_shipping_entity_to_json(cls, ship: Shipping) -> json:
+        return {
+                "type": ship.type.value,
+                "weight_value": str(ship.weight_value),
+                "weight_unit": ship.weight_unit.value,
+                "distance_value": str(ship.distance_value),
+                "distance_unit": ship.distance_unit.value,
+                "transport_method": ship.transport_method.value,
+                }

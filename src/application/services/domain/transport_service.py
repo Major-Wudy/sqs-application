@@ -7,7 +7,7 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
-from models.shipping.transport import Transport
+from application.models.shipping.transport import Transport
 
 def create_transport(method: str) -> Transport:
     try:

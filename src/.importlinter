@@ -1,0 +1,53 @@
+[importlinter]
+root_package = application
+include_external_packages = True
+
+[importlinter:contract:domain-models]
+name=Domain Models doesn´t import anything outside Domain Models
+type=forbidden
+source_modules=
+    application.models
+forbidden_modules=
+    application.services.domain
+    application.migrations
+    django
+    python-dotenv
+    simplejson
+    requests
+    coverage
+    import-linter
+
+[importlinter:contract:domain-services]
+name=Domain Services doesn´t import anything outside Domain Models and Domain Services
+type=forbidden
+source_modules=
+    application.services.domain
+forbidden_modules=
+    application.services.infrastructure
+    application.migrations
+    django
+    coverage
+    import-linter
+    requests
+
+[importlinter:contract:infrastructure-services]
+name=Infrastructure Services doesn´t import Domain Models only accesses them via Domain Services (allow indirect imports / Import chains)
+type=forbidden
+source_modules=
+    application.services.infrastructure
+forbidden_modules=
+    application.models
+    application.migrations
+    django
+    coverage
+    import-linter
+allow_indirect_imports=True
+
+[importlinter:contract:Main-domain-independence-contract]
+name = Main Domain services are independent (Main: electricity, flight, fuel_combustion and shipping - supportive: distance_unit_service, transport_service, weight_unit_service) 
+type = independence
+modules =
+    application.services.domain.electricity_service
+    application.services.domain.flight_service
+    application.services.domain.fuel_combustion_service
+    application.services.domain.shipping_service

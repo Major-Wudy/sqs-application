@@ -1,6 +1,14 @@
 django>=5.0
 python-dotenv
+pytest
 StrEnum
 simplejson
 requests
 coverage
+import-linter
+unittest-xml-reporting
+django_rest_framework
+drf-spectacular
+testcontainers
+wiremock
+locust

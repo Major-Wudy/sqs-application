@@ -7,7 +7,7 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
-from models.weights.weight_unit import WeightUnit
+from application.models.weights.weight_unit import WeightUnit
 
 def create_weight_unit(unit: str) -> WeightUnit:
     try:

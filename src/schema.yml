@@ -1,0 +1,128 @@
+openapi: 3.0.3
+info:
+  title: Carbon Score API
+  version: 1.0.0
+  description: SQS Application for master course in computer sience
+paths:
+  /api/create/flight/:
+    post:
+      operationId: create_flight_create
+      description: |-
+        JSON
+        {
+           "passengers":2,
+           "legs":[{"destination":"DUB","depature":"MUC","class":"economy}],
+           "distance_unit":"km"
+        }
+      tags:
+      - create
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/create/fuel/:
+    post:
+      operationId: create_fuel_create
+      description: |-
+        JSON
+        {
+           "source":"Natural Gas",
+           "value":500.01
+        }
+      tags:
+      - create
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/create/shipping/:
+    post:
+      operationId: create_shipping_create
+      description: |-
+        JSON
+        {
+            "weight_value": 123.45,
+            "weight_unit": "kg",
+            "distance_value": 500.01,
+            "distance_unit": "km",
+            "transport_method": "truck",
+        }
+      tags:
+      - create
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/get/estimate/flight/:
+    post:
+      operationId: get_estimate_flight_create
+      description: |-
+        JSON
+        {
+           "passengers":2,
+           "legs":[{"destination":"DUB","depature":"MUC","class":"economy}],
+           "distance_unit":"km"
+        }
+      tags:
+      - get
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/get/estimate/fuel/:
+    post:
+      operationId: get_estimate_fuel_create
+      description: |-
+        JSON
+        {
+           "source":"Natural Gas",
+           "value":500.01
+        }
+      tags:
+      - get
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/get/estimate/shipping/:
+    post:
+      operationId: get_estimate_shipping_create
+      description: |-
+        JSON
+        {
+            "weight_value": 123.45,
+            "weight_unit": "kg",
+            "distance_value": 500.01,
+            "distance_unit": "km",
+            "transport_method": "truck",
+        }
+      tags:
+      - get
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: http
+      scheme: bearer

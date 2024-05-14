@@ -479,7 +479,7 @@ python:
 | | Ausfallsicherheit | Das System soll multiinstanzfähig sein. | |
 | | Verfügbarkeit | Bei nicht vorhanden sein der externen Schnittstellen soll das System den Anwender über die eingeschränkte Funktionalität informieren. | 
 | | Tests | Das System soll eine Codecoverage von >= 80% aufweisen. | |
-| Wartbarkeit (2) | Wartung | Es sollen außerhalb des fachlichen Kerns der Anwendung Komponenten ausgetauscht werden können, ohne die Fachlichkeit der Anwendung zu beeinflussen. | |
+| Wartbarkeit (2) | Wartung | Es sollen außerhalb des fachlichen Kerns der Anwendung Komponenten ausgetauscht werden können, ohne die Fachlichkeit der Anwendung zu beeinflussen. Die kognitive Komplexität von Funktionen soll <= 15 sein. | |
 | | Verbesserung | Es sollen Verbesserungen für die Anwendung implementiert werden können, die die bestehende Fachlichkeit erweitern ohne diese zu verändern. | | 
 | | Reparatur | Bei einem Ausfall soll die Anwendung einen Recovery und Backup Plan verfolgen für sachgerechtes wiederaufsetzen des Systems | |
 | Benutzerfreundlichkeit (3) | einfache Handhabung | Einfache Handhabung für umweltbewusste Personen, speziell bezogen auf eine kurze Zeit zur Eingabe der Daten und bis zum Ergebnis. | | 
