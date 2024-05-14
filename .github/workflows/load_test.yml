@@ -1,0 +1,22 @@
+name: Load Testing
+
+on:
+    workflow_run:
+      workflows: ["Django CI"]
+      types:
+        - completed
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v1
+            - name: Run Load Test
+              uses: apardo04/locust-github-action@master
+              with:
+                LOCUSTFILE: "locustfile.py"
+                REQUIREMENTS: "requirements.txt"
+                URL:  "http://127.0.0.1:8000/"
+                USERS: "5"
+                RATE: "5"
+                RUNTIME: "10s"
