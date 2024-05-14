@@ -16,4 +16,4 @@ jobs:
                 python -m pip install --upgrade pip
                 pip install -r requirements.txt
             - name: Run Locust load test
-              run: locust -f locustfile.py --headless -u 100 -r 10 --run-time 10s
+              run: locust -f locustfile.py --headless -u 100 -r 10 --run-time 15s
