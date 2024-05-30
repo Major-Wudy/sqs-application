@@ -371,6 +371,7 @@ class ApiTestCase(unittest.TestCase):
         
         result = self.c.post(self.estimate_fuel_endpoint, json_data, headers={'Authorization': 'Bearer ' + self.token})
         result_json = result.json()
+        # Läuft bei lokalem Test ohne Probleme durch in der CI nicht zu viele Requests laut Fehlermeldung. Vermutung Rate-Limit bei Wiremock
         #data = result_json.get('data')
         #attributes = data.get('attributes')
         #status_code = result.status_code
