@@ -36,11 +36,9 @@ jobs:
         coverage run manage.py test
         coverage xml -o coverage-reports/coverage.xml
 
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: src/coverage-reports/coverage.xml
+    - name: Edit coverage report
+      run: |
+        sed -i 's|<source>/home/runner/work/sqs-application/sqs-application/src</source>|<source>/usr/src/</source>|g' src/coverage-reports/coverage.xml
 
     - name: Commit coverage report
       run: |
@@ -57,8 +55,10 @@ jobs:
         cd src
         source .venv/bin/activate
         lint-imports
-    - name: Run Wiremock Tests
-      run: |
-        cd src/application
-        source ../.venv/bin/activate
-        python -m pytest restassured_tests.py
+
+    # WireMock über Cloud Service verfügbar
+    # - name: Run Wiremock Tests
+    #  run: |
+    #    cd src/application
+    #    source ../.venv/bin/activate
+    #    python -m pytest restassured_tests.py
