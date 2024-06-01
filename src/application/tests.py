@@ -357,7 +357,7 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(json.get('country'), "us")
         self.assertEqual(json.get('state'), "fl")
 
-        response = self.c.post(self.electricity_endpoint, "test", headers=self.header)
+        response = self.c.post(self.electricity_endpoint, {"test"}, headers=self.header)
         status_code = response.status_code
         self.assertEqual(status_code, 500)
 
@@ -374,7 +374,7 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('legs')[0]['cabin_class'], "premium")
         self.assertEqual(result.get('distance_unit'), "km")
 
-        response = self.c.post(self.flight_endpoint, "test", headers=self.header)
+        response = self.c.post(self.flight_endpoint, {"test"}, headers=self.header)
         status_code = response.status_code
         self.assertEqual(status_code, 500)
 
@@ -391,7 +391,7 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('distance_unit'), "km")
         self.assertEqual(result.get('transport_method'), "plane")
 
-        response = self.c.post(self.shipping_endpoint, "test", headers=self.header)
+        response = self.c.post(self.shipping_endpoint, {"test"}, headers=self.header)
         status_code = response.status_code
         self.assertEqual(status_code, 500)
 
@@ -406,7 +406,7 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('fuel_source_unit'), "thousand_cubic_feet")
         self.assertEqual(result.get('fuel_source_value'), "500.00")
 
-        response = self.c.post(self.fuel_endpoint, "test", headers=self.header)
+        response = self.c.post(self.fuel_endpoint, {"test"}, headers=self.header)
         status_code = response.status_code
         self.assertEqual(status_code, 500)
 
