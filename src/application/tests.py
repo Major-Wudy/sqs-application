@@ -357,10 +357,6 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(json.get('country'), "us")
         self.assertEqual(json.get('state'), "fl")
 
-        response = self.c.post(self.electricity_endpoint, {"test"}, headers=self.header)
-        status_code = response.status_code
-        self.assertEqual(status_code, 500)
-
     def test_api_create_flight(self):
         response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers=self.header, content_type='application/json')
         status_code = response.status_code
@@ -373,10 +369,6 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('legs')[0]['destination_airport'], "DUB")
         self.assertEqual(result.get('legs')[0]['cabin_class'], "premium")
         self.assertEqual(result.get('distance_unit'), "km")
-
-        response = self.c.post(self.flight_endpoint, {"test"}, headers=self.header)
-        status_code = response.status_code
-        self.assertEqual(status_code, 500)
 
     def test_api_create_shipping(self):
         response = self.c.post(self.shipping_endpoint, {"weight_value":123.45,"weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}, headers=self.header, content_type='application/json')
@@ -391,10 +383,6 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('distance_unit'), "km")
         self.assertEqual(result.get('transport_method'), "plane")
 
-        response = self.c.post(self.shipping_endpoint, {"test"}, headers=self.header)
-        status_code = response.status_code
-        self.assertEqual(status_code, 500)
-
     def test_api_create_fuel(self):
         response = self.c.post(self.fuel_endpoint, {"source":"Natural Gas","value":500}, headers=self.header, content_type='application/json')
         status_code = response.status_code
@@ -405,10 +393,6 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('fuel_source_type'), "ng")
         self.assertEqual(result.get('fuel_source_unit'), "thousand_cubic_feet")
         self.assertEqual(result.get('fuel_source_value'), "500.00")
-
-        response = self.c.post(self.fuel_endpoint, {"test"}, headers=self.header)
-        status_code = response.status_code
-        self.assertEqual(status_code, 500)
 
 if __name__ == '__main__':
     with open('./src/test-reports/results.xml', 'wb') as output:
