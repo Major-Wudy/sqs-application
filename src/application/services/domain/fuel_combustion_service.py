@@ -26,7 +26,7 @@ class FuelService():
                 fuel_unit = fuel.get_unit_by_name(source_type_name)
                 fuel_api_name = fuel.get_api_name_by_name(source_type_name)
 
-            if not api_unit == "" and not api_name == "":
+            if api_unit != "" and api_name != "":
                 fuel_unit = api_unit
                 fuel_api_name = api_name
 

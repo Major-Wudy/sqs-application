@@ -1,6 +1,5 @@
 import time
 import os
-#from dotenv import load_dotenv
 from locust import HttpUser, task, between
 from json import JSONDecodeError
 import json
