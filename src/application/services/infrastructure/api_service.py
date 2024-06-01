@@ -28,8 +28,9 @@ class BearerAuthentication(authentication.TokenAuthentication):
     keyword = 'Bearer'
 
 class ApiServices():
-    @classmethod
     content_json = "application/json"
+
+    @classmethod
     def create_electricity_from_post(cls, data: json) -> json:
         try:
             value = Decimal(data.get('value')).quantize(Decimal('0.01'))
