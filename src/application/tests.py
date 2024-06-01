@@ -260,6 +260,11 @@ class ApiServiceTestCase(unittest.TestCase):
         resp = self.api.create_electricity_from_post(wrong_elec)
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(resp, dict)
+        
+        wrong_elec  = {"test":"wasd","country":"us","state":"fl","unit":"kwh"}
+        resp = self.api.create_electricity_from_post(wrong_elec)
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
 
     def test_create_flight_from_post(self):
         flight_json = {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}
@@ -271,6 +276,11 @@ class ApiServiceTestCase(unittest.TestCase):
         resp = self.api.create_flight_from_post(wrong_json)
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(resp, dict)
+        
+        wrong_json = {"passengers":"test","legs":"test","distance_unit":"km"}
+        resp = self.api.create_flight_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
 
     def test_create_shipping_from_post(self):
         shipping_json = {"weight_value":123.45,"weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}
@@ -279,6 +289,11 @@ class ApiServiceTestCase(unittest.TestCase):
         self.assertTrue(resp, dict)
 
         wrong_json = {"weight_value":123.45,"weight_unit": 2,"distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}
+        resp = self.api.create_shipping_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 400)
+        self.assertTrue(resp, dict)
+        
+        wrong_json = {"weight_value":"test","weight_unit":"test","distance_value":"test","distance_unit": "km","transport_method": "plane"}
         resp = self.api.create_shipping_from_post(wrong_json)
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(resp, dict)
@@ -299,7 +314,28 @@ class ApiServiceTestCase(unittest.TestCase):
         self.assertEqual(resp.status_code, 500)
         self.assertTrue(resp, dict)
 
-
+from django.test import Client
+from dotenv import load_dotenv
+import simplejson as json
+import requests
+class ApiTestCase(unittest.TestCase):
+    c = Client()
+    electricity_endpoint = "/api/create/electricity/"
+    flight_endpoint = "/api/create/flight/"
+    shipping_endpoint = "/api/create/shipping/"
+    fuel_endpoint = "/api/create/fuel/"
+    header = {'Authorization': 'Bearer ' + os.environ.get('TOKEN_UNIT_TEST')}
+    def test_api_create_electricity(self):
+        response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers=self.header)
+        status_code = response.status_code
+        json = response.json()
+        self.assertEqual(status_code, 201)
+        self.assertIsInstance(json, dict)
+        self.assertEqual(json.get('type'), "electricity")
+        self.assertEqual(json.get('electricity_unit'), "kwh")
+        self.assertEqual(json.get('electricity_value'), "123.45")
+        self.assertEqual(json.get('country'), "us")
+        self.assertEqual(json.get('state'), "fl")
 
 if __name__ == '__main__':
     with open('./src/test-reports/results.xml', 'wb') as output:
