@@ -261,7 +261,7 @@ class ApiServiceTestCase(unittest.TestCase):
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(resp, dict)
         
-        wrong_elec  = {"test":"wasd","country":"us","state":"fl","unit":"kwh"}
+        wrong_elec  = {"value":"wasd","country":"us","state":"fl","unit":"kwh"}
         resp = self.api.create_electricity_from_post(wrong_elec)
         self.assertEqual(resp.status_code, 500)
         self.assertTrue(resp, dict)
@@ -277,7 +277,7 @@ class ApiServiceTestCase(unittest.TestCase):
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(resp, dict)
         
-        wrong_json = {"passengers":"test","legs":"test","distance_unit":"km"}
+        wrong_json = {"passengers":"test","legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}
         resp = self.api.create_flight_from_post(wrong_json)
         self.assertEqual(resp.status_code, 500)
         self.assertTrue(resp, dict)
@@ -293,7 +293,7 @@ class ApiServiceTestCase(unittest.TestCase):
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(resp, dict)
         
-        wrong_json = {"weight_value":"test","weight_unit":"test","distance_value":"test","distance_unit": "km","transport_method": "plane"}
+        wrong_json = "test"
         resp = self.api.create_shipping_from_post(wrong_json)
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(resp, dict)
