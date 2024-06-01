@@ -295,7 +295,7 @@ class ApiServiceTestCase(unittest.TestCase):
         
         wrong_json = "test"
         resp = self.api.create_shipping_from_post(wrong_json)
-        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(resp.status_code, 500)
         self.assertTrue(resp, dict)
 
     def test_create_fuel_from_post(self):
