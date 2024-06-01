@@ -28,11 +28,11 @@ class CarbonService():
             if not isinstance(score, Score):
                 raise TypeError()
             return {
-                "carbon_g": str(score.score_g),
-                "carbon_kg":str(score.score_kg),
-                "carbon_lb":str(score.score_lb),
-                "carbon_mt":str(score.score_mt),
-                "SessionId":score.session_id,
+                "carbon_g": str(score.score_g.quantize(Decimal('0.01'))),
+                "carbon_kg":str(score.score_kg.quantize(Decimal('0.01'))),
+                "carbon_lb":str(score.score_lb.quantize(Decimal('0.01'))),
+                "carbon_mt":str(score.score_mt.quantize(Decimal('0.01'))),
+                "sessionId":score.session_id,
             }
         except TypeError:
             return {
@@ -40,5 +40,5 @@ class CarbonService():
                 "carbon_kg": "0",
                 "carbon_lb": "0",
                 "carbon_mt": "0",
-                "SessionId":"",
+                "sessionId":"",
             }
