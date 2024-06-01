@@ -308,6 +308,11 @@ class ApiServiceTestCase(unittest.TestCase):
         self.assertEqual(resp.status_code, 500)
         self.assertTrue(resp, dict)
 
+    def test_get_estimate_for_shipping_from_post(self):
+        resp = self.api.get_estimate_for_shipping_from_post("test")
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
     def test_create_fuel_from_post(self):
         fuel_json = {"source":"Natural Gas","value":500}
         resp = self.api.create_fuel_from_post(fuel_json)
@@ -321,6 +326,11 @@ class ApiServiceTestCase(unittest.TestCase):
         
         wrong_json = {"source":"Natural Gas","value":"wasd"}
         resp = self.api.create_fuel_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
+    def test_get_estimate_for_fuel_from_post(self):
+        resp = self.api.get_estimate_for_fuel_from_post("test")
         self.assertEqual(resp.status_code, 500)
         self.assertTrue(resp, dict)
 
