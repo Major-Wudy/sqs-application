@@ -166,6 +166,46 @@ class ShippingServiceTestCase(unittest.TestCase):
         method = create_transport("12")
         self.assertEqual(method, "truck")
 
+from application.services.domain.carbon_service import CarbonService
+from application.models.carbon.score import Score
+# Test CarbonService
+class CarbonServiceTestCase(unittest.TestCase):
+    def test_create_carbon_score(self):
+        cs = CarbonService()
+        score = cs.create_carbon_score(Decimal(123.45), Decimal(56.54), Decimal(10.12), Decimal(100), "custom_session_id")
+        wrong_params = cs.create_carbon_score("123", "321","wada", "wasd", Decimal(123))
+        self.assertIsInstance(score: Score)
+        self.assertIsInstance(wrong_params: Score)
+        self.assertEqual(score.score_g, DeciamlL(123.45))
+        self.assertEqual(score.score_kg, DeciamlL(56.54))
+        self.assertEqual(score.score_lb, DeciamlL(10.12))
+        self.assertEqual(score.score_mt, DeciamlL(100))
+        self.assertEqual(score.session_id, "custom_session_id")
+        self.assertEqual(wrong_params.score_g, DeciamlL(0))
+        self.assertEqual(wrong_params.score_kg, DeciamlL(0))
+        self.assertEqual(wrong_params.score_lb, DeciamlL(0))
+        self.assertEqual(wrong_params.score_mt, DeciamlL(0))
+        self.assertEqual(wrong_params.session_id, "")
+
+    def test_convert_score_to_json(self):
+        cs = CarbonService()
+        score = cs.create_carbon_score(Decimal(432.13), Decimal(56), Decimal(11.11) Decimal(90), "json_session_id")
+        score_json = cs.convert_score_to_json(score)
+        self.assertIsInstance(score_json: dict)
+        self.assertEqual(score_json.get('score_g'), "432.13")
+        self.assertEqual(score_json.get('score_kg'), "56")
+        self.assertEqual(score_json.get('score_lb'), "11.11")
+        self.assertEqual(score_json.get('score_mt'), "90")
+        self.assertEqual(score_json.get('session_id'), "json_session_id")
+
+        nothing_json = cs.convert_score_to_json("no score")
+        self.assertIsInstance(nothing_json: dict)
+        self.assertEqual(nothing_json.get('score_g'), "0")
+        self.assertEqual(nothing_json.get('score_kg'), "0")
+        self.assertEqual(nothing_json.get('score_lb'), "0")
+        self.assertEqual(nothing_json.get('score_mt'), "0")
+        self.assertEqual(nothing_json.get('session_id'), "")
+
 from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
 # Test Carbon Interface API
 class CarbonInterfaceRequestServiceTestCase(unittest.TestCase):
