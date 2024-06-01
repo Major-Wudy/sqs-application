@@ -266,6 +266,11 @@ class ApiServiceTestCase(unittest.TestCase):
         self.assertEqual(resp.status_code, 500)
         self.assertTrue(resp, dict)
 
+    def test_get_estimate_for_electricity_from_post(self):
+        resp = self.api.get_estimate_for_electricity_from_post("test")
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
     def test_create_flight_from_post(self):
         flight_json = {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}
         resp = self.api.create_flight_from_post(flight_json)
@@ -279,6 +284,11 @@ class ApiServiceTestCase(unittest.TestCase):
         
         wrong_json = {"passengers":"test","legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}
         resp = self.api.create_flight_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
+    def test_get_estimate_for_flight_from_post(self):
+        resp = self.api.get_estimate_for_flight_from_post("test")
         self.assertEqual(resp.status_code, 500)
         self.assertTrue(resp, dict)
 
