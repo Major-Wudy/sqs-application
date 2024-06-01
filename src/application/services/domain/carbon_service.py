@@ -26,7 +26,7 @@ class CarbonService():
     def convert_score_to_json(cls, score: Score) -> dict:
         try: 
             if not isinstance(score, Score):
-                raise TypeError():
+                raise TypeError()
             return {
                 "carbon_g": str(score.score_g),
                 "carbon_kg":str(score.score_kg),
