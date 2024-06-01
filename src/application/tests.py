@@ -189,7 +189,7 @@ class CarbonServiceTestCase(unittest.TestCase):
 
     def test_convert_score_to_json(self):
         cs = CarbonService()
-        score = cs.create_carbon_score(Decimal(432.13), Decimal(56), Decimal(11.11) Decimal(90), "json_session_id")
+        score = cs.create_carbon_score(Decimal(432.13), Decimal(56), Decimal(11.11), Decimal(90), "json_session_id")
         score_json = cs.convert_score_to_json(score)
         self.assertIsInstance(score_json, dict)
         self.assertEqual(score_json.get('score_g'), "432.13")
