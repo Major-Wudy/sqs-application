@@ -247,6 +247,59 @@ class EstimatesServiceTestCase(unittest.TestCase):
         test_dict = {'error': 'something went wrong . Url provided?'}
         self.assertDictContainsSubset(response, test_dict)
 
+from application.services.infrastructure.api_service import ApiServices
+class ApiServiceTestCase(unittest.TestCase):
+    api = ApiServices()
+    def test_create_electricity_from_post(self):
+        elec_json  = {"value":100.5,"country":"us","state":"fl","unit":"kwh"}
+        resp = self.api.create_electricity_from_post(elec_json)
+        self.assertEqual(resp.status_code, 201)
+        self.assertTrue(resp, dict)
+
+        wrong_elec  = {"test":100.5,"country":"us","state":"fl","unit":"kwh"}
+        resp = self.api.create_electricity_from_post(wrong_elec)
+        self.assertEqual(resp.status_code, 400)
+        self.assertTrue(resp, dict)
+
+    def test_create_flight_from_post(self):
+        flight_json = {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}
+        resp = self.api.create_flight_from_post(flight_json)
+        self.assertEqual(resp.status_code, 201)
+        self.assertTrue(resp, dict)
+
+        wrong_json = {"passengers":2,"legs":"test","distance_unit":"km"}
+        resp = self.api.create_flight_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 400)
+        self.assertTrue(resp, dict)
+
+    def test_create_shipping_from_post(self):
+        shipping_json = {"weight_value":123.45,"weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}
+        resp = self.api.create_shipping_from_post(shipping_json)
+        self.assertEqual(resp.status_code, 201)
+        self.assertTrue(resp, dict)
+
+        wrong_json = {"weight_value":123.45,"weight_unit": 2,"distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}
+        resp = self.api.create_shipping_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 400)
+        self.assertTrue(resp, dict)
+
+    def test_create_fuel_from_post(self):
+        fuel_json = {"source":"Natural Gas","value":500}
+        resp = self.api.create_fuel_from_post(fuel_json)
+        self.assertEqual(resp.status_code, 201)
+        self.assertTrue(resp, dict)
+
+        wrong_json = {"source":500,"value":500}
+        resp = self.api.create_fuel_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 400)
+        self.assertTrue(resp, dict)
+        
+        wrong_json = {"source":"Natural Gas","value":"wasd"}
+        resp = self.api.create_fuel_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
+
 
 if __name__ == '__main__':
     with open('./src/test-reports/results.xml', 'wb') as output:

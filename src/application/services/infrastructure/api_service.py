@@ -85,12 +85,12 @@ class ApiServices():
             flight = fs.create_flight_entity(int(passengers), legs[0]['depature'], legs[0]['destination'], unit, legs[0]['class'])
             json =  fs.convert_flight_entity_to_json(flight)
             return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
-        except Exception as err:
-            error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
             return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type=cls.content_json)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
     @classmethod
     def get_estimate_for_flight_from_post(cls, flight: json) -> json:
@@ -133,12 +133,12 @@ class ApiServices():
             ship = ship_s.create_shipping_entity(weight_unit, weight, distance_unit, distance, transport)
             json =  ship_s.convert_shipping_entity_to_json(ship)
             return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
-        except Exception as err:
-            error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
             return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type=cls.content_json)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
     @classmethod
     def get_estimate_for_shipping_from_post(cls, shipping: json) -> json:
@@ -165,12 +165,12 @@ class ApiServices():
             fuel = fs.create_fuel_combustion_entity(consumption, source)
             json =  fs.convert_fuel_entity_to_json(fuel)
             return Response(json, status=status.HTTP_201_CREATED)
-        except Exception as err:
-            error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
             return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type=cls.content_json)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
     @classmethod
     def get_estimate_for_fuel_from_post(cls, fuel: json) -> json:

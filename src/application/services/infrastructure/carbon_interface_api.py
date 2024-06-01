@@ -16,20 +16,6 @@ class CarbonInterfaceRequestService(object):
     api_key = os.environ.get('API_KEY')
 
     @classmethod
-    def auth_request(cls):
-        try:
-            headers = cls.get_authoriztaion_header()
-            url = cls.base_url + cls.url_auth_addon
-            response = requests.get(url, headers=headers)
-            response.raise_for_status()
-        except requests.exceptions.HTTPError as http_err:
-            print(f'HTTP error occurred: {http_err}')
-        except Exception as err:
-            print(f'Other error occurred: {err}')
-        else:
-            print(response.text)
-
-    @classmethod
     def get_authoriztaion_header(cls) -> dict:
         return {'Authorization': 'Bearer ' + cls.api_key}
 
