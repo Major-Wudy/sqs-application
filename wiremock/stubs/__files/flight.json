@@ -1,0 +1,1 @@
+{"data": {"id": "42999c38-a2b7-48e5-9ec0-bc60a7d870c1","type": "estimate","attributes": {"passengers": 2,"legs": [{"departure_airport": "MUC","destination_airport": "DUB","cabin_class": "premium"}],"distance_value": 1481.06,"distance_unit": "km","estimated_at": "2024-05-09T17:29:36.986Z","carbon_g": 391356,"carbon_lb": 862.79,"carbon_kg": 391.36,"carbon_mt": 0.39}}}

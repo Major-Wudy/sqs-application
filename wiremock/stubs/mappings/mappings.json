@@ -1,0 +1,115 @@
+{
+    "mappings": [
+        {
+
+            "request": {
+                "method": "POST",
+                "url": "/api/v1/estimates",
+                "headers":{
+                    "Authorization":{
+                        "matches":"Bearer API_KEY"
+                    }
+                },
+                "bodyPatterns": [
+                    {
+                        "equalToJson":{"type": "electricity","electricity_unit": "${json-unit.regex}^[a-z]{3}$","electricity_value": "${json-unit.regex}^[0-9]*[.]?[0-9]{0,2}$","country": "${json-unit.regex}^[a-z]{2}$", "state":"${json-unit.regex}^[a-z]{2}$"}
+                    }
+                ]
+            },
+            "response": {
+                "status": 201,
+                "bodyFileName": "electricity.json",
+                "headers": {
+                    "Content-Type": "application/json"
+                  }
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/api/v1/estimates",
+                "headers":{
+                    "Authorization":{
+                        "matches":"Bearer API_KEY"
+                    }
+                },
+                "bodyPatterns": [
+                    {
+                        "equalToJson":{"type": "flight","passengers": "${json-unit.regex}^[0-9]*[.]?[0-9]{0,2}$","legs": [{"departure_airport": "${json-unit.regex}^[A-Z]{3}$", "destination_airport": "${json-unit.regex}^[A-Z]{3}$", "cabin_class":"${json-unit.regex}^premium$|^economy$"}], "distance_unit":"${json-unit.regex}^[a-z]{2}$"}}
+                ]
+            },
+            "response": {
+                "status": 201,
+                "bodyFileName": "flight.json",
+                "headers": {
+                    "Content-Type": "application/json"
+                  }
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/api/v1/estimates",
+                "headers":{
+                    "Authorization":{
+                        "matches":"Bearer API_KEY"
+                    }
+                },
+                "bodyPatterns": [
+                    {
+                        "equalToJson":{"type": "shipping","weight_value": "${json-unit.regex}^[0-9]*[.]?[0-9]{0,2}$","weight_unit": "${json-unit.regex}^[a-z]{1,2}$","distance_value": "${json-unit.regex}^[0-9]*[.]?[0-9]{0,2}$","distance_unit": "${json-unit.regex}^[a-z]{2}$","transport_method": "${json-unit.regex}^truck$|^plane$|^train$|^ship$"}
+                    }
+                ]
+            },
+            "response": {
+                "status": 201,
+                "bodyFileName": "shipping.json",
+                "headers": {
+                    "Content-Type": "application/json"
+                  }
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/api/v1/estimates",
+                "headers":{
+                    "Authorization":{
+                        "matches":"Bearer API_KEY"
+                    }
+                },
+                "bodyPatterns": [
+                    {
+                        "equalToJson":{"type": "fuel_combustion","fuel_source_type": "${json-unit.regex}^[a-z]{2,3}$","fuel_source_unit": "${json-unit.any-string}","fuel_source_value": "${json-unit.regex}^[0-9]*[.]?[0-9]{0,2}$"}
+                    }
+                ]
+            },
+            "response": {
+                "status": 201,
+                "bodyFileName": "fuel.json",
+                "headers": {
+                    "Content-Type": "application/json"
+                  }
+            }
+        },
+        {
+            "request": {
+                "method": "GET",
+                "url": "/api/v1/auth",
+                "headers":{
+                    "Authorization":{
+                        "matches":"Bearer API_KEY"
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "bodyFileName": "auth.json",
+                "headers": {
+                    "Content-Type": "application/json"
+                  }
+            }
+        }
+    ]
+}
+
