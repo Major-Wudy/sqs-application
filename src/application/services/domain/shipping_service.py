@@ -18,8 +18,27 @@ from decimal import Decimal
 from abc import ABC, abstractmethod
 import simplejson as json
 
-class ShippingService():
+"""Domain Service ShippingService
 
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+"""
+class ShippingService():
+    """create shipping entity 
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param w_unit: weight unit of your package g, kg, lb, mt
+    :type w_unit: str
+    :param weight_value: weight of your package corresponding to your choosen w_unit
+    :type weight_value: Decimal
+    :param distance_unit: prefered distance unit km or mi
+    :type distance_unit: str
+    :param distance_value: corresponding distance
+    :type distance_value: Decimal
+    :param transport_method: How do you want your package shipped? Train, truck, plane, ship
+    :type transport_method: str
+    :returns: Shipping entity or nothing
+    :rtype: Shippung or None
+    """
     @classmethod
     def create_shipping_entity(cls, w_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str) -> Shipping | None:
         try:
@@ -45,17 +64,33 @@ class ShippingService():
         except Exception as err:
             print(f'an error occured {err}')
     
+    """abstract method up for implementation to get estimates form a carbon score api
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param weight_unit: weight unit of your package g, kg, lb, mt
+    :type weight_unit: str
+    :param weight_value: weight of your package corresponding to your choosen w_unit
+    :type weight_value: Decimal
+    :param distance_unit: prefered distance unit km or mi
+    :type distance_unit: str
+    :param distance_value: corresponding distance
+    :type distance_value: Decimal
+    :param transport_method: How do you want your package shipped? Train, truck, plane, ship
+    :type transport_method: str
+    :returns: server response as json
+    """
     @abstractmethod
     def get_estimate_for_shipping(self, weight_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str):
-        """
-        Args:
-            api_interface (CarbonInterfaceRequestService): Das API Interface, welches den direkten HTTP-Call an die externe API sendet
-
-        Returns:
-            dict: Die Antwortdaten als Python-Datenstruktur (z. B. ein JSON-Objekt).
-        """
         pass
 
+    """converts shipping entity to json
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param ship: shipping entity
+    :type ship: Shipping
+    :returns: shipping entity as json
+    :rtype: json
+    """
     @classmethod
     def convert_shipping_entity_to_json(cls, ship: Shipping) -> json:
         return {

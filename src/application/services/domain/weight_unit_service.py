@@ -9,6 +9,14 @@ sys.path.append(application_dir)
 
 from application.models.weights.weight_unit import WeightUnit
 
+"""create weight unit entity
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param unit: wight unit you would like
+    :type unit: str
+    :returns: WeightUnit
+    :rtype: WeightUnit
+"""
 def create_weight_unit(unit: str) -> WeightUnit:
     try:
         if not isinstance(unit, str):

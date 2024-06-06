@@ -9,6 +9,14 @@ sys.path.append(application_dir)
 
 from application.models.distance.distance_unit import DistanceUnit
 
+"""creates distance unit entity by given string
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param unit: unit as string to create DistanceUnit entity
+    :type unit: str
+    :returns: Distance unit
+    :rtype: DistanceUnit
+"""
 def create_distance_unit(unit: str) -> DistanceUnit:
     try:
         if not isinstance(unit, str):
