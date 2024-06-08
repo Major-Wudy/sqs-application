@@ -89,6 +89,11 @@ jobs:
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           docker exec $CONTAINER_ID sh -c "cd src && cd application && python -m unittest api_tests.py"
 
+    - name: Run Locust Tests
+      run: |
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          docker exec locust-master sh -c "cd /mnt/locust/ && locust --headless -u 100 -r 10 --run-time 30s --host=http://web:8000/"
+
     - name: Tear down Docker Compose and volumes
       if: always()
       run: docker-compose down -v

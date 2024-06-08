@@ -1,0 +1,60 @@
+name: Load Performance test 500 Users
+
+on:
+  workflow_run:
+    workflows: ["Dokcer"]
+    types:
+      - completed
+
+jobs:
+    load_performance:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+        
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+        
+            - name: Set up Docker Compose
+              run: sudo apt-get install docker-compose
+        
+            - name: Build and run Docker Compose
+              run: docker-compose up -d --build
+        
+            - name: Wait for MySQL
+              run: |
+                sudo apt-get install -y mysql-client
+                until mysqladmin ping -h "127.0.0.1" --silent; do
+                  echo "Waiting for MySQL..."
+                  sleep 1
+                done
+        
+            - name: Run migrations
+              run: |
+                  CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+                  docker exec $CONTAINER_ID sh -c "cd src && python manage.py migrate"
+        
+            - name: Setup User 
+              run: |
+                  CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+                  docker exec $CONTAINER_ID sh -c "cd src && python manage.py createsuperuser --noinput --username docker --email raphael.wudy@stud.th-rosenheim.de"
+            
+            - name: Set auth token 
+              run: |
+                  CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+                  CMD_OUTPUT=$(docker exec $CONTAINER_ID sh -c "cd src && python manage.py drf_create_token docker")
+                  TOKEN=$(echo "$CMD_OUTPUT" | awk '{print $3}')
+                  echo "$TOKEN"
+                  
+                  sed -i "s/TOKEN_UNIT_TEST=dcd52b4996698b6c5db63df6894550fe1069d2a0/TOKEN_UNIT_TEST=$TOKEN/g" docker-compose.yaml
+                  echo "TOKEN_UNIT_TEST=$TOKEN" >> $GITHUB_ENV
+        
+            - name: Starte Docker Compose neue Env
+              run: |
+                  docker-compose up -d
+            
+            - name: Run Locust Tests
+              run: |
+                    CONTAINER_	ID=$(docker ps -qf "name=sqs-application_web_1")
+                    docker exec locust-master sh -c "cd /mnt/locust/ && locust --headless -u 500 -r 50 --run-time 20m --host=http://web:8000/"
