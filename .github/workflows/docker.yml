@@ -54,7 +54,8 @@ jobs:
       run: |
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           CMD_OUTPUT=$(docker exec $CONTAINER_ID sh -c "cd src && python manage.py drf_create_token docker")
-          echo $CMD_OUTPUT
+          TOKEN=$(echo "$CMD_OUTPUT" | awk '{print $3}')
+          echo "TOKEN_UNIT_TEST=$TOKEN" >> $GITHUB_ENV
 
     - name: Run migrations and tests
       run: |
