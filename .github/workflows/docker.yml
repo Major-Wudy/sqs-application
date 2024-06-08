@@ -52,7 +52,12 @@ jobs:
           CMD_OUTPUT=$(docker exec $CONTAINER_ID sh -c "cd src && python manage.py drf_create_token docker")
           TOKEN=$(echo "$CMD_OUTPUT" | awk '{print $3}')
           echo "$TOKEN"
-          echo "TOKEN_UNIT_TEST=$TOKEN" >> $GITHUB_ENV
+          
+          sed -i 's/TOKEN_UNIT_TEST=123/TOKEN_UNIT_TEST=$TOKEN/g' docker-compose.yaml
+
+    - name: Starte Docker Compose neue Env
+      run: docker-compose up -d
+
 
     - name: Print environment variables
       run: |
