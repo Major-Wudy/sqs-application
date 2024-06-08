@@ -53,11 +53,12 @@ jobs:
           TOKEN=$(echo "$CMD_OUTPUT" | awk '{print $3}')
           echo "$TOKEN"
           
-          sed -i "s/TOKEN_UNIT_TEST=123/TOKEN_UNIT_TEST=$TOKEN/g" docker-compose.yaml
+          sed -i "s/TOKEN_UNIT_TEST=dcd52b4996698b6c5db63df6894550fe1069d2a0/TOKEN_UNIT_TEST=$TOKEN/g" docker-compose.yaml
           echo "TOKEN_UNIT_TEST=$TOKEN" >> $GITHUB_ENV
 
     - name: Starte Docker Compose neue Env
-      run: docker-compose up -d
+      run: |
+          docker-compose up -d
 
     - name: Run tests
       run: |
@@ -83,6 +84,11 @@ jobs:
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           docker exec $CONTAINER_ID sh -c "cd src && lint-imports"
 
-    - name: Tear down Docker Compose
+    - name: Run restassured like tests with wiremock simulated api
+      run: |
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          docker exec $CONTAINER_ID sh -c "cd src && cd application && python -m unittest api_tests.py"
+
+    - name: Tear down Docker Compose and volumes
       if: always()
-      run: docker-compose down
+      run: docker-compose down -v

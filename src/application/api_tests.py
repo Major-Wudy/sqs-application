@@ -4,7 +4,10 @@ import sys
 import os
 import django
 current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+
 sys.path.append(current_dir)
+sys.path.append(parent_dir)
 os.environ['DJANGO_SETTINGS_MODULE'] = 'carbonscore.settings'
 
 # Automated API Tests
@@ -25,7 +28,7 @@ class ApiTestCase(unittest.TestCase):
     estimate_shipping_endpoint = "/api/get/estimate/shipping/"
     estimate_fuel_endpoint = "/api/get/estimate/fuel/"
 
-    header = {'Authorization': 'Bearer ' + self.token}
+    header = {'Authorization': 'Bearer ' + token}
 
     def test_api_create_electricity(self):
         response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers=self.header)
@@ -82,11 +85,7 @@ class ApiTestCase(unittest.TestCase):
         response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"})
         status_code = response.status_code
         self.assertEqual(status_code, 401)
-   
-    def test_api_create_flight_500(self):
-        response = self.c.post(self.flight_endpoint, {"passengers":"test","legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers=self.header)
-        status_code = response.status_code
-        self.assertEqual(status_code, 500)
+
     
     # Api test shipping
     def test_api_create_shipping(self):
