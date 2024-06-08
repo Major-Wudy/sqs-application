@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v3
 
     - name: Set up Docker Compose
       run: sudo apt-get install docker-compose
@@ -35,9 +35,7 @@ jobs:
 
     - name: Create user with auth token in MySQL
       run: |
-          mysql -h 127.0.0.1 -P 3306 -u root sqs -e "CREATE USER 'docker'@'%' IDENTIFIED BY 'docker';"
-          mysql -h 127.0.0.1 -P 3306 -u root sqs -e "GRANT ALL PRIVILEGES ON *.* TO 'docker'@'%';"
-          mysql -h 127.0.0.1 -P 3306 -u root sqs -e "INSERT INTO authtoken_token (`key`, `created`, user_id) VALUES ('dcd52b4996698b6c5db63df6894550fe1069d2a0','1994-07-29', '1');"
+          mysql -h 127.0.0.1 -P 3306 -u root sqs < /app/initdb.sql
 
     - name: Print environment variables
       run: |
