@@ -33,10 +33,6 @@ jobs:
           sleep 1
         done
 
-    - name: Print environment variables
-      run: |
-          env
-
     - name: List containers
       run: docker ps
 
@@ -55,7 +51,12 @@ jobs:
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           CMD_OUTPUT=$(docker exec $CONTAINER_ID sh -c "cd src && python manage.py drf_create_token docker")
           TOKEN=$(echo "$CMD_OUTPUT" | awk '{print $3}')
+          echo "$TOKEN"
           echo "TOKEN_UNIT_TEST=$TOKEN" >> $GITHUB_ENV
+
+    - name: Print environment variables
+      run: |
+           env
 
     - name: Run migrations and tests
       run: |
