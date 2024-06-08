@@ -1,6 +1,14 @@
 version: '3.9'
 
 services:
+  wiremock:
+    image: wiremock/wiremock:latest
+    container_name: wiremock
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./wiremock/stubs:/home/wiremock
+
   web:
     build:
       context: .
@@ -12,6 +20,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - wiremock
     environment:
       - DB_HOST=db
       - DB_NAME=sqs
