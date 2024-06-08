@@ -45,10 +45,16 @@ jobs:
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           docker exec $CONTAINER_ID sh -c "cd src && python manage.py migrate"
 
-    - name: Setup User
+    - name: Setup User 
       run: |
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           docker exec $CONTAINER_ID sh -c "cd src && python manage.py createsuperuser --noinput --username docker --email raphael.wudy@stud.th-rosenheim.de"
+    
+    - name: Set auth token 
+      run: |
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          CMD_OUTPUT=$(docker exec $CONTAINER_ID sh -c "cd src && python manage.py drf_create_token docker")
+          echo $CMD_OUTPUT
 
     - name: Run migrations and tests
       run: |
