@@ -90,7 +90,9 @@ jobs:
           docker exec $CONTAINER_ID sh -c "cd src && cd application && python -m unittest api_tests.py"
 
     - name: Run Locust Tests
-      run: docker-compose exec locust-master locust --headless -u 100 -r 10 --run-time 20s --csv=/mnt/locust/reports/report
+      run: |
+          CONTAINER_ID=$(docker ps -qf "name=locust-master")
+          docker exec $CONTAINER_ID sh -c "locust --headless -u 100 -r 10 --run-time 20s --csv=/mnt/locust/reports/report"
 
     - name: Copy Locust Report
       run: |
