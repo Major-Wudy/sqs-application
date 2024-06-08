@@ -58,8 +58,7 @@ jobs:
 
     - name: Starte Docker Compose neue Env
       run: |
-          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
-          docker-compose restart $CONTAINER_ID
+          docker-compose restart sqs-application_web_1
 
     - name: Run tests
       run: |
