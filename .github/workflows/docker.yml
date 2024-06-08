@@ -92,7 +92,7 @@ jobs:
     - name: Run Locust Tests
       run: |
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
-          docker exec $CONTAINER_ID sh -c "locust --headless -u 100 -r 10 --run-time 20s --csv=/mnt/locust/reports/report"
+          docker exec $CONTAINER_ID sh -c "locust --headless -u 100 -r 10 --run-time 20s --csv=/mnt/locust/reports/report --host=http://web:8000/"
 
     - name: Copy Locust Report
       run: |
