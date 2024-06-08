@@ -71,7 +71,7 @@ jobs:
 
     - name: Edit coverage report
       run: |
-          sed -i 's|<source>/home/runner/work/sqs-application/sqs-application/src</source>|<source>/usr/src/</source>|g' src/coverage-reports/coverage.xml
+          sed -i 's|<source>/app/src</source>|<source>/usr/src/</source>|g' src/coverage-reports/coverage.xml
 
     - name: Commit coverage report
       run: |
