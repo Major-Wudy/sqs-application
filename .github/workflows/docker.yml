@@ -48,7 +48,7 @@ jobs:
     - name: Setup User
       run: |
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
-          docker exec $CONTAINER_ID sh - "cd src && python manage.py createsuperuser --noinput --username docker --email raphael.wudy@stud.th-rosenheim.de
+          docker exec $CONTAINER_ID sh - "cd src && python manage.py createsuperuser --noinput --username docker --email raphael.wudy@stud.th-rosenheim.de"
 
     - name: Run migrations and tests
       run: |
