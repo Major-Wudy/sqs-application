@@ -83,6 +83,11 @@ jobs:
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           docker exec $CONTAINER_ID sh -c "cd src && lint-imports"
 
+    - name: Run restassured like tests with wiremock simulated api
+      run: |
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          docker exec $CONTAINER_ID sh -c "cd src && cd application && python -m unittest api_tests.py"
+
     - name: Tear down Docker Compose
       if: always()
       run: docker-compose down
