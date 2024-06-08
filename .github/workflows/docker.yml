@@ -94,12 +94,6 @@ jobs:
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           docker exec $CONTAINER_ID sh -c "locust --headless -u 100 -r 10 --run-time 20s --csv=/app/src/locust/reports/report --host=http://web:8000/"
 
-    - name: Copy Locust Report
-      run: |
-        mkdir -p locust-reports
-        docker cp sqs-application_web_1:/app/src/locust/reports/report_stats.csv locust-reports/report_stats.csv
-        docker cp sqs-application_web_1:/app/src/locust/reports/report_distribution.csv locust-reports/report_distribution.csv
-
     - name: Commit and Push Locust Report
       run: |
           git config --global user.name 'github-actions[bot]'
