@@ -80,8 +80,8 @@ jobs:
           git add src/coverage-reports/coverage.xml
           git commit -m 'Add coverage report'
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Run ArchUnit with Import-linter
       run: |
