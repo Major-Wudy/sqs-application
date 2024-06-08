@@ -16,20 +16,31 @@ from rest_framework.response import Response
 from rest_framework import status
 import simplejson as json
 
-class BearerAuthentication(authentication.TokenAuthentication):
-    '''
-    Simple token based authentication using utvsapitoken.
+"""Simple token based authentication using utvsapitoken.
 
     Clients should authenticate by passing the token key in the 'Authorization'
     HTTP header, prepended with the string 'Bearer '.  For example:
 
     Authorization: Bearer 956e252a-513c-48c5-92dd-bfddc364e812
-    '''
+"""
+class BearerAuthentication(authentication.TokenAuthentication):
     keyword = 'Bearer'
 
+"""Infrastructure Service ApiSerivces
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+"""
 class ApiServices():
     content_json = "application/json"
 
+    """create electricity entitiy from post request with domain service electricity services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param data: request data as json
+        :type data: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def create_electricity_from_post(cls, data: json) -> json:
         try:
@@ -59,8 +70,16 @@ class ApiServices():
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """estimates carbon score for electricity entitiy from post request with domain service electricity services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param electricity: electricity entity as json
+        :type electricity: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
-    def get_estimate_for_electricity_from_post(cls, electricity: json):
+    def get_estimate_for_electricity_from_post(cls, electricity: json) -> json:
         try:
             es = EstimatesService()
             json = es.get_estimate_for_electricity_use(Decimal(electricity.get("electricity_value")), electricity.get("country"), electricity.get("state"), electricity.get("electricity_unit"))
@@ -68,7 +87,15 @@ class ApiServices():
         except Exception as err:
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
-        
+
+    """create flight entitiy from post request with domain service flight services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param data: request data as json
+        :type data: json
+        :returns: server response as json
+        :rtype: json
+    """ 
     @classmethod
     def create_flight_from_post(cls, data: json) -> json:
         try:
@@ -92,6 +119,14 @@ class ApiServices():
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """estimates carbon score for flight entitiy from post request with domain service flight services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param flight: flight entity as json
+        :type flight: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def get_estimate_for_flight_from_post(cls, flight: json) -> json:
         try:
@@ -106,6 +141,14 @@ class ApiServices():
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """create shipping entitiy from post request with domain service shipping services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param data: request data as json
+        :type data: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def create_shipping_from_post(cls, data: json) -> json:
         try:
@@ -140,6 +183,14 @@ class ApiServices():
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """estimates carbon score for shipping entitiy from post request with domain service shipping services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param shipping: shipping entity as json
+        :type shipping: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def get_estimate_for_shipping_from_post(cls, shipping: json) -> json:
         try:
@@ -150,6 +201,14 @@ class ApiServices():
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """create fuel entitiy from post request with domain service fuel services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param data: request data as json
+        :type data: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def create_fuel_from_post(cls, data: json) -> json:
         try:
@@ -172,6 +231,14 @@ class ApiServices():
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """estimates carbon score for fuel entitiy from post request with domain service fuel services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param fuel: fuel entity as json
+        :type fuel: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def get_estimate_for_fuel_from_post(cls, fuel: json) -> json:
         try:
