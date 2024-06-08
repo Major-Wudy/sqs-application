@@ -16,18 +16,31 @@ from rest_framework.response import Response
 from rest_framework import status
 import simplejson as json
 
-class BearerAuthentication(authentication.TokenAuthentication):
-    '''
-    Simple token based authentication using utvsapitoken.
+"""Simple token based authentication using utvsapitoken.
 
     Clients should authenticate by passing the token key in the 'Authorization'
     HTTP header, prepended with the string 'Bearer '.  For example:
 
     Authorization: Bearer 956e252a-513c-48c5-92dd-bfddc364e812
-    '''
+"""
+class BearerAuthentication(authentication.TokenAuthentication):
     keyword = 'Bearer'
 
+"""Infrastructure Service ApiSerivces
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+"""
 class ApiServices():
+    content_json = "application/json"
+
+    """create electricity entitiy from post request with domain service electricity services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param data: request data as json
+        :type data: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def create_electricity_from_post(cls, data: json) -> json:
         try:
@@ -49,25 +62,40 @@ class ApiServices():
             es = ElectricityService()
             elec = es.create_electricity_entity(Decimal(value), country, state, unit)
             json_data =  es.convert_electricity_entity_to_json(elec)
-            return Response(json_data, status=status.HTTP_201_CREATED, content_type="application/json")
+            return Response(json_data, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
-            return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type="application/json")
+            return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type=cls.content_json)
         except Exception as err:
             error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type="application/json")
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """estimates carbon score for electricity entitiy from post request with domain service electricity services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param electricity: electricity entity as json
+        :type electricity: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
-    def get_estimate_for_electricity_from_post(cls, electricity: json):
+    def get_estimate_for_electricity_from_post(cls, electricity: json) -> json:
         try:
-            # ToDo check json for missing values and correct syntax
             es = EstimatesService()
             json = es.get_estimate_for_electricity_use(Decimal(electricity.get("electricity_value")), electricity.get("country"), electricity.get("state"), electricity.get("electricity_unit"))
-            return Response(json, status=status.HTTP_201_CREATED, content_type="application/json")
+            return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except Exception as err:
             error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type="application/json")
-        
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
+
+    """create flight entitiy from post request with domain service flight services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param data: request data as json
+        :type data: json
+        :returns: server response as json
+        :rtype: json
+    """ 
     @classmethod
     def create_flight_from_post(cls, data: json) -> json:
         try:
@@ -83,29 +111,44 @@ class ApiServices():
             fs = FlightService()
             flight = fs.create_flight_entity(int(passengers), legs[0]['depature'], legs[0]['destination'], unit, legs[0]['class'])
             json =  fs.convert_flight_entity_to_json(flight)
-            return Response(json, status=status.HTTP_201_CREATED, content_type="application/json")
-        except Exception as err:
-            error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type="application/json")
+            return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
-            return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type="application/json")
+            return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type=cls.content_json)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """estimates carbon score for flight entitiy from post request with domain service flight services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param flight: flight entity as json
+        :type flight: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def get_estimate_for_flight_from_post(cls, flight: json) -> json:
         try:
-            # ToDo check json for missing values and correct syntax
             legs = flight.get('legs')
             if not isinstance(legs, list):
                 raise TypeError('legs is not a list')
 
             es = EstimatesService()
             json_data = es.get_estimate_for_flight(flight.get("passengers"), legs[0]['departure_airport'], legs[0]['destination_airport'], flight.get("distance_unit"), legs[0]['cabin_class'])
-            return Response(json_data, status=status.HTTP_201_CREATED, content_type="application/json")
+            return Response(json_data, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except Exception as err:
             error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type="application/json")
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """create shipping entitiy from post request with domain service shipping services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param data: request data as json
+        :type data: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def create_shipping_from_post(cls, data: json) -> json:
         try:
@@ -132,26 +175,40 @@ class ApiServices():
             ship_s = ShippingService()
             ship = ship_s.create_shipping_entity(weight_unit, weight, distance_unit, distance, transport)
             json =  ship_s.convert_shipping_entity_to_json(ship)
-            return Response(json, status=status.HTTP_201_CREATED, content_type="application/json")
-        except Exception as err:
-            error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type="application/json")
+            return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
-            return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type="application/json")
+            return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type=cls.content_json)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """estimates carbon score for shipping entitiy from post request with domain service shipping services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param shipping: shipping entity as json
+        :type shipping: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def get_estimate_for_shipping_from_post(cls, shipping: json) -> json:
         try:
-            # ToDo check json for missing values and correct syntax
-
             es = EstimatesService()
             json = es.get_estimate_for_shipping(shipping.get("weight_unit"), Decimal(shipping.get("weight_value")), shipping.get("distance_unit"), Decimal(shipping.get("distance_value")), shipping.get("transport_method"))
             return Response(json, status=status.HTTP_201_CREATED)
         except Exception as err:
             error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type="application/json")
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """create fuel entitiy from post request with domain service fuel services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param data: request data as json
+        :type data: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def create_fuel_from_post(cls, data: json) -> json:
         try:
@@ -167,21 +224,27 @@ class ApiServices():
             fuel = fs.create_fuel_combustion_entity(consumption, source)
             json =  fs.convert_fuel_entity_to_json(fuel)
             return Response(json, status=status.HTTP_201_CREATED)
-        except Exception as err:
-            error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type="application/json")
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
-            return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type="application/json")
+            return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type=cls.content_json)
+        except Exception as err:
+            error = {"error":f"Something went wrong {err}"}
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
+    """estimates carbon score for fuel entitiy from post request with domain service fuel services
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param fuel: fuel entity as json
+        :type fuel: json
+        :returns: server response as json
+        :rtype: json
+    """
     @classmethod
     def get_estimate_for_fuel_from_post(cls, fuel: json) -> json:
         try:
-            # ToDo check json for missing values and correct syntax
-
             es = EstimatesService()
             json = es.get_estimate_for_fuel_use(Decimal(fuel.get("fuel_source_value")), "", fuel.get("fuel_source_unit"), fuel.get("fuel_source_type"))
-            return Response(json, status=status.HTTP_201_CREATED, content_type="application/json")
+            return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except Exception as err:
             error = {"error":f"Something went wrong {err}"}
-            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type="application/json")
+            return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)

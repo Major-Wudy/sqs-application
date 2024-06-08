@@ -13,7 +13,35 @@ from decimal import Decimal
 import requests
 import simplejson
 
+"""Infrastructure Service EstimatesService
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param CarbonInterfaceRequestService: Used API Interface class
+    :type CarbonInterfaceRequestService: CarbonInterfaceRequestService
+    :param ElectricityService: Domain Service to access all functionalities around electricity
+    :type ElectricityService: ElectricityService
+    :param FlightService: Domain Service to access all functionalities around flights
+    :type: FlightService: FlightService
+    :param ShippingService: Domain Service to access all functionalities around shipping
+    :type ShippingService: ShippingService
+    :param FuelService: Domain Service to access all functionalities around fuel consumption
+    :type FuelService: FuelService
+"""
 class EstimatesService(CarbonInterfaceRequestService, ElectricityService, FlightService, ShippingService, FuelService):
+    """Post some data against url
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param url: url you want to post against
+        :type url: str
+        :param data: contains data as dictionary you want to post
+        :type data: dict
+        :param json: contains json data you want to post
+        :type json: dict
+        :param headers: contains http headers you want to use
+        :type headers: dict
+        :returns: server response as json
+        :rtype: dict
+    """
     def post(self, url: str, data: dict = None, json: dict = None, headers: dict = None) -> dict:
         try:
             if url == None or url == "":
@@ -39,6 +67,20 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         else:
             print(response.json())
 
+    """get estimate for electricity use
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param value: electricity consumption value
+        :type value: Decimal
+        :param country: the choosen country you want to get your estimates for. official abbreviation
+        :type country: str
+        :param state: to be specific. the choosen state you want to get your estimates for. offical abbreviation
+        :type state: str
+        :param unit: Which electricity unit do you want? kwh or mwh
+        :type unit: str
+        :returns: server response as json
+        :rtype: dict
+    """
     def get_estimate_for_electricity_use(self, value: Decimal, country: str, state: str, unit: str):
         try:
             es = ElectricityService()
@@ -52,6 +94,22 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
     
+    """get estimate for your flight
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param passengers: Amount of passengers for your estimation
+        :type passengers: int
+        :param depature: Airport from which you are departing. official abbreviation
+        :type depature: str
+        :param destination: Airport where you arrive. offical abbreviation
+        :type destination: str
+        :param unit: distance unit you want your estimation based on km or mi
+        :type unit: str
+        :param cabin: Cabin class economy or premium
+        :type cabin: str
+        :returns: server response as json
+        :rtype: dict
+    """
     def get_estimate_for_flight(self, passengers: int, depature: str, destination: str, unit: str, cabin: str):
         try:
             fs = FlightService()
@@ -65,6 +123,22 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
     
+    """get estimate for package shipping
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param weight_unit: Unit of your package weight g, kg, lb, mt
+        :type weight_unit: str
+        :param weight_value: Weight of your package 
+        :type weight_value: Decimal
+        :param distance_unit: Unit you want your estimate be based on km or mi
+        :type distance_unit: str
+        :param distance_value: Distance of your shipping route
+        :type distance_value: Decimal
+        :param transport_methid: Method of shipping your package. Truck, trian, plane, ship
+        :type transport_method: str
+        :returns: server response as json
+        :rtype: dict
+    """
     def get_estimate_for_shipping(self, weight_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str):
         try:
             ship_s = ShippingService()
@@ -79,6 +153,20 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
 
+    """get estimate for fuel consumption
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param value: Amount of fuel consumed
+        :type value: Decimal
+        :param source_type_name: name of your fuel source 
+        :type source_type_name: str
+        :param api_unit: api unit of fuel source
+        :type api_unit: str
+        :param api_name: api name of fuel source
+        :type api_name: str
+        :returns: server response as json
+        :rtype: dict
+    """
     def get_estimate_for_fuel_use(self, value: Decimal, source_type_name: str = "", api_unit: str = "", api_name: str = ""): 
         try:
             fs = FuelService()

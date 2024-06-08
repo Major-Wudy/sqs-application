@@ -16,6 +16,10 @@ from application.services.domain.distance_unit_service import create_distance_un
 from abc import ABC, abstractmethod
 import simplejson as json
 
+"""Domain Service FlightService
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+"""
 class FlightService():
     @classmethod
     def create_flight_entity(cls, passengers: int, depature: str, destination: str, distance_unit: str, cabin: str) -> Flight:
@@ -29,11 +33,31 @@ class FlightService():
         except TypeError:
             print("Wrong parameters flight")
 
+    """create needed leg object for your flight entity. containing destination and departure airports and choosen cabin class
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param depature: Airport from which you are departing. International abbreviation Dublin equals DUB
+    :type depature: str
+    :param destination: Airport where you arrive. International abbreviation Munich equals MUC
+    :type destination: str
+    :param cabin: Cabin class you intending to book
+    :type cabin: str
+    :returns: Leg entity containing destination and depature Airports and cabin class  
+    :rtype: Leg
+    """
     @classmethod
     def create_leg_object(cls, depature: str, destination: str, cabin: str) -> Leg:
             cabin_class = cls.get_cabin_class(cabin)
             return Leg(depature, destination, cabin_class)
 
+    """get cabin class from given string value
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param type: Choosen cabin class for your flight
+    :type type: str
+    :returns: Cabin class economy or premium
+    :rtype: CabinClass
+    """
     @classmethod
     def get_cabin_class(cls, type: str) -> CabinClass:
         try: 
@@ -50,22 +74,44 @@ class FlightService():
         except TypeError:
             return CabinClass.ECONOMY
     
+    """abstract method up for implementation to get estimates from a carbon score api
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param passangers: Amount of passengers
+    :type passengers: int
+    :param depature:  Airport from which you are departing. International abbreviation Dublin equals DUB
+    :type depature: str
+    :param destination: Airport where you arrive. International abbreviation Munich equals MUC
+    :type destination: str 
+    :param unit: the distance unit you want your estimates be based on km or mi 
+    :type unit: str
+    :param cabin: Cabin class economy or premium
+    :type cabin: str
+    :returns: server response as json
+    """
     @abstractmethod
     def get_estimate_for_flight(self, passengers: int, depature: str, destination: str, unit: str, cabin: str):
-        """
-        Args:
-            api_interface (CarbonInterfaceRequestService): Das API Interface, welches den direkten HTTP-Call an die externe API sendet
-
-        Returns:
-            dict: Die Antwortdaten als Python-Datenstruktur (z. B. ein JSON-Objekt).
-        """
         pass
     
+    """Helper function for possible ui implementation 
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :returns: IATA URL for official international airport abbreviations
+    :rtype: str
+    """
     @classmethod
     def iata_airport_info_url(cls) -> str:
         link = IATAAirport()
         return link.get_iata_airport_url()
+    
+    """converts given flight entity to json
 
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param flight: Flight entity
+    :type flight: flight
+    :returns: JSON 
+    :rtype: json
+    """
     @classmethod
     def convert_flight_entity_to_json(cls, flight: Flight) -> json:
         return {

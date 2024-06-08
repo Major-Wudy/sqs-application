@@ -166,12 +166,45 @@ class ShippingServiceTestCase(unittest.TestCase):
         method = create_transport("12")
         self.assertEqual(method, "truck")
 
-from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
-# Test Carbon Interface API
-class CarbonInterfaceRequestServiceTestCase(unittest.TestCase):
-    def test_auth(self):
-        cirs = CarbonInterfaceRequestService()
-        cirs.auth_request()
+from application.services.domain.carbon_service import CarbonService
+from application.models.carbon.score import Score
+# Test CarbonService
+class CarbonServiceTestCase(unittest.TestCase):
+    def test_create_carbon_score(self):
+        cs = CarbonService()
+        score = cs.create_carbon_score(Decimal(123.45), Decimal(56.54), Decimal(10.12), Decimal(100), "custom_session_id")
+        wrong_params = cs.create_carbon_score("123", "321","wada", "wasd", Decimal(123))
+        self.assertIsInstance(score, Score)
+        self.assertIsInstance(wrong_params, Score)
+        self.assertEqual(score.score_g.quantize(Decimal('0.01')), Decimal(123.45).quantize(Decimal('0.01')))
+        self.assertEqual(score.score_kg.quantize(Decimal('0.01')), Decimal(56.54).quantize(Decimal('0.01')))
+        self.assertEqual(score.score_lb.quantize(Decimal('0.01')), Decimal(10.12).quantize(Decimal('0.01')))
+        self.assertEqual(score.score_mt.quantize(Decimal('0.01')), Decimal(100).quantize(Decimal('0.01')))
+        self.assertEqual(score.session_id, "custom_session_id")
+        self.assertEqual(wrong_params.score_g, Decimal(0))
+        self.assertEqual(wrong_params.score_kg, Decimal(0))
+        self.assertEqual(wrong_params.score_lb, Decimal(0))
+        self.assertEqual(wrong_params.score_mt, Decimal(0))
+        self.assertEqual(wrong_params.session_id, "")
+
+    def test_convert_score_to_json(self):
+        cs = CarbonService()
+        score = cs.create_carbon_score(Decimal(432.13), Decimal(56), Decimal(11.11), Decimal(90), "json_session_id")
+        score_json = cs.convert_score_to_json(score)
+        self.assertIsInstance(score_json, dict)
+        self.assertEqual(score_json.get('carbon_g'), "432.13")
+        self.assertEqual(score_json.get('carbon_kg'), "56.00")
+        self.assertEqual(score_json.get('carbon_lb'), "11.11")
+        self.assertEqual(score_json.get('carbon_mt'), "90.00")
+        self.assertEqual(score_json.get('sessionId'), "json_session_id")
+
+        nothing_json = cs.convert_score_to_json("no score")
+        self.assertIsInstance(nothing_json, dict)
+        self.assertEqual(nothing_json.get('carbon_g'), "0")
+        self.assertEqual(nothing_json.get('carbon_kg'), "0")
+        self.assertEqual(nothing_json.get('carbon_lb'), "0")
+        self.assertEqual(nothing_json.get('carbon_mt'), "0")
+        self.assertEqual(nothing_json.get('sessionId'), "")
 
 
 from application.services.infrastructure.estimates_service import EstimatesService
@@ -214,183 +247,152 @@ class EstimatesServiceTestCase(unittest.TestCase):
         test_dict = {'error': 'something went wrong . Url provided?'}
         self.assertDictContainsSubset(response, test_dict)
 
-# Automated API Tests
+from application.services.infrastructure.api_service import ApiServices
+class ApiServiceTestCase(unittest.TestCase):
+    api = ApiServices()
+    def test_create_electricity_from_post(self):
+        elec_json  = {"value":100.5,"country":"us","state":"fl","unit":"kwh"}
+        resp = self.api.create_electricity_from_post(elec_json)
+        self.assertEqual(resp.status_code, 201)
+        self.assertTrue(resp, dict)
+
+        wrong_elec  = {"test":100.5,"country":"us","state":"fl","unit":"kwh"}
+        resp = self.api.create_electricity_from_post(wrong_elec)
+        self.assertEqual(resp.status_code, 400)
+        self.assertTrue(resp, dict)
+        
+        wrong_elec  = {"value":"wasd","country":"us","state":"fl","unit":"kwh"}
+        resp = self.api.create_electricity_from_post(wrong_elec)
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
+    def test_get_estimate_for_electricity_from_post(self):
+        resp = self.api.get_estimate_for_electricity_from_post("test")
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
+    def test_create_flight_from_post(self):
+        flight_json = {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}
+        resp = self.api.create_flight_from_post(flight_json)
+        self.assertEqual(resp.status_code, 201)
+        self.assertTrue(resp, dict)
+
+        wrong_json = {"passengers":2,"legs":"test","distance_unit":"km"}
+        resp = self.api.create_flight_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 400)
+        self.assertTrue(resp, dict)
+        
+        wrong_json = {"passengers":"test","legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}
+        resp = self.api.create_flight_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
+    def test_get_estimate_for_flight_from_post(self):
+        resp = self.api.get_estimate_for_flight_from_post("test")
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
+    def test_create_shipping_from_post(self):
+        shipping_json = {"weight_value":123.45,"weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}
+        resp = self.api.create_shipping_from_post(shipping_json)
+        self.assertEqual(resp.status_code, 201)
+        self.assertTrue(resp, dict)
+
+        wrong_json = {"weight_value":123.45,"weight_unit": 2,"distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}
+        resp = self.api.create_shipping_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 400)
+        self.assertTrue(resp, dict)
+        
+        wrong_json = "test"
+        resp = self.api.create_shipping_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
+    def test_get_estimate_for_shipping_from_post(self):
+        resp = self.api.get_estimate_for_shipping_from_post("test")
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
+    def test_create_fuel_from_post(self):
+        fuel_json = {"source":"Natural Gas","value":500}
+        resp = self.api.create_fuel_from_post(fuel_json)
+        self.assertEqual(resp.status_code, 201)
+        self.assertTrue(resp, dict)
+
+        wrong_json = {"source":500,"value":500}
+        resp = self.api.create_fuel_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 400)
+        self.assertTrue(resp, dict)
+        
+        wrong_json = {"source":"Natural Gas","value":"wasd"}
+        resp = self.api.create_fuel_from_post(wrong_json)
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
+    def test_get_estimate_for_fuel_from_post(self):
+        resp = self.api.get_estimate_for_fuel_from_post("test")
+        self.assertEqual(resp.status_code, 500)
+        self.assertTrue(resp, dict)
+
 from django.test import Client
 from dotenv import load_dotenv
 import simplejson as json
 import requests
 class ApiTestCase(unittest.TestCase):
-    token = os.environ.get('TOKEN_UNIT_TEST')
     c = Client()
     electricity_endpoint = "/api/create/electricity/"
     flight_endpoint = "/api/create/flight/"
     shipping_endpoint = "/api/create/shipping/"
     fuel_endpoint = "/api/create/fuel/"
-    estimate_electricity_endpoint = "/api/get/estimate/electricity/"
-    estimate_flight_endpoint = "/api/get/estimate/flight/"
-    estimate_shipping_endpoint = "/api/get/estimate/shipping/"
-    estimate_fuel_endpoint = "/api/get/estimate/fuel/"
+    header = {'Authorization': 'Bearer ' + os.environ.get('TOKEN_UNIT_TEST')}
     def test_api_create_electricity(self):
-        response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': 'Bearer ' + self.token})
+        response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers=self.header)
         status_code = response.status_code
         json = response.json()
-        self.assertEquals(status_code, 201)
+        self.assertEqual(status_code, 201)
         self.assertIsInstance(json, dict)
-        self.assertEquals(json.get('type'), "electricity")
-        self.assertEquals(json.get('electricity_unit'), "kwh")
-        self.assertEquals(json.get('electricity_value'), "123.45")
-        self.assertEquals(json.get('country'), "us")
-        self.assertEquals(json.get('state'), "fl")
-    
-    def test_api_create_electricity_401(self): 
-        response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"})
-        status_code = response.status_code
-        self.assertEquals(status_code, 401)
-    
-    
-    def test_api_create_electricity_estimate(self):
-        json_data ={"type": "electricity", "electricity_unit": "kwh", "electricity_value": "1650", "country": "us", "state": "fl"}
-        
-        result = self.c.post(self.estimate_electricity_endpoint, json_data, headers={'Authorization': 'Bearer ' + self.token})
-        result_json = result.json()
-        data = result_json.get('data')
-        attributes = data.get('attributes')
-        status_code = result.status_code
-        self.assertEquals(status_code, 201)
-        self.assertEquals(attributes.get('country'), 'us')
-        self.assertEquals(attributes.get('state'), 'fl')
-        self.assertEquals(attributes.get('electricity_unit'), 'kwh')
-        self.assertEquals(attributes.get('electricity_value'), 123.45)
+        self.assertEqual(json.get('type'), "electricity")
+        self.assertEqual(json.get('electricity_unit'), "kwh")
+        self.assertEqual(json.get('electricity_value'), "123.45")
+        self.assertEqual(json.get('country'), "us")
+        self.assertEqual(json.get('state'), "fl")
 
-    def test_api_create_electricity_500(self):
-        response = self.c.post(self.electricity_endpoint, {"value":"test", "country":"us","state":"fl","unit":"kwh"}, headers={'Authorization': 'Bearer ' + self.token})
-        status_code = response.status_code
-        self.assertEquals(status_code, 500)
-
-    # Api test flight
     def test_api_create_flight(self):
-        response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers={'Authorization': 'Bearer ' + self.token}, content_type='application/json')
+        response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers=self.header, content_type='application/json')
         status_code = response.status_code
         result = response.json()
-        self.assertEquals(status_code, 201)
+        self.assertEqual(status_code, 201)
         self.assertIsInstance(result, dict)
-        self.assertEquals(result.get('type'), "flight")
-        self.assertEquals(result.get('passengers'), "2")
-        self.assertEquals(result.get('legs')[0]["departure_airport"], "MUC")
-        self.assertEquals(result.get('legs')[0]['destination_airport'], "DUB")
-        self.assertEquals(result.get('legs')[0]['cabin_class'], "premium")
-        self.assertEquals(result.get('distance_unit'), "km")
-    
-    def test_api_create_flight_401(self): 
-        response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"})
-        status_code = response.status_code
-        self.assertEquals(status_code, 401)
-   
-    def test_api_create_flight_500(self):
-        response = self.c.post(self.flight_endpoint, {"passengers":"test","legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers={'Authorization': 'Bearer ' + self.token})
-        status_code = response.status_code
-        self.assertEquals(status_code, 500)
-    
-    # Adress issue with api estimates works with normal json_data but not with simulated testclient
-    """
-    def test_api_create_flight_estimate(self):
-        # legs not recognized as list 
-        json_data = {"type": "flight","passengers": "2","legs": [{"departure_airport": "MUC","destination_airport": "DUB","cabin_class": "premium"}],"distance_unit": "km"}
-        
-        result = self.c.post(self.estimate_flight_endpoint, json_data, headers={'Authorization': 'Bearer ' + self.token})
-        result_json = result.json()
-        data = result_json.get('data')
-        attributes = data.get('attributes')
-        status_code = result.status_code
-        self.assertEquals(status_code, 201)
-        self.assertEquals(attributes.get('passengers'), 2)
-        self.assertEquals(attributes.get('distance_unit'), 'km')
-    """
-    # Api test shipping
+        self.assertEqual(result.get('type'), "flight")
+        self.assertEqual(result.get('passengers'), "2")
+        self.assertEqual(result.get('legs')[0]["departure_airport"], "MUC")
+        self.assertEqual(result.get('legs')[0]['destination_airport'], "DUB")
+        self.assertEqual(result.get('legs')[0]['cabin_class'], "premium")
+        self.assertEqual(result.get('distance_unit'), "km")
+
     def test_api_create_shipping(self):
-        response = self.c.post(self.shipping_endpoint, {"weight_value":123.45,"weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}, headers={'Authorization': 'Bearer ' + self.token}, content_type='application/json')
+        response = self.c.post(self.shipping_endpoint, {"weight_value":123.45,"weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}, headers=self.header, content_type='application/json')
         status_code = response.status_code
         result = response.json()
-        self.assertEquals(status_code, 201)
+        self.assertEqual(status_code, 201)
         self.assertIsInstance(result, dict)
-        self.assertEquals(result.get('type'), "shipping")
-        self.assertEquals(result.get('weight_value'), "123.45")
-        self.assertEquals(result.get('weight_unit'), "g")
-        self.assertEquals(result.get('distance_value'), "500.01")
-        self.assertEquals(result.get('distance_unit'), "km")
-        self.assertEquals(result.get('transport_method'), "plane")
-    
-    def test_api_create_shipping_401(self): 
-        response = self.c.post(self.shipping_endpoint, {"weight_value":123.45,"weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"})
-        status_code = response.status_code
-        self.assertEquals(status_code, 401)
-   
-    def test_api_create_shipping_500(self):
-        response = self.c.post(self.shipping_endpoint, {"weight_value":"error","weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}, headers={'Authorization': 'Bearer ' + self.token})
-        status_code = response.status_code
-        self.assertEquals(status_code, 500)
+        self.assertEqual(result.get('type'), "shipping")
+        self.assertEqual(result.get('weight_value'), "123.45")
+        self.assertEqual(result.get('weight_unit'), "g")
+        self.assertEqual(result.get('distance_value'), "500.01")
+        self.assertEqual(result.get('distance_unit'), "km")
+        self.assertEqual(result.get('transport_method'), "plane")
 
-    def test_api_create_shipping_estimate(self):
-        json_data = {"type": "shipping","weight_value": "123.45","weight_unit": "g","distance_value": "500.01","distance_unit": "km","transport_method": "plane"}
-        
-        result = self.c.post(self.estimate_shipping_endpoint, json_data, headers={'Authorization': 'Bearer ' + self.token})
-        result_json = result.json()
-        data = result_json.get('data')
-        attributes = data.get('attributes')
-        status_code = result.status_code
-        self.assertEquals(status_code, 201)
-        self.assertEquals(attributes.get('weight_unit'), "g")
-        self.assertEquals(attributes.get('weight_value'), 123.45)
-        self.assertEquals(attributes.get('distance_value'), 500.01)
-        self.assertEquals(attributes.get('distance_unit'), "km")
-
-    # Api test fuel
     def test_api_create_fuel(self):
-        response = self.c.post(self.fuel_endpoint, {"source":"Natural Gas","value":500}, headers={'Authorization': 'Bearer ' + self.token}, content_type='application/json')
+        response = self.c.post(self.fuel_endpoint, {"source":"Natural Gas","value":500}, headers=self.header, content_type='application/json')
         status_code = response.status_code
         result = response.json()
-        self.assertEquals(status_code, 201)
+        self.assertEqual(status_code, 201)
         self.assertIsInstance(result, dict)
-        self.assertEquals(result.get('type'), "fuel_combustion")
-        self.assertEquals(result.get('fuel_source_type'), "ng")
-        self.assertEquals(result.get('fuel_source_unit'), "thousand_cubic_feet")
-        self.assertEquals(result.get('fuel_source_value'), "500.00")
-    
-    def test_api_create_fuel_401(self): 
-        response = self.c.post(self.fuel_endpoint, {"source":"Natural Gas","value":500})
-        status_code = response.status_code
-        self.assertEquals(status_code, 401)
-   
-    def test_api_create_fuel_500(self):
-        response = self.c.post(self.fuel_endpoint, {"source":"Natural Gas","value":"error"}, headers={'Authorization': 'Bearer ' + self.token})
-        status_code = response.status_code
-        self.assertEquals(status_code, 500)
-
-    def test_api_create_fuel_estimate(self):
-        json_data = {"type": "fuel_combustion","fuel_source_type": "ng","fuel_source_unit": "thousand_cubic_feet","fuel_source_value": "500.00"}
-        
-        result = self.c.post(self.estimate_fuel_endpoint, json_data, headers={'Authorization': 'Bearer ' + self.token})
-        result_json = result.json()
-        data = result_json.get('data')
-        attributes = data.get('attributes')
-        status_code = result.status_code
-        self.assertEquals(status_code, 201)
-        self.assertEquals(attributes.get('fuel_source_type'), "ng")
-        self.assertEquals(attributes.get('fuel_source_unit'), "thousand_cubic_feet")
-        self.assertEquals(attributes.get('fuel_source_value'), 500.0)
-
-    def test_api_401_wrong_token(self):
-        result = self.c.post(self.estimate_fuel_endpoint, headers={'Authorization': 'Bearer WrongToken'})
-        result_json = result.json()
-        status_code = result.status_code
-        self.assertEquals(status_code, 401)
-
-    def test_api_401_no_header(self):
-        result = self.c.post(self.estimate_fuel_endpoint)
-        result_json = result.json()
-        status_code = result.status_code
-        self.assertEquals(status_code, 401)
-
+        self.assertEqual(result.get('type'), "fuel_combustion")
+        self.assertEqual(result.get('fuel_source_type'), "ng")
+        self.assertEqual(result.get('fuel_source_unit'), "thousand_cubic_feet")
+        self.assertEqual(result.get('fuel_source_value'), "500.00")
 
 if __name__ == '__main__':
     with open('./src/test-reports/results.xml', 'wb') as output:

@@ -12,3 +12,4 @@ drf-spectacular
 testcontainers
 wiremock
 locust
+mysqlclient

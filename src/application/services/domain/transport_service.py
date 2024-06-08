@@ -9,6 +9,14 @@ sys.path.append(application_dir)
 
 from application.models.shipping.transport import Transport
 
+"""create transport entity
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param method: shipping method you would like
+    :type method: str
+    :returns: Transport
+    :rtype: Transport
+"""
 def create_transport(method: str) -> Transport:
     try:
         if not isinstance(method, str):
