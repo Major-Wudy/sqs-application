@@ -20,7 +20,7 @@ services:
 
   db:
     image: mysql:latest
-    restart: always
+    restart: on-failure[3]
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: true
       MYSQL_DATABASE: sqs
