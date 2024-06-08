@@ -58,7 +58,7 @@ jobs:
 
     - name: Starte Docker Compose neue Env
       run: |
-          docker-compose restart web
+          docker-compose up -d
 
     - name: Run tests
       run: |
