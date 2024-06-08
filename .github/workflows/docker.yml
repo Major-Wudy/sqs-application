@@ -33,14 +33,12 @@ jobs:
           sleep 1
         done
 
-    - name: Wait for server to start
-      run: sleep 30s
+    - name: Print environment variables
+      run: |
+          env
 
     - name: List containers
       run: docker ps
-
-    - name: Check directory structure
-      run: docker-compose exec -T web ls -l src
 
     - name: Run migrations
       run: |
