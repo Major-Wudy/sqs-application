@@ -22,7 +22,7 @@ services:
     image: mysql:latest
     restart: on-failure:3
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
       MYSQL_DATABASE: sqs
     ports:
       - "3306:3306"
