@@ -105,7 +105,7 @@ jobs:
           git add locust-reports/*
           git commit -m "Add Locust performance test report"
           git push
-        env:
+      env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Tear down Docker Compose and volumes
