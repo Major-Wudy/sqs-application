@@ -37,7 +37,7 @@ jobs:
       run: |
           mysql -h 127.0.0.1 -P 3306 -u root sqs -e "CREATE USER 'docker'@'%' IDENTIFIED BY 'docker';"
           mysql -h 127.0.0.1 -P 3306 -u root sqs -e "GRANT ALL PRIVILEGES ON *.* TO 'docker'@'%';"
-          mysql -h 127.0.0.1 -P 3306 -u root sqs -e "INSERT INTO authtoken_token (`key`, `created`, `user_id`) VALUES ('dcd52b4996698b6c5db63df6894550fe1069d2a0','1994-07-29', '1');"
+          mysql -h 127.0.0.1 -P 3306 -u root sqs -e "INSERT INTO authtoken_token (key, created, user_id) VALUES ('dcd52b4996698b6c5db63df6894550fe1069d2a0','1994-07-29', '1');"
 
     - name: Print environment variables
       run: |
