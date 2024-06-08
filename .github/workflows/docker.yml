@@ -53,7 +53,7 @@ jobs:
           TOKEN=$(echo "$CMD_OUTPUT" | awk '{print $3}')
           echo "$TOKEN"
           
-          sed -i "s/TOKEN_UNIT_TEST=123/TOKEN_UNIT_TEST=$TOKEN/g" docker-compose.yaml
+          sed -i "s/TOKEN_UNIT_TEST=dcd52b4996698b6c5db63df6894550fe1069d2a0/TOKEN_UNIT_TEST=$TOKEN/g" docker-compose.yaml
           echo "TOKEN_UNIT_TEST=$TOKEN" >> $GITHUB_ENV
 
     - name: Starte Docker Compose neue Env
