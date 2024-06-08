@@ -97,8 +97,8 @@ jobs:
     - name: Copy Locust Report
       run: |
         mkdir -p locust-reports
-        docker cp sqs-application_web_1:/app/src/locust/reportsreport_stats.csv locust-reports/report_stats.csv
-        docker cp sqs-application_web_1:/app/src/locust/reportsreport_distribution.csv locust-reports/report_distribution.csv
+        docker cp sqs-application_web_1:/app/src/locust/reports/report_stats.csv locust-reports/report_stats.csv
+        docker cp sqs-application_web_1:/app/src/locust/reports/report_distribution.csv locust-reports/report_distribution.csv
 
     - name: Commit and Push Locust Report
       run: |
