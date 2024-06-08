@@ -45,13 +45,11 @@ jobs:
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           docker exec $CONTAINER_ID sh -c "cd src && python manage.py migrate"
 
-    - name: Create user with auth token in MySQL
+    - name: Setup User
       run: |
-          CONTAINER_ID=$(docker ps -qf "name=sqs-application_db_1")
-          docker exec $CONTAINER_ID sh -c 'mysql -h db -u root sqs && CREATE USER 'docker'@'%' IDENTIFIED BY 'docker';'
-          docker exec $CONTAINER_ID sh -c 'mysql -h db -u root sqs && GRANT ALL PRIVILEGES ON *.* TO 'docker'@'%';'
-          docker exec $CONTAINER_ID sh -c 'mysql -h db -u root sqs && INSERT INTO authtoken_token (`key`, created, user_id) VALUES ('dcd52b4996698b6c5db63df6894550fe1069d2a0','1994-07-29', '1')'
-  
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          docker exec $CONTAINER_ID sh - "cd src && python manage.py createsuperuser --noinput --username docker --email raphael.wudy@stud.th-rosenheim.de
+
     - name: Run migrations and tests
       run: |
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
