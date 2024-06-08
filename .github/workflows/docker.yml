@@ -34,7 +34,7 @@ jobs:
         done
 
     - name: Run tests
-      run: docker-compose exec web sh -c "python src/manage.py migrate && python src/manage.py test"
+      run: docker-compose exec -T web sh -c "python src/manage.py migrate && python src/manage.py test"
 
     - name: Tear down Docker Compose
       if: always()
