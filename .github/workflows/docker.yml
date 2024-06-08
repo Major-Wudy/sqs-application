@@ -88,6 +88,16 @@ jobs:
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           docker exec $CONTAINER_ID sh -c "cd src && lint-imports"
 
+    - name: Push to Main
+      if: success()
+      run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git checkout main
+          git add .
+          git commit -m "Auto-commit after successful build and test"
+          git push origin main
+
     - name: Tear down Docker Compose
       if: always()
       run: docker-compose down
