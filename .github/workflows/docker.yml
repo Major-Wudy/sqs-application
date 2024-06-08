@@ -38,11 +38,15 @@ jobs:
 
     - name: Check directory structure
       run: docker-compose exec -T web ls -l src
+
+    - name: Run migrations
+      run: |
+        CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+        docker exec -T $CONTAINER_ID sh -c "cd src && python manage.py migrate"
   
     - name: Run migrations and tests
       run: |
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
-          docker exec $CONTAINER_ID sh -c "cd src && python manage.py migrate"
           docker exec $CONTAINER_ID sh -c "cd src && python manage.py test --verbosity=2"
 
     - name: Tear down Docker Compose
