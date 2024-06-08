@@ -352,7 +352,7 @@ class ApiTestCase(unittest.TestCase):
         response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers=self.header)
         status_code = response.status_code
         print("print response")
-        print(response)
+        print(response.json())
         json = response.json()
         self.assertEqual(status_code, 201)
         self.assertIsInstance(json, dict)
