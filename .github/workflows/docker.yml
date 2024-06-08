@@ -57,7 +57,9 @@ jobs:
           echo "TOKEN_UNIT_TEST=$TOKEN" >> $GITHUB_ENV
 
     - name: Starte Docker Compose neue Env
-      run: docker-compose up -d
+      run: |
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          docker-compose restart $CONTAINER_ID
 
     - name: Run tests
       run: |
@@ -88,6 +90,6 @@ jobs:
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           docker exec $CONTAINER_ID sh -c "cd src && cd application && python -m unittest api_tests.py"
 
-    - name: Tear down Docker Compose
+    - name: Tear down Docker Compose and volumes
       if: always()
       run: docker-compose down -v
