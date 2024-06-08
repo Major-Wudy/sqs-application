@@ -89,6 +89,25 @@ jobs:
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           docker exec $CONTAINER_ID sh -c "cd src && cd application && python -m unittest api_tests.py"
 
+    - name: Run Locust Tests
+      run: docker-compose exec locust-master locust --headless -u 100 -r 10 --run-time 20s --csv=/mnt/locust/reports/report
+
+    - name: Copy Locust Report
+      run: |
+        mkdir -p locust-reports
+        docker cp locust-master:/mnt/locust/reports/report_stats.csv locust-reports/report_stats.csv
+        docker cp locust-master:/mnt/locust/reports/report_distribution.csv locust-reports/report_distribution.csv
+
+    - name: Commit and Push Locust Report
+      run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add locust-reports/*
+          git commit -m "Add Locust performance test report"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Tear down Docker Compose and volumes
       if: always()
       run: docker-compose down -v
