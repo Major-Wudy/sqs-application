@@ -3,6 +3,7 @@ name: Load Performance test 500 Users
 on:
   workflow_run:
     workflows: ["Docker build"]
+
     types:
       - completed
 
