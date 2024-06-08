@@ -22,6 +22,9 @@ RUN apt-get update \
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
+# locust file integrieren
+COPY locustfile.py /app/
+
 # Quellcode kopieren
 COPY src /app/src
 COPY entrypoint.sh /app/

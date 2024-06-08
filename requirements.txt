@@ -13,4 +13,3 @@ testcontainers
 wiremock
 locust
 mysqlclient
-sphinx
