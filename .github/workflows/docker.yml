@@ -42,8 +42,8 @@ jobs:
     - name: Run migrations and tests
       run: |
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
-          docker exec $CONTAINER_ID python src/manage.py migrate
-          docker exec $CONTAINER_ID python src/manage.py test --verbosity=2
+          docker exec $CONTAINER_ID sh -c "cd src && python manage.py migrate"
+          docker exec $CONTAINER_ID sh -c "cd src && python manage.py test --verbosity=2"
 
     - name: Tear down Docker Compose
       if: always()
