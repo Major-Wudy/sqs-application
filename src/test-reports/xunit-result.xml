@@ -1,50 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-	<testsuite name="application.tests.ApiServiceTestCase-20240601160014" tests="4" file="application/tests.py" time="0.005" timestamp="2024-06-01T16:00:14" failures="0" errors="0" skipped="0">
-		<testcase classname="application.tests.ApiServiceTestCase" name="test_create_electricity_from_post" time="0.003" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="253"/>
-		<testcase classname="application.tests.ApiServiceTestCase" name="test_create_flight_from_post" time="0.001" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="264"/>
-		<testcase classname="application.tests.ApiServiceTestCase" name="test_create_fuel_from_post" time="0.001" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="286"/>
-		<testcase classname="application.tests.ApiServiceTestCase" name="test_create_shipping_from_post" time="0.001" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="275"/>
+	<testsuite name="application.tests.ApiServiceTestCase-20240608082414" tests="8" file="application/tests.py" time="0.024" timestamp="2024-06-08T08:24:14" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.ApiServiceTestCase" name="test_create_electricity_from_post" time="0.010" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="253"/>
+		<testcase classname="application.tests.ApiServiceTestCase" name="test_create_flight_from_post" time="0.002" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="274"/>
+		<testcase classname="application.tests.ApiServiceTestCase" name="test_create_fuel_from_post" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="316"/>
+		<testcase classname="application.tests.ApiServiceTestCase" name="test_create_shipping_from_post" time="0.010" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="295"/>
+		<testcase classname="application.tests.ApiServiceTestCase" name="test_get_estimate_for_electricity_from_post" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="269"/>
+		<testcase classname="application.tests.ApiServiceTestCase" name="test_get_estimate_for_flight_from_post" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="290"/>
+		<testcase classname="application.tests.ApiServiceTestCase" name="test_get_estimate_for_fuel_from_post" time="0.000" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="332"/>
+		<testcase classname="application.tests.ApiServiceTestCase" name="test_get_estimate_for_shipping_from_post" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="311"/>
 	</testsuite>
-	<testsuite name="application.tests.CarbonServiceTestCase-20240601160014" tests="2" file="application/tests.py" time="0.002" timestamp="2024-06-01T16:00:14" failures="0" errors="0" skipped="0">
-		<testcase classname="application.tests.CarbonServiceTestCase" name="test_convert_score_to_json" time="0.001" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="190"/>
-		<testcase classname="application.tests.CarbonServiceTestCase" name="test_create_carbon_score" time="0.001" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="173"/>
+	<testsuite name="application.tests.ApiTestCase-20240608082414" tests="4" file="application/tests.py" time="0.059" timestamp="2024-06-08T08:24:14" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.ApiTestCase" name="test_api_create_electricity" time="0.036" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="348"/>
+		<testcase classname="application.tests.ApiTestCase" name="test_api_create_flight" time="0.006" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="360"/>
+		<testcase classname="application.tests.ApiTestCase" name="test_api_create_fuel" time="0.008" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="386"/>
+		<testcase classname="application.tests.ApiTestCase" name="test_api_create_shipping" time="0.010" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="373"/>
 	</testsuite>
-	<testsuite name="application.tests.DistanceUnitTestCase-20240601160014" tests="3" file="application/tests.py" time="0.001" timestamp="2024-06-01T16:00:14" failures="0" errors="0" skipped="0">
-		<testcase classname="application.tests.DistanceUnitTestCase" name="test_default_distance_unit" time="0.000" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="25"/>
-		<testcase classname="application.tests.DistanceUnitTestCase" name="test_distance_unit" time="0.000" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="15"/>
-		<testcase classname="application.tests.DistanceUnitTestCase" name="test_if_distance_unit" time="0.000" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="21"/>
+	<testsuite name="application.tests.CarbonServiceTestCase-20240608082414" tests="2" file="application/tests.py" time="0.004" timestamp="2024-06-08T08:24:14" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.CarbonServiceTestCase" name="test_convert_score_to_json" time="0.002" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="190"/>
+		<testcase classname="application.tests.CarbonServiceTestCase" name="test_create_carbon_score" time="0.002" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="173"/>
 	</testsuite>
-	<testsuite name="application.tests.ElectricityServiceTestCase-20240601160014" tests="2" file="application/tests.py" time="0.001" timestamp="2024-06-01T16:00:14" failures="0" errors="0" skipped="0">
-		<testcase classname="application.tests.ElectricityServiceTestCase" name="test_change_electricity_unit" time="0.000" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="45"/>
-		<testcase classname="application.tests.ElectricityServiceTestCase" name="test_create_electricity_entity" time="0.000" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="36"/>
+	<testsuite name="application.tests.DistanceUnitTestCase-20240608082414" tests="3" file="application/tests.py" time="0.003" timestamp="2024-06-08T08:24:14" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.DistanceUnitTestCase" name="test_default_distance_unit" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="25"/>
+		<testcase classname="application.tests.DistanceUnitTestCase" name="test_distance_unit" time="0.002" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="15"/>
+		<testcase classname="application.tests.DistanceUnitTestCase" name="test_if_distance_unit" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="21"/>
 	</testsuite>
-	<testsuite name="application.tests.EstimatesServiceTestCase-20240601160014" tests="5" file="application/tests.py" time="0.016" timestamp="2024-06-01T16:00:14" failures="0" errors="0" skipped="0">
-		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_electricity_use" time="0.006" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="214"/>
-		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_flight" time="0.002" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="223"/>
-		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_fuel_use" time="0.004" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="233"/>
-		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_shipping" time="0.002" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="228"/>
-		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_post" time="0.000" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="244"/>
+	<testsuite name="application.tests.ElectricityServiceTestCase-20240608082414" tests="2" file="application/tests.py" time="0.002" timestamp="2024-06-08T08:24:14" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.ElectricityServiceTestCase" name="test_change_electricity_unit" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="45"/>
+		<testcase classname="application.tests.ElectricityServiceTestCase" name="test_create_electricity_entity" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="36"/>
 	</testsuite>
-	<testsuite name="application.tests.FlightServiceTestCase-20240601160014" tests="4" file="application/tests.py" time="0.001" timestamp="2024-06-01T16:00:14" failures="0" errors="0" skipped="0">
-		<testcase classname="application.tests.FlightServiceTestCase" name="test_create_flight_entity" time="0.001" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="60"/>
-		<testcase classname="application.tests.FlightServiceTestCase" name="test_create_leg_object" time="0.000" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="69"/>
-		<testcase classname="application.tests.FlightServiceTestCase" name="test_get_cabin_class" time="0.000" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="76"/>
-		<testcase classname="application.tests.FlightServiceTestCase" name="test_iata_airport_info_url" time="0.000" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="85"/>
+	<testsuite name="application.tests.EstimatesServiceTestCase-20240608082414" tests="5" file="application/tests.py" time="0.042" timestamp="2024-06-08T08:24:14" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_electricity_use" time="0.016" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="214"/>
+		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_flight" time="0.008" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="223"/>
+		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_fuel_use" time="0.012" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="233"/>
+		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_get_estimate_for_shipping" time="0.006" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="228"/>
+		<testcase classname="application.tests.EstimatesServiceTestCase" name="test_post" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="244"/>
 	</testsuite>
-	<testsuite name="application.tests.FuelCombustionServiceTestCase-20240601160014" tests="2" file="application/tests.py" time="0.001" timestamp="2024-06-01T16:00:14" failures="0" errors="0" skipped="0">
-		<testcase classname="application.tests.FuelCombustionServiceTestCase" name="test_create_fuel_combustion_entity" time="0.001" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="94">
+	<testsuite name="application.tests.FlightServiceTestCase-20240608082414" tests="4" file="application/tests.py" time="0.002" timestamp="2024-06-08T08:24:14" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.FlightServiceTestCase" name="test_create_flight_entity" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="60"/>
+		<testcase classname="application.tests.FlightServiceTestCase" name="test_create_leg_object" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="69"/>
+		<testcase classname="application.tests.FlightServiceTestCase" name="test_get_cabin_class" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="76"/>
+		<testcase classname="application.tests.FlightServiceTestCase" name="test_iata_airport_info_url" time="0.000" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="85"/>
+	</testsuite>
+	<testsuite name="application.tests.FuelCombustionServiceTestCase-20240608082414" tests="2" file="application/tests.py" time="0.002" timestamp="2024-06-08T08:24:14" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.FuelCombustionServiceTestCase" name="test_create_fuel_combustion_entity" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="94">
 			<system-out><![CDATA[Wrong fuel parameters
 ]]></system-out>
 		</testcase>
-		<testcase classname="application.tests.FuelCombustionServiceTestCase" name="test_fuel_source_type" time="0.001" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="104"/>
+		<testcase classname="application.tests.FuelCombustionServiceTestCase" name="test_fuel_source_type" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="104"/>
 	</testsuite>
-	<testsuite name="application.tests.ShippingServiceTestCase-20240601160014" tests="3" file="application/tests.py" time="0.002" timestamp="2024-06-01T16:00:14" failures="0" errors="0" skipped="0">
-		<testcase classname="application.tests.ShippingServiceTestCase" name="test_create_shipping_entity" time="0.001" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="127">
+	<testsuite name="application.tests.ShippingServiceTestCase-20240608082414" tests="3" file="application/tests.py" time="0.003" timestamp="2024-06-08T08:24:14" failures="0" errors="0" skipped="0">
+		<testcase classname="application.tests.ShippingServiceTestCase" name="test_create_shipping_entity" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="127">
 			<system-out><![CDATA[weight_value is wrong
 ]]></system-out>
 		</testcase>
-		<testcase classname="application.tests.ShippingServiceTestCase" name="test_create_transport" time="0.000" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="161"/>
-		<testcase classname="application.tests.ShippingServiceTestCase" name="test_create_weight_unit" time="0.000" timestamp="2024-06-01T16:00:14" file="application/tests.py" line="148"/>
+		<testcase classname="application.tests.ShippingServiceTestCase" name="test_create_transport" time="0.000" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="161"/>
+		<testcase classname="application.tests.ShippingServiceTestCase" name="test_create_weight_unit" time="0.001" timestamp="2024-06-08T08:24:14" file="application/tests.py" line="148"/>
 	</testsuite>
 </testsuites>
