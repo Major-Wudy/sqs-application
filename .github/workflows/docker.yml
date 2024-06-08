@@ -33,6 +33,15 @@ jobs:
           sleep 1
         done
 
+    - name: List containers
+      run: docker ps
+  
+    - name: Run migrations and tests
+      run: |
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application-web-1")
+          docker exec -T $CONTAINER_ID python src/manage.py migrate
+          docker exec -T $CONTAINER_ID python src/manage.py test
+
     - name: Run tests
       run: docker-compose exec -T web sh -c "python src/manage.py migrate && python src/manage.py test"
 
