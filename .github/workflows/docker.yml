@@ -33,11 +33,6 @@ jobs:
           sleep 1
         done
 
-    - name: Create user with auth token in MySQL
-      run: |
-          CONTAINER_ID=$(docker ps -qf "name=sqs-application_db_1")
-          docker exec sh -c 'mysql -h db -u root sqs < /app/src/application/migrations/initdb.sql'
-
     - name: Print environment variables
       run: |
           env
@@ -47,8 +42,13 @@ jobs:
 
     - name: Run migrations
       run: |
-        CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
-        docker exec $CONTAINER_ID sh -c "cd src && python manage.py migrate"
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          docker exec $CONTAINER_ID sh -c "cd src && python manage.py migrate"
+
+    - name: Create user with auth token in MySQL
+      run: |
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application_db_1")
+          docker exec $CONTAINER_ID sh -c 'mysql -h db -u root sqs < /app/src/application/migrations/initdb.sql'
   
     - name: Run migrations and tests
       run: |
