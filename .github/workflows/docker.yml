@@ -93,7 +93,7 @@ jobs:
       run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          git checkout main
+          git checkout master
           git add .
           git commit -m "Auto-commit after successful build and test"
           git push origin main
