@@ -64,10 +64,31 @@ jobs:
       run: |
            env
 
-    - name: Run migrations and tests
+    - name: Run tests
       run: |
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
-          docker exec $CONTAINER_ID sh -c "cd src && python manage.py test --verbosity=2"
+          docker exec $CONTAINER_ID sh -c "cd src && coverage run manage.py test --verbosity=2 && coverage xml -o coverage-reports/coverage.xml"
+
+    - name: Edit coverage report
+      run: |
+          sed -i 's|<source>/home/runner/work/sqs-application/sqs-application/src</source>|<source>/usr/src/</source>|g' src/coverage-reports/coverage.xml
+
+    - name: Commit coverage report
+      run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add src/coverage-reports/coverage.xml
+          git commit -m 'Add coverage report'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Run ArchUnit with Import-linter
+      run: |
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          docker exec $CONTAINER_ID sh -c "cd src && lint-imports"
+          cd src
+          lint-imports
 
     - name: Tear down Docker Compose
       if: always()
