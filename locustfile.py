@@ -1,11 +1,9 @@
 import time
 import os
-from dotenv import load_dotenv
 from locust import HttpUser, task, between
 import json
 
 class QuickstartUser(HttpUser):
-    load_dotenv()
     wait_time = between(1, 5)
     header = {'Authorization': 'Bearer ' + os.environ.get('TOKEN_UNIT_TEST'), "Content-Type": "application/json"}
 

@@ -47,6 +47,8 @@ services:
 
   locust-master:
     image: locustio/locust
+    environment:
+    - TOKEN_UNIT_TEST=dcd52b4996698b6c5db63df6894550fe1069d2a0
     container_name: locust-master
     ports:
       - "8089:8089"
@@ -58,6 +60,8 @@ services:
 
   locust-worker:
     image: locustio/locust
+    environment:
+    - TOKEN_UNIT_TEST=dcd52b4996698b6c5db63df6894550fe1069d2a0
     container_name: locust-worker
     volumes:
       - ./:/mnt/locust
