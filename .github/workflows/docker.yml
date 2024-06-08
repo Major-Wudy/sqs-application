@@ -59,11 +59,6 @@ jobs:
     - name: Starte Docker Compose neue Env
       run: docker-compose up -d
 
-
-    - name: Print environment variables
-      run: |
-           env
-
     - name: Run tests
       run: |
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
@@ -93,11 +88,19 @@ jobs:
       with:
         ref: dev
 
-    - name: Push to Main
-      if: success()
+    - name: Set up Git
       run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+
+    - name: Change permissions and clean up
+      run: |
+          chmod -R +rw /home/runner/work/sqs-application/sqs-application/src
+          rm -rf /home/runner/work/sqs-application/sqs-application/src
+
+    - name: Push to Main
+      if: success()
+      run: |
           git checkout main
           git merge --no-ff $GITHUB_SHA
           git push origin main
