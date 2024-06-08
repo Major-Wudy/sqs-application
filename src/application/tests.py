@@ -345,14 +345,10 @@ class ApiTestCase(unittest.TestCase):
     flight_endpoint = "/api/create/flight/"
     shipping_endpoint = "/api/create/shipping/"
     fuel_endpoint = "/api/create/fuel/"
-    print("print token")
-    print(os.environ.get('TOKEN_UNIT_TEST'))
     header = {'Authorization': 'Bearer ' + os.environ.get('TOKEN_UNIT_TEST')}
     def test_api_create_electricity(self):
         response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers=self.header)
         status_code = response.status_code
-        print("print response")
-        print(response.json())
         json = response.json()
         self.assertEqual(status_code, 201)
         self.assertIsInstance(json, dict)
