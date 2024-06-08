@@ -33,6 +33,9 @@ jobs:
           sleep 1
         done
 
+    - name: Wait for server to start
+      run: sleep 30s
+
     - name: List containers
       run: docker ps
 
