@@ -50,7 +50,7 @@ jobs:
                   sed -i "s/TOKEN_UNIT_TEST=dcd52b4996698b6c5db63df6894550fe1069d2a0/TOKEN_UNIT_TEST=$TOKEN/g" docker-compose.yaml
                   echo "TOKEN_UNIT_TEST=$TOKEN" >> $GITHUB_ENV
         
-            - name: Starte Docker Compose neue Env
+            - name: Starte Docker Compose neue env
               run: |
                   docker-compose up -d
             
