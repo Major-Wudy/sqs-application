@@ -340,6 +340,7 @@ import simplejson as json
 import requests
 class ApiTestCase(unittest.TestCase):
     c = Client()
+    load_dotenv()
     electricity_endpoint = "/api/create/electricity/"
     flight_endpoint = "/api/create/flight/"
     shipping_endpoint = "/api/create/shipping/"

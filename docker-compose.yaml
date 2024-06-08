@@ -1,8 +1,17 @@
 version: '3.9'
 
 services:
+  wiremock:
+    image: wiremock/wiremock:latest
+    container_name: wiremock
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./wiremock/stubs:/home/wiremock
+
   web:
     build:
+      context: .
       dockerfile: src/Dockerfile
     command: ["sh", "-c", "python src/manage.py runserver 0.0.0.0:8000"]
     volumes:
@@ -11,18 +20,24 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - wiremock
     environment:
       - DB_HOST=db
       - DB_NAME=sqs
       - DB_USER=root
       - DB_PASSWORD=
       - DB_PORT=3306
+      - API_BASE_URL=http://wiremock:8080/api/v1/
+      - API_KEY=API_KEY
+      - TOKEN_UNIT_TEST=123
+      - SECRET_KEY=yoursupersecuresecretkey
+      - DJANGO_SUPERUSER_PASSWORD=thatsmysecretpw123!
 
   db:
     image: mysql:latest
     restart: on-failure:3
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
       MYSQL_DATABASE: sqs
     ports:
       - "3306:3306"
