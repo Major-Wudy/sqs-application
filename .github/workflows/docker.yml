@@ -86,7 +86,7 @@ jobs:
     - name: Run ArchUnit with Import-linter
       run: |
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
-          docker exec $CONTAINER_ID sh -c "cd src && python -m lint-imports"
+          docker exec $CONTAINER_ID sh -c "cd src && python -m import-linter lint-imports"
 
     - name: Tear down Docker Compose
       if: always()
