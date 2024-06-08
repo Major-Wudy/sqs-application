@@ -58,7 +58,7 @@ jobs:
 
     - name: Starte Docker Compose neue Env
       run: |
-          docker-compose restart sqs-application_web_1
+          docker-compose restart web
 
     - name: Run tests
       run: |
