@@ -23,7 +23,7 @@ jobs:
       run: sudo apt-get install docker-compose
 
     - name: Build and run Docker Compose
-      run: docker-compose up -d --build
+      run: docker-compose up -d -t appimage --build
 
     - name: Wait for MySQL
       run: |
@@ -35,7 +35,7 @@ jobs:
 
     - name: Create user with auth token in MySQL
       run: |
-          mysql -h 127.0.0.1 -P 3306 -u root sqs < /app/src/application/migrations/initdb.sql
+          docker run --rm -e "DB_NAME=sqs" appimage sh -c 'mysql -h db -u root "$DB_NAME" < /app/src/application/migrations/initdb.sql'
 
     - name: Print environment variables
       run: |
