@@ -94,6 +94,23 @@ jobs:
           CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
           docker exec locust-master sh -c "cd /mnt/locust/ && locust --headless -u 100 -r 10 --run-time 30s --host=http://web:8000/"
 
+    - name: Run Karate API Tests
+      run: |
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application_karate_1")
+          docker exec $CONTAINER_ID sh -c "java -jar karate.jar tests"
+
+          docker cp $CONTAINER_ID:/karate/target/karate-reports/karate-summary.html karate/reports/
+
+    - name: Commit karate report
+      run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add karate/reports/*
+          git commit -m 'Add karate report'
+          git push
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Tear down Docker Compose and volumes
       if: always()
       run: docker-compose down -v
