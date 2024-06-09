@@ -62,14 +62,14 @@ class FlightServiceTestCase(unittest.TestCase):
         fl = fs.create_flight_entity(2, "MUC", "DUB", "KM", "economy")
         self.assertEqual(fl.type, "flight")
         self.assertEqual(fl.passengers, 2)
-        self.assertEqual(fl.leg.depature_airport, "MUC")
+        self.assertEqual(fl.leg.departure_airport, "MUC")
         self.assertEqual(fl.leg.destination_airport, "DUB")
         self.assertEqual(fl.leg.cabin_class, "economy")
 
     def test_create_leg_object(self):
         fs = FlightService()
         leg = fs.create_leg_object("MUC", "DUB", "premium")
-        self.assertEqual(leg.depature_airport, "MUC")
+        self.assertEqual(leg.departure_airport, "MUC")
         self.assertEqual(leg.destination_airport, "DUB")
         self.assertEqual(leg.cabin_class, "premium")
 
@@ -272,7 +272,7 @@ class ApiServiceTestCase(unittest.TestCase):
         self.assertTrue(resp, dict)
 
     def test_create_flight_from_post(self):
-        flight_json = {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}
+        flight_json = {"passengers":2,"legs":[{"departure":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}
         resp = self.api.create_flight_from_post(flight_json)
         self.assertEqual(resp.status_code, 201)
         self.assertTrue(resp, dict)
@@ -282,7 +282,7 @@ class ApiServiceTestCase(unittest.TestCase):
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(resp, dict)
         
-        wrong_json = {"passengers":"test","legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}
+        wrong_json = {"passengers":"test","legs":[{"departure":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}
         resp = self.api.create_flight_from_post(wrong_json)
         self.assertEqual(resp.status_code, 500)
         self.assertTrue(resp, dict)
@@ -359,7 +359,7 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(json.get('state'), "fl")
 
     def test_api_create_flight(self):
-        response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers=self.header, content_type='application/json')
+        response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"departure":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers=self.header, content_type='application/json')
         status_code = response.status_code
         result = response.json()
         self.assertEqual(status_code, 201)

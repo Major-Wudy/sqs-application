@@ -22,13 +22,13 @@ import simplejson as json
 """
 class FlightService():
     @classmethod
-    def create_flight_entity(cls, passengers: int, depature: str, destination: str, distance_unit: str, cabin: str) -> Flight:
+    def create_flight_entity(cls, passengers: int, departure: str, destination: str, distance_unit: str, cabin: str) -> Flight:
         try:
-            if not isinstance(passengers, int) or not isinstance(depature, str) or not isinstance(destination, str) or not isinstance(distance_unit, str) or not isinstance(cabin, str):
+            if not isinstance(passengers, int) or not isinstance(departure, str) or not isinstance(destination, str) or not isinstance(distance_unit, str) or not isinstance(cabin, str):
                 raise TypeError()
             
             distance_unit = create_distance_unit(distance_unit)
-            leg_object = cls.create_leg_object(depature, destination, cabin)
+            leg_object = cls.create_leg_object(departure, destination, cabin)
             return Flight(ActivityType.FLIGHT, passengers, leg_object, distance_unit)
         except TypeError:
             print("Wrong parameters flight")
@@ -36,19 +36,19 @@ class FlightService():
     """create needed leg object for your flight entity. containing destination and departure airports and choosen cabin class
 
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
-    :param depature: Airport from which you are departing. International abbreviation Dublin equals DUB
-    :type depature: str
+    :param departure: Airport from which you are departing. International abbreviation Dublin equals DUB
+    :type departure: str
     :param destination: Airport where you arrive. International abbreviation Munich equals MUC
     :type destination: str
     :param cabin: Cabin class you intending to book
     :type cabin: str
-    :returns: Leg entity containing destination and depature Airports and cabin class  
+    :returns: Leg entity containing destination and departure Airports and cabin class  
     :rtype: Leg
     """
     @classmethod
-    def create_leg_object(cls, depature: str, destination: str, cabin: str) -> Leg:
+    def create_leg_object(cls, departure: str, destination: str, cabin: str) -> Leg:
             cabin_class = cls.get_cabin_class(cabin)
-            return Leg(depature, destination, cabin_class)
+            return Leg(departure, destination, cabin_class)
 
     """get cabin class from given string value
 
@@ -79,8 +79,8 @@ class FlightService():
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
     :param passangers: Amount of passengers
     :type passengers: int
-    :param depature:  Airport from which you are departing. International abbreviation Dublin equals DUB
-    :type depature: str
+    :param departure:  Airport from which you are departing. International abbreviation Dublin equals DUB
+    :type departure: str
     :param destination: Airport where you arrive. International abbreviation Munich equals MUC
     :type destination: str 
     :param unit: the distance unit you want your estimates be based on km or mi 
@@ -90,7 +90,7 @@ class FlightService():
     :returns: server response as json
     """
     @abstractmethod
-    def get_estimate_for_flight(self, passengers: int, depature: str, destination: str, unit: str, cabin: str):
+    def get_estimate_for_flight(self, passengers: int, departure: str, destination: str, unit: str, cabin: str):
         pass
     
     """Helper function for possible ui implementation 
@@ -117,6 +117,6 @@ class FlightService():
         return {
                 "type": flight.type.value,
                 "passengers": str(flight.passengers),
-                "legs": [{"departure_airport":flight.leg.depature_airport, "destination_airport":flight.leg.destination_airport, "cabin_class": flight.leg.cabin_class.value}],
+                "legs": [{"departure_airport":flight.leg.departure_airport, "destination_airport":flight.leg.destination_airport, "cabin_class": flight.leg.cabin_class.value}],
                 "distance_unit": flight.distance_unit.value,
                 }

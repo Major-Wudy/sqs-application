@@ -1,4 +1,4 @@
-name: Load Performance test 200 Users
+name: Load Performance test 100 Users
 
 on:
   workflow_run:
@@ -10,6 +10,7 @@ on:
 
 jobs:
     load_performance:
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code

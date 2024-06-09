@@ -188,7 +188,7 @@ def get_estimate_electricity(request):
                     "passengers":2,
                     "legs":[
                         {
-                            "depature":"MUC",
+                            "departure":"MUC",
                             "destination":"DUB",
                             "class":"premium"
                         }

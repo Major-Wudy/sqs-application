@@ -109,7 +109,7 @@ class ApiServices():
                 raise TypeError('leg is not a dict')
 
             fs = FlightService()
-            flight = fs.create_flight_entity(int(passengers), legs[0]['depature'], legs[0]['destination'], unit, legs[0]['class'])
+            flight = fs.create_flight_entity(int(passengers), legs[0]['departure'], legs[0]['destination'], unit, legs[0]['class'])
             json =  fs.convert_flight_entity_to_json(flight)
             return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
