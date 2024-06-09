@@ -13,5 +13,5 @@ COPY tests /karate/tests
 # Setze den Klassenpfad
 ENV CLASSPATH=/karate
 
-# Standard-Kommando für die Ausführung der Karate-Tests
-CMD ["java", "-jar", "karate.jar", "tests"]
+# Standard-Kommando
+CMD ["tail", "-f", "/dev/null"]
