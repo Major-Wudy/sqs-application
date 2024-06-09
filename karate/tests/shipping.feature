@@ -9,6 +9,11 @@ Feature: Test POST /api/create/shipping/
     When method post
     Then status 201
 
+  Scenario: Get shipping estimate - Attempt GET request
+    Given request {"weight_value": 123.45,"weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}
+    When method GET
+    Then status 405
+
   Scenario: Create shipping - Invalid input
     Given request {"weight_value": "test","weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}
     When method post

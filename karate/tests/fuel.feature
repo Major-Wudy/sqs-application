@@ -9,6 +9,11 @@ Feature: Test POST /api/create/fuel/
     When method post
     Then status 201
 
+  Scenario: Get fuel estimate - Attempt GET request
+    Given request { "source": "Natural Gas", "value": 500 }
+    When method GET
+    Then status 405
+
   Scenario: Create fuel - Invalid value
     Given request { "source": "Natural Gas", "value": "test" }
     When method post

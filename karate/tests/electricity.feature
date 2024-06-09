@@ -9,6 +9,11 @@ Feature: Test POST /api/create/electricity/
     When method post
     Then status 201
 
+  Scenario: Get electricity estimate - Attempt GET request
+    Given request { "value": 100.5, "country": "us", "state": "fl", "unit": "kwh" }
+    When method GET
+    Then status 405
+
   Scenario: Create electricity - Invalid value
     Given request { "value": "test", "country": "us", "state": "fl", "unit": "kwh" }
     When method post
