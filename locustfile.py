@@ -14,7 +14,7 @@ class QuickstartUser(HttpUser):
     
     @task(1)
     def create_flight(self):
-        flight = self.client.post("api/create/flight/", json={"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers=self.header)
+        flight = self.client.post("api/create/flight/", json={"passengers":2,"legs":[{"departure":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers=self.header)
         response = self.client.post("api/get/estimate/flight/", json=flight.json(), headers=self.header)
     
     @task(1)
