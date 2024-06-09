@@ -69,5 +69,16 @@ services:
     depends_on:
       - locust-master
 
+  karate:
+    build:
+      context: ./karate
+      dockerfile: Dockerfile
+    environment:
+      - KARATE_ENV=dev
+      - TOKEN_UNIT_TEST=dcd52b4996698b6c5db63df6894550fe1069d2a0
+    depends_on:
+      - web
+    entrypoint: ["sh", "-c", "sleep 20 && java -jar karate.jar tests"]
+
 volumes:
   mysql-data:

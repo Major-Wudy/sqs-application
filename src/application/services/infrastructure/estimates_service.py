@@ -99,8 +99,8 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
         :param passengers: Amount of passengers for your estimation
         :type passengers: int
-        :param depature: Airport from which you are departing. official abbreviation
-        :type depature: str
+        :param departure: Airport from which you are departing. official abbreviation
+        :type departure: str
         :param destination: Airport where you arrive. offical abbreviation
         :type destination: str
         :param unit: distance unit you want your estimation based on km or mi
@@ -110,10 +110,10 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
         :returns: server response as json
         :rtype: dict
     """
-    def get_estimate_for_flight(self, passengers: int, depature: str, destination: str, unit: str, cabin: str):
+    def get_estimate_for_flight(self, passengers: int, departure: str, destination: str, unit: str, cabin: str):
         try:
             fs = FlightService()
-            fl = fs.create_flight_entity(passengers, depature, destination, unit, cabin)
+            fl = fs.create_flight_entity(passengers, departure, destination, unit, cabin)
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
             
