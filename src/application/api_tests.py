@@ -69,7 +69,7 @@ class ApiTestCase(unittest.TestCase):
 
     # Api test flight
     def test_api_create_flight(self):
-        response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers=self.header, content_type='application/json')
+        response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"departure":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers=self.header, content_type='application/json')
         status_code = response.status_code
         result = response.json()
         self.assertEqual(status_code, 201)
@@ -82,7 +82,7 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('distance_unit'), "km")
     
     def test_api_create_flight_401(self): 
-        response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"depature":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"})
+        response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"departure":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"})
         status_code = response.status_code
         self.assertEqual(status_code, 401)
 
