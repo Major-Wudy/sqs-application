@@ -42,7 +42,7 @@ Die Anwendung soll folgende Qualitätsziele (QZ) erreichen:
 
 | Priorität    | Qualitätsziel  | Szenatio          |
 |--------------|----------------|-------------------|
-| 1 | Zuverlässigkeit | Das System führt Funktionen unter den festgelegten Bedingungen und Umgebungen aus. Geringe "meantime zo recovery" und niedrige Anzahl an Ausfällen. | 
+| 1 | Zuverlässigkeit | Das System führt Funktionen unter den festgelegten Bedingungen und Umgebungen aus. Geringe "meantime to recovery" und niedrige Anzahl an Ausfällen. | 
 | 2 | Wartbarkeit | Das System kann modifiziert werden, um es zu verbessern, korrigieren oder an geänderte Bedürfnisse anpassen. Übernimmt ein anderer Entwickler das System können eigene Funktionalitäten und Verbesserungen in das System eingearbeitet werden |
 | 3 | Benutzerfreundlichkeit | Das System kann verstanden, erlent und verwendet werden und ist attraktiv für Benutzende. Ein Anwender soll die Anwendung ohne Einführung in das System verwenden können. Die Oberflächen und Funktionen sollen selbsterklärend sein oder direkte Hilfestellungen anbieten |
 | 4 | Übertragbarkeit | Das System kann auf verschiedene Umgebungen übertragen werden. Das System soll unteranderem Betriebssystem unabhängig sein. |
@@ -59,26 +59,22 @@ Die Anwendung soll folgende Qualitätsziele (QZ) erreichen:
 | Anwender | - | Das System funktioniert, ist benutzerfreundlich und erfüllt die Erwartung, die der Anwender vom System hat |
 | zukünftige Entwickler/Maintainer | - | Das System ist wartbar, modizifierbar und lässt sich luaffähig aufsetzen |
 | CarbonInterface API | https://www.carboninterface.com/ | Verwendung der API nach Vorgaben des Anbieters |
-| Auth0 | https://auth0.com/ | Verwendung der API nach Vorgaben des Anbieters |
-
   
 
 # Randbedingungen
 
 Technischer Art:
-- Deployment und Entwicklung mit Docker (damit verbundenes OS in Docker ist Linux - Ubuntu)
+- Entwicklung mit Docker (damit verbundenes OS in Docker ist Linux - Ubuntu)
 - Programmiersprache des Backends ist Python
-- Framework: ?
-- Frontend: HTML und Bootstrap 5
-- Datenbank: MongoDB
-- Externes Systeme: https://docs.carboninterface.com/#/, Auth0 https://auth0.com/
-- API-Dokumentation mit Swagger für pyhton
+- Framework: Django
+- Datenbank: MySQL
+- Externes Systeme: https://docs.carboninterface.com/#/
+- API-Dokumentation nach OpenAPI Standard und Swagger als UI
 
 Organisatorischer Art:
-- Zeit: xx.06.24 Ende Sommersemester 2024
+- Zeit: 23.06.24 Abgabetermin Software
 - Budget: kein finanzielles Interesse
 - Dokumente und Unterlage aus der Vorlesung SQS beeinflussen die Entwicklung
-- 
   
 
 # Kontextabgrenzung
@@ -140,7 +136,21 @@ Liste der Kommunikationsbeziehungen:
 
 # Lösungsstrategie
 
-  
+| Qualitätsziel | Lösungsansatz | Link zu Details |
+|--------------|----------------|-------------------|
+| Robustheit | Über Infrastructure as Code (Iac) in einem Dockerfile läuft die Anwendung in der vorgegebenen lauffähigen Umgebung unter denselben Bedingungen. | |
+| Meantime to recovery | Angabe einer Anzahl von Versuchen an Neustarts wenn der Dockercontainer auf einen Fehler läuft. | [Docker Dokumentation](https://docs.docker.com/config/containers/start-containers-automatically/) | 
+| Ausfallsicherheit| Docker-Container sind multiinstanzfähig und können über die docker-compose gesteuert werden. Damit die Ausfallsicherheit gegeben ist, werden mind. 2 Container für die Anwendung erstellt. | [Docker Dokumentation](https://docs.docker.com/compose/compose-file/deploy/#replicas) |
+| Verfügbarkeit| Es wird bei einem fehlerhaftem Request gegen die 3rd Party Schnittstelle eine Meldung an den Anwender herausgegeben, wenn die 3rd Party Schnittstelle nicht erreicht werden kann. ||
+| Tests| Die Fachlichkeiten der Anwendungen werden mit Unittests geprüft und mit einem Tool zur Code Coverage gemessen. Die Ergebnisse werden auch an ein Statisches Analyse Tool übergeben | [Coverage](https://coverage.readthedocs.io/en/7.5.3/), [unittests](https://docs.python.org/3/library/unittest.html), [Statische Code Analyse](https://docs.sonarsource.com/sonarqube/latest/?_gl=1*gpc57o*_up*MQ..&gclid=EAIaIQobChMI8p6F85LWhgMVJmxBAh3mkglcEAAYASAAEgIvvPD_BwE) |
+| Wartung| ||
+| Kognitive Last| Die kognitive Last der Funktionen wird mit einem Analyse-Tool geprüft. | [Statische Code Analyse](https://docs.sonarsource.com/sonarqube/latest/?_gl=1*gpc57o*_up*MQ..&gclid=EAIaIQobChMI8p6F85LWhgMVJmxBAh3mkglcEAAYASAAEgIvvPD_BwE) |
+| Verbesserung | Durch den Onion Architecture Ansatz sollen Verbesserungen ohne Anpassungen der Fachlichkeit möglich sein. | [Onion Architekture](https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/) |
+| einfache Handhabung| Das Userinterface für Admins soll dem OpenAPI Standard folgen für einfache und einheitliche Handhabung. Daher wird Swagger mit OpenAPI Standard 3.0 für die Admin UI im API Bereich verwendet | [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest/readme.html) |
+| Effizienz|  |
+| Betriebssystem unabhängig| Um die unterschiedliche Hardware der Entwickler und Anwender in de Griff zu bekommen, wir die Anwendung mit Docker entwickelt. Damit wird im Container die richtige Laufzeitumgebung für die Anwendung definiert und die Plattform des Entwicklers ist egal. Außerdem wird die Anwendung als Webanwendung entwickelt und ist damit mit einem Browser für Anwendung zugänglich. | [Docker Dokumentation](https://docs.docker.com/) |
+| Übertragbar | Damit die Anwendung von einer Umgebung in eine andere übertragbar ist, wird die Anwendung mit Docker entwickelt. Container an Stelle A herunterfahren ohne Änderungen an Stelle B hochfahren |  |
+| Abgesichert | Alle Abfragen an das System über die API sind mit einem Bearer Token abgesichert. | [Django Restframework Auth](https://www.django-rest-framework.org/api-guide/authentication/) |
 
 # Bausteinsicht
 
@@ -298,6 +308,12 @@ Wichtige Schnittstellen  
 
 -   \<hier Laufzeitdiagramm oder Ablaufbeschreibung einfügen>
 
+### Ablaufbeschreibung
+1. gewünschte Aktivität über die UI auswählen (Electricity, Flight, Shipping, Fuel)
+1. Daten der ausgewählten Aktivität in die UI nach vorgegebenem Schema (JSON) eingeben
+1. Über die UI den HTTP POST Request mit den gewünschten Daten absenden
+1. Auf Rückmeldung des Systems warten
+
   
 
 -   \<hier Besonderheiten bei dem Zusammenspiel der Bausteine in diesem
@@ -452,19 +468,35 @@ python:
 
 | **Kategorie** | **Bemerkung** |
 |-----------------|-------------------|
+| Titel | Framework der Anwendung |
+| Kontext | In welchem Framework soll die Anwendung programmiert werden. Einschränkungen: Programmiersprache Python |
+| Entscheidung | Django | 
+| Status | accepted | 
+| Konsequenzen | Die Anwendung wird mit dem Framework Django entwickelt. |
+
+| **Kategorie** | **Bemerkung** |
+|-----------------|-------------------|
 | Titel | Architektur der Anwendung |
 | Kontext | In welchem Architektur Modell soll die Anwendung entwickelt werden? Layer oder Oinion |
-| Entscheidung | Onion architecture | 
+| Entscheidung | onion architecture | 
 | Status | accepted | 
 | Konsequenzen | Die Anwendung wird aufgrund der angestrebten Wartbarkeit in der onion Architektur entwickelt. |
 
 | **Kategorie** | **Bemerkung** |
 |-----------------|-------------------|
-| Titel | Deployment der Anwendung |
+| Titel | Deployment der Anwendung und Entwicklungsumgebung |
 | Kontext | Auf welche Art soll die Anwendung deployed werden? |
 | Entscheidung | Docker | 
-| Status | proposed | 
-| Konsequenzen | tbd |
+| Status | accepted | 
+| Konsequenzen | Die Anwendung wird aufgrund der angestrebten Wartbarkeit und Plattformunabhängigkeit in Docker entwickelt und deployed werden. |
+
+| **Kategorie** | **Bemerkung** |
+|-----------------|-------------------|
+| Titel | Datenbank der Anwendung |
+| Kontext | In welchem Datenbanksystem sollen Daten gespeichert werden. |
+| Entscheidung | MyxSQL | 
+| Status | accepted | 
+| Konsequenzen | Da bereits Erfahrungen mit Docker in Verbindung mit MySQL vorhanden sind, wird MySQL als Datenbank verwendet. |
 
 # Qualitätsanforderungen
 
@@ -474,30 +506,37 @@ python:
 
 | **Qualitätskategorie** | **Qualität** | **Beschreibung** | **Qualitätsszenario** |
 |-----------------|-------------------|-------------------|-------------------|
-| Zuverlässigkeit (1) | Robustheit | Das System soll zuverlässig unter den angegebenen Laufzeitumgebung laufen. | |
-| | Geringe meantime to recovery | Das System soll nach einem Ausfall schnellstmöglich wieder verfügbar sein. | |
-| | Ausfallsicherheit | Das System soll multiinstanzfähig sein. | |
-| | Verfügbarkeit | Bei nicht vorhanden sein der externen Schnittstellen soll das System den Anwender über die eingeschränkte Funktionalität informieren. | 
-| | Tests | Das System soll eine Codecoverage von >= 80% aufweisen. | |
-| Wartbarkeit (2) | Wartung | Es sollen außerhalb des fachlichen Kerns der Anwendung Komponenten ausgetauscht werden können, ohne die Fachlichkeit der Anwendung zu beeinflussen. Die kognitive Komplexität von Funktionen soll <= 15 sein. | |
-| | Verbesserung | Es sollen Verbesserungen für die Anwendung implementiert werden können, die die bestehende Fachlichkeit erweitern ohne diese zu verändern. | | 
-| | Reparatur | Bei einem Ausfall soll die Anwendung einen Recovery und Backup Plan verfolgen für sachgerechtes wiederaufsetzen des Systems | |
-| Benutzerfreundlichkeit (3) | einfache Handhabung | Einfache Handhabung für umweltbewusste Personen, speziell bezogen auf eine kurze Zeit zur Eingabe der Daten und bis zum Ergebnis. | | 
-| | einfaches Erlernen | Die Oberfläche der Anwendung ist selbsterklärend und Funktionen, die komplexer sind, sind Hilfestellungen für den Anwender leicht einsehbar und ersichtlich | |
-| | Effizienz | Die Anwendung soll in zufriedenstellender Zeit eine Antowrt auf die Eingaben des Anwenders liefern. | |
-| | Rechtschreibung | Die Oberflächen sollen keine Rechtschreibfehler enthalten. | |
-| | Grammatik | Die Oberflächen sollen keine Grammatikfehler enthalten. | |
-| Übertragbarkeit (4) | Betriebssystem unabhängig | Das System soll unabhängig vom Betriebssystem lauffähig sein. | |
-| | Übertragbar | Das System soll leicht von einem System auf ein anderes überführt werden können. | |
-| Sicherheit | Abgesichert | Anfragen sollen nur von authentifizierten Anwendern getätigt werden können. | |
-| | Datensicherheit | Bei einem Ausfall sollen die Daten gesichert und persistent verfügbar sein. | |  
-| Kulturell und Regional | Mehrsprachig | Die Benutzeroberflächen der Anwendung sollen in deutscher und englischer Sprache verfügbar sein. | | 
+| Zuverlässigkeit (1) | Robustheit | Das System soll zuverlässig unter den angegebenen Laufzeitumgebung laufen. | 1 |
+| | Geringe meantime to recovery | Das System soll nach einem Ausfall schnellstmöglich wieder verfügbar sein. | 2 |
+| | Ausfallsicherheit | Das System soll multiinstanzfähig sein. | 3 |
+| | Verfügbarkeit | Bei nicht vorhanden sein der externen Schnittstellen soll das System den Anwender über die eingeschränkte Funktionalität informieren. | 4 |
+| | Tests | Das System soll eine Codecoverage von >= 80% aufweisen. | 5 |
+| Wartbarkeit (2) | Wartung | Es sollen außerhalb des fachlichen Kerns der Anwendung Komponenten ausgetauscht werden können, ohne die Fachlichkeit der Anwendung zu beeinflussen.| 6 |
+| | Kognitive Last | Die kognitive Komplexität von Funktionen soll <= 15 sein. | 7 |
+| | Verbesserung | Es sollen Verbesserungen für die Anwendung implementiert werden können, die die bestehende Fachlichkeit erweitern ohne diese zu verändern. | 8 | 
+| Benutzerfreundlichkeit (3) | einfache Handhabung | Einfache Handhabung für umweltbewusste Personen, speziell bezogen auf die Verwendung der Anwendung. | 9 | 
+| | Effizienz | Die Anwendung soll in zufriedenstellender Zeit eine Antowrt auf die Eingaben des Anwenders liefern. | 10 |
+| Übertragbarkeit (4) | Betriebssystem unabhängig | Das System soll unabhängig vom Betriebssystem lauffähig sein. | 11 |
+| | Übertragbar | Das System soll leicht von einem System auf ein anderes überführt werden können. | 12 |
+| Sicherheit | Abgesichert | Anfragen sollen nur von authentifizierten Anwendern getätigt werden können. | 13 |
 
 ## Qualitätsszenarien
 
 | **ID** | **Beschreibung** |
 |-----------------|-------------------|
-| 1 | tbd | 
+| 1 | Über 20 Minuten hinweg soll das System einer Last von 100 Usern mit ca. 50 Requests pro Sekunde standhalten. |
+| 2 | Bei Systemabsturz soll sich die selbst neustarten. Dies soll die Anwendung 5x veruschen, bevor es in einen dauerhaften Fehlerzustand übergeht. |
+| 3 | Beim Ausfall einer Instanz der Anwendung soll die Möglichkeit besitzen, den Trafiic der ausgefallenen Instanz auf andere Instanzen weiterzugeben. |
+| 4 | Ist eine externe Schnittstelle nicht verfügbar, soll das System einen Hinweis darauf liefern und weiterlaufen. |
+| 5 | Die Logik des Systems ist durch Unittests getestet und kann durch ein Tool ausgewertet werden. Die Auswertung der Testabdeckung muss dabei >= 80% sein. |
+| 6 | Wird eine ander Datenbank oder ein andere Schnittstelle zur Berechnung des CarbonScores verwendet, kann diese ohne Anpassung der Fachlichkeit ausgetauscht und implementiert werden. |
+| 7 | Eine Funktion soll leicht verständlich sein und damit eine kognitiven Last von <= 15 sein. Diese soll über ein externes Tool geprüft werden. |
+| 8 | Bei Verbesserungen oder neuen Funktionen sollen diese in das Sytem implementiert werden können, ohne dass der Fachliche Kern der Anwendung angepasst werden muss. Beispiel: Hinzufügen eines Benutzerprofils für das Speicher der gesendeten Anfragen pro Benutzer |
+| 9 | Ein Anwender kann ohne weitere Dokumentation zur Verwendung der Anwendung die Anwendung erfolgreich bedienen. |
+| 10 | Die Anwendung soll innerhalb einer Sekunde eine Anwort an den Anwender senden. |
+| 11 | Egal ob Windwos, Mac oder Linux: Die Anwendung ist unter allen Betriebssystemen ausführbar. |
+| 12 | Die Anwendung kann von einem System auf das andere portiert werden. Beispiel: Virtualisierte Anwendung als Docker Container. |
+| 13 | Anfragen an die Software können nur mit Token, die von der Anwendung ausgestellt sind erfolgen. Beispiel Auth mit Bearer Token für die API. |
   
 
 # Risiken und technische Schulden
