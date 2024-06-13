@@ -8,6 +8,7 @@ src_dor = os.path.dirname(application_dir)
 from rest_framework import authentication
 from application.services.infrastructure.estimates_service import EstimatesService
 from application.services.domain_interface.domain_service_interface import DomainServiceInterface
+from application.services.infrastructure_interface.database_interface import DatabaseServiceInterface
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
@@ -245,3 +246,16 @@ class ApiServices():
         except Exception as err:
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
+
+    """get token form auth header
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    """
+    @classmethod
+    def get_token_from_header(cls, request):
+        auth_header = request.headers.get('Authorization')
+        
+        if auth_header and auth_header.startswith('Bearer '):
+            token = auth_header.split(' ')[1]
+            return token
+        return ""

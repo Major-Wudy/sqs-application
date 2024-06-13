@@ -7,13 +7,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import authentication_classes, permission_classes
 from application.services.infrastructure.api_service import BearerAuthentication
 from application.services.infrastructure.api_service import ApiServices
+from application.services.infrastructure_interface.database_interface import DatabaseServiceInterface
 from rest_framework.response import Response
 from rest_framework import status
 from decimal import Decimal
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample, OpenApiResponse, OpenApiRequest, OpenApiCallback
 from drf_spectacular.types import OpenApiTypes
 from rest_framework import status
-
 
 @extend_schema(
     description="create an electricity Object",
@@ -82,7 +82,15 @@ def create_electricity(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.create_electricity_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.create_electricity_from_post(data)
+        if resp:
+            dbs.delete_request(token=token)
+        return resp
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -169,7 +177,15 @@ def get_estimate_electricity(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.get_estimate_for_electricity_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.get_estimate_for_electricity_from_post(data)
+        if resp:
+            dbs.delete_request(token=token)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -254,7 +270,15 @@ def create_flight(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.create_flight_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.create_flight_from_post(data)
+        if resp:
+            dbs.delete_request(token=token)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -352,7 +376,15 @@ def get_estimate_flight(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.get_estimate_for_flight_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+        
+        resp = api.get_estimate_for_flight_from_post(data)
+        if resp:
+            dbs.delete_request(token=token)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -429,7 +461,15 @@ def create_shipping(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.create_shipping_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.create_shipping_from_post(data)
+        if resp:
+            dbs.delete_request(token=token)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -518,7 +558,15 @@ def get_estimate_shipping(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.get_estimate_for_shipping_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.get_estimate_for_shipping_from_post(data)
+        if resp:
+            dbs.delete_request(token=token)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -590,7 +638,15 @@ def create_fuel(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.create_fuel_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.create_fuel_from_post(data)
+        if resp:
+            dbs.delete_request(token=token)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -675,7 +731,15 @@ def get_estimate_fuel(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.get_estimate_for_fuel_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.get_estimate_for_fuel_from_post(data)
+        if resp:
+            dbs.delete_request(token=token)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)

@@ -6,6 +6,7 @@ application_dir = os.path.dirname(parent_dir)
 
 from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
 from application.services.domain_interface.domain_service_interface import DomainServiceInterface
+from application.services.infrastructure_interface.database_interface import DatabaseServiceInterface
 from decimal import Decimal
 import requests
 import simplejson
@@ -77,6 +78,7 @@ class EstimatesService(CarbonInterfaceRequestService):
             
             ds = DomainServiceInterface()
             payload = ds.prepare_electricity_for_estimate(value, country, state, unit)
+
             return self.post(url, json=payload, headers=headers)
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
