@@ -7,7 +7,7 @@ src_dor = os.path.dirname(application_dir)
 
 from rest_framework import authentication
 from application.services.infrastructure.estimates_service import EstimatesService
-from application.services.domain.electricity_service import ElectricityService
+from application.services.domain.domain_service_interface import DomainServiceInterface
 from application.services.domain.flight_service import FlightService
 from application.services.domain.shipping_service import ShippingService
 from application.services.domain.fuel_combustion_service import FuelService
@@ -59,9 +59,9 @@ class ApiServices():
             unit = data.get('unit')
             if not isinstance(unit, str):
                 raise TypeError('unit is not a string')
-            es = ElectricityService()
-            elec = es.create_electricity_entity(Decimal(value), country, state, unit)
-            json_data =  es.convert_electricity_entity_to_json(elec)
+            ds = DomainServiceInterface()
+            elec = ds.create_electricity_entity(Decimal(value), country, state, unit)
+            json_data =  ds.convert_electricity_entity_to_json(elec)
             return Response(json_data, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}

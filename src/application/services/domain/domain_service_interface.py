@@ -7,18 +7,17 @@ application_dir = os.path.dirname(parent_dir)
 sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
+from application.services.domain.electricity_service import ElectricityService
 from application.models.electricity.electricity import Electricity
 from application.models.electricity.electricity_unit import ElectricityUnit
+from application.models.activity.activity_type import ActivityType
 from decimal import Decimal
 from abc import ABC, abstractmethod
 import simplejson as json
 
-"""Domain Service ElectricityService
+class DomainServiceInterface(ElectricityService):
 
-    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
-"""
-class ElectricityService():
-    """abstract method up for implementation should create electricity entity
+    """creates electricity entity
 
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
     :param consumption_valule: consumed electricity value
@@ -32,47 +31,14 @@ class ElectricityService():
     :returns: Electricity entity
     :rtype: Electricity
     """
-    @abstractmethod
     def create_electricity_entity(self, consumption_value: Decimal, country: str, state: str, unit: str = ElectricityUnit.KWH) -> Electricity:
-        pass
+        if unit != None:
+            elec = Electricity(ActivityType.ELECTRICITY, consumption_value, country, state)
+        if unit == None:
+            elec = Electricity(ActivityType.ELECTRICITY, consumption_value, country, state, unit)
+        return elec
 
-    """changes electricity unit for given electricity entity
-
-    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
-    :param elec: Electricity entity for changing the electricity unit
-    :type elec: Electricity
-    :param unit: Electricity unit you want kwh or mwh
-    :type unit: ElectricityUnit
-    """
-    @classmethod
-    def change_electricity_unit(cls, elec: Electricity, unit: ElectricityUnit):
-        try:
-            if not isinstance(elec, Electricity) or not isinstance(unit, ElectricityUnit):
-                raise TypeError()
-            elec.electricity_unit = unit
-        except TypeError:
-            print("Wrong elec parameters")
-
-    """converts given electricity Entity to json
-
-    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
-    :param elec: Electricity entity
-    :type elec: Electricity
-    :returns: JSON 
-    :rtype: json
-    """
-    @classmethod
-    def convert_electricity_entity_to_json(cls, elec: Electricity) -> json:
-        value = elec.electricity_value
-        return {
-                "type": elec.type.value,
-                "electricity_unit": elec.electricity_unit.value,
-                "electricity_value": str(value),
-                "country": elec.country,
-                "state": elec.state,
-                }
-
-    """abstract method up for implementation to get estimates from a carbon score api
+    """prepare electricity entity for api call
 
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
     :param value: consumed electricity value
@@ -85,7 +51,34 @@ class ElectricityService():
     :type unit: str
     :returns: Json of electricity entity
     """
-    @abstractmethod
     def prepare_electricity_for_estimate(self, value: Decimal, country: str, state: str, unit: str) -> json:
-        pass
+        elec = self.create_electricity_entity(Decimal(value), country, state, unit)
 
+        es = ElectricityService()
+        payload = es.convert_electricity_entity_to_json(elec)
+        return payload
+
+    """changes electricity unit for given electricity entity
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param elec: Electricity entity for changing the electricity unit
+    :type elec: Electricity
+    :param unit: Electricity unit you want kwh or mwh
+    :type unit: ElectricityUnit
+    """
+    def change_electricity_unit(self, elec: Electricity, unit: ElectricityUnit):
+        es = ElectricityService()
+        es.change_electricity_unit(elec, unit)
+
+
+    """converts given electricity Entity to json
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param elec: Electricity entity
+    :type elec: Electricity
+    :returns: JSON 
+    :rtype: json
+    """
+    def convert_electricity_entity_to_json(cls, elec: Electricity) -> json:
+        es = ElectricityService()
+        return es.convert_electricity_entity_to_json(elec)

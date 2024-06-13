@@ -11,10 +11,10 @@ services:
       - ./wiremock/stubs:/home/wiremock
 
   web:
+    restart: on-failure:5
     build:
       context: .
       dockerfile: src/Dockerfile
-    restart: on-failure:5
     command: ["sh", "-c", "python src/manage.py runserver 0.0.0.0:8000"]
     volumes:
       - .:/app

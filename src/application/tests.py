@@ -28,14 +28,14 @@ class DistanceUnitTestCase(unittest.TestCase):
         self.assertEqual(default_du, "km")
         self.assertEqual(type_error_default_du, "km")
 
-from application.services.domain.electricity_service import ElectricityService
+from application.services.domain.domain_service_interface import DomainServiceInterface
 from application.models.electricity.electricity_unit import ElectricityUnit
 from decimal import Decimal
 # Test electricity service
-class ElectricityServiceTestCase(unittest.TestCase):
+class DomainServiceInterfaceTestCase(unittest.TestCase):
     def test_create_electricity_entity(self):
-        e = ElectricityService()
-        elec = e.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
+        ds = DomainServiceInterface()
+        elec = ds.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
         self.assertEqual(elec.type, "electricity")
         self.assertEqual(elec.electricity_value, Decimal(1678.5))
         self.assertEqual(elec.country, "Germany")
@@ -43,14 +43,16 @@ class ElectricityServiceTestCase(unittest.TestCase):
         self.assertEqual(elec.electricity_unit, "kwh")
 
     def test_change_electricity_unit(self):
-        e = ElectricityService()
-        elec = e.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
+        ds = DomainServiceInterface()
+        elec = ds.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
+
         self.assertEqual(elec.type, "electricity")
         self.assertEqual(elec.electricity_value, Decimal(1678.5))
         self.assertEqual(elec.country, "Germany")
         self.assertEqual(elec.state, "Bavaria")
         self.assertEqual(elec.electricity_unit, "kwh")
-        e.change_electricity_unit(elec, ElectricityUnit.MWH)
+
+        ds.change_electricity_unit(elec, ElectricityUnit.MWH)
         self.assertEqual(elec.electricity_unit, "mwh")
 
 

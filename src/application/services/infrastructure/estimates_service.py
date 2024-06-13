@@ -5,7 +5,7 @@ parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
 
 from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
-from application.services.domain.electricity_service import ElectricityService
+from application.services.domain.domain_service_interface import DomainServiceInterface
 from application.services.domain.flight_service import FlightService
 from application.services.domain.shipping_service import ShippingService
 from application.services.domain.fuel_combustion_service import FuelService
@@ -18,8 +18,8 @@ import simplejson
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
     :param CarbonInterfaceRequestService: Used API Interface class
     :type CarbonInterfaceRequestService: CarbonInterfaceRequestService
-    :param ElectricityService: Domain Service to access all functionalities around electricity
-    :type ElectricityService: ElectricityService
+    :param DomainServiceInterface: Domain Service Interface to access all functionalities from domain services
+    :type DomainServiceInterface: DomainServiceInterface
     :param FlightService: Domain Service to access all functionalities around flights
     :type: FlightService: FlightService
     :param ShippingService: Domain Service to access all functionalities around shipping
@@ -27,7 +27,7 @@ import simplejson
     :param FuelService: Domain Service to access all functionalities around fuel consumption
     :type FuelService: FuelService
 """
-class EstimatesService(CarbonInterfaceRequestService, ElectricityService, FlightService, ShippingService, FuelService):
+class EstimatesService(CarbonInterfaceRequestService, FlightService, ShippingService, FuelService):
     """Post some data against url
 
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
@@ -83,13 +83,11 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
     """
     def get_estimate_for_electricity_use(self, value: Decimal, country: str, state: str, unit: str):
         try:
-            es = ElectricityService()
-            elec = es.create_electricity_entity(Decimal(value), country, state, unit)
-            
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
             
-            payload = es.convert_electricity_entity_to_json(elec)
+            ds = DomainServiceInterface()
+            payload = ds.prepare_electricity_for_estimate(value, country, state, unit)
             return self.post(url, json=payload, headers=headers)
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
