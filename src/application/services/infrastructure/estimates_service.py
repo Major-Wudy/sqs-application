@@ -6,7 +6,6 @@ application_dir = os.path.dirname(parent_dir)
 
 from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
 from application.services.domain.domain_service_interface import DomainServiceInterface
-from application.services.domain.shipping_service import ShippingService
 from application.services.domain.fuel_combustion_service import FuelService
 from decimal import Decimal
 import requests
@@ -17,14 +16,10 @@ import simplejson
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
     :param CarbonInterfaceRequestService: Used API Interface class
     :type CarbonInterfaceRequestService: CarbonInterfaceRequestService
-    :param FlightService: Domain Service to access all functionalities around flights
-    :type: FlightService: FlightService
-    :param ShippingService: Domain Service to access all functionalities around shipping
-    :type ShippingService: ShippingService
     :param FuelService: Domain Service to access all functionalities around fuel consumption
     :type FuelService: FuelService
 """
-class EstimatesService(CarbonInterfaceRequestService, ShippingService, FuelService):
+class EstimatesService(CarbonInterfaceRequestService, FuelService):
     """Post some data against url
 
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
@@ -135,13 +130,11 @@ class EstimatesService(CarbonInterfaceRequestService, ShippingService, FuelServi
     """
     def get_estimate_for_shipping(self, weight_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str):
         try:
-            ship_s = ShippingService()
-            ship = ship_s.create_shipping_entity(weight_unit, weight_value, distance_unit, distance_value, transport_method)
-
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
-        
-            payload = ship_s.convert_shipping_entity_to_json(ship)
+
+            ds = DomainServiceInterface()
+            payload = ds.prepare_for_shipping_estimate(weight_unit, weight_value, distance_unit, distance_value, transport_method)
 
             return self.post(url, json=payload, headers=headers)
         except Exception as err:

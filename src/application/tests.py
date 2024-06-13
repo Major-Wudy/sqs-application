@@ -32,7 +32,7 @@ from application.services.domain.domain_service_interface import DomainServiceIn
 from application.models.electricity.electricity_unit import ElectricityUnit
 from decimal import Decimal
 # Test electricity service
-class DomainServiceInterfaceTestCase(unittest.TestCase):
+class DomainServiceInterfaceElectricityTestCase(unittest.TestCase):
     def test_create_electricity_entity(self):
         ds = DomainServiceInterface()
         elec = ds.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
@@ -58,7 +58,7 @@ class DomainServiceInterfaceTestCase(unittest.TestCase):
 
 from application.services.domain.flight_service import FlightService
 # Test flight service
-class FlightServiceTestCase(unittest.TestCase):
+class DomainServiceInterfaceFlightTestCase(unittest.TestCase):
     def test_create_flight_entity(self):
         ds = DomainServiceInterface()
         fl = ds.create_flight_entity(2, "MUC", "DUB", "KM", "economy")
@@ -121,14 +121,14 @@ class FuelCombustionServiceTestCase(unittest.TestCase):
         self.assertEqual(fusion_unit, "")
         self.assertEqual(fusion, "")
 
-from application.services.domain.shipping_service import ShippingService
+
 from application.services.domain.weight_unit_service import create_weight_unit
 from application.services.domain.transport_service import create_transport
 # Test shipping service
-class ShippingServiceTestCase(unittest.TestCase):
+class DomainServiceInterfaceShippingTestCase(unittest.TestCase):
     def test_create_shipping_entity(self):
-        s = ShippingService()
-        shipping = s.create_shipping_entity("kg", Decimal(2.05), "km", Decimal(250.3), "train")
+        ds = DomainServiceInterface()
+        shipping = ds.create_shipping_entity("kg", Decimal(2.05), "km", Decimal(250.3), "train")
         self.assertEqual(shipping.type, "shipping")
         self.assertEqual(shipping.weight_unit, "kg")
         self.assertEqual(shipping.weight_value, Decimal(2.05))
@@ -136,7 +136,7 @@ class ShippingServiceTestCase(unittest.TestCase):
         self.assertEqual(shipping.distance_value, Decimal(250.3))
         self.assertEqual(shipping.transport_method, "train")
 
-        shipping_defaults = s.create_shipping_entity("gramm", Decimal(2.05), "kilometer", Decimal(250.3), "LKW")
+        shipping_defaults = ds.create_shipping_entity("gramm", Decimal(2.05), "kilometer", Decimal(250.3), "LKW")
         self.assertEqual(shipping_defaults.type, "shipping")
         self.assertEqual(shipping_defaults.weight_unit, "g")
         self.assertEqual(shipping_defaults.weight_value, Decimal(2.05))
@@ -144,7 +144,7 @@ class ShippingServiceTestCase(unittest.TestCase):
         self.assertEqual(shipping_defaults.distance_value, Decimal(250.3))
         self.assertEqual(shipping_defaults.transport_method, "truck")
 
-        shipping_none = s.create_shipping_entity("gramm", "2.05", "kilometer", Decimal(250.3), "LKW")
+        shipping_none = ds.create_shipping_entity("gramm", "2.05", "kilometer", Decimal(250.3), "LKW")
         self.assertIsNone(shipping_none, None)
 
     def test_create_weight_unit(self):

@@ -9,12 +9,13 @@ sys.path.append(application_dir)
 
 from application.services.domain.electricity_service import ElectricityService
 from application.services.domain.flight_service import FlightService
+from application.services.domain.shipping_service import ShippingService
 
 from decimal import Decimal
 from abc import ABC, abstractmethod
 import simplejson as json
 
-class DomainServiceInterface(ElectricityService, FlightService):
+class DomainServiceInterface(ElectricityService, FlightService, ShippingService):
 
     """creates electricity entity
 
@@ -154,7 +155,7 @@ class DomainServiceInterface(ElectricityService, FlightService):
     :rtype: json
     """
     def convert_flight_entity_to_json(self, flight) -> json:
-        fs = FlightService
+        fs = FlightService()
         return fs.convert_flight_entity_to_json(flight)
 
     """Helper function for possible ui implementation 
@@ -166,3 +167,54 @@ class DomainServiceInterface(ElectricityService, FlightService):
     def iata_airport_info_url(self) -> str:
         fs = FlightService()
         return fs.iata_airport_info_url()
+
+    """create shipping entity 
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param w_unit: weight unit of your package g, kg, lb, mt
+    :type w_unit: str
+    :param weight_value: weight of your package corresponding to your choosen w_unit
+    :type weight_value: Decimal
+    :param distance_unit: prefered distance unit km or mi
+    :type distance_unit: str
+    :param distance_value: corresponding distance
+    :type distance_value: Decimal
+    :param transport_method: How do you want your package shipped? Train, truck, plane, ship
+    :type transport_method: str
+    :returns: Shipping entity or nothing
+    """
+    def create_shipping_entity(self, w_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str):
+        s = ShippingService()
+        return s.create_shipping_entity(w_unit, weight_value, distance_unit, distance_value, transport_method)
+
+    """prepare shipping entity for estimates form a carbon score api
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param weight_unit: weight unit of your package g, kg, lb, mt
+    :type weight_unit: str
+    :param weight_value: weight of your package corresponding to your choosen w_unit
+    :type weight_value: Decimal
+    :param distance_unit: prefered distance unit km or mi
+    :type distance_unit: str
+    :param distance_value: corresponding distance
+    :type distance_value: Decimal
+    :param transport_method: How do you want your package shipped? Train, truck, plane, ship
+    :type transport_method: str
+    :returns: json shipping entity
+    :rtype: json
+    """
+    def prepare_for_shipping_estimate(self, weight_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str) -> json:
+        ship = self.create_shipping_entity(w_unit, weight_value, distance_unit, distance_value, transport_method)
+        return self.convert_shipping_entity_to_json(ship)
+
+    """converts shipping entity to json
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param ship: shipping entity
+    :type ship: Shipping
+    :returns: shipping entity as json
+    :rtype: json
+    """
+    def convert_shipping_entity_to_json(self, ship) -> json:
+        s = ShippingService()
+        return s.convert_shipping_entity_to_json(ship)

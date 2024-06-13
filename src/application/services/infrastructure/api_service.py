@@ -8,7 +8,6 @@ src_dor = os.path.dirname(application_dir)
 from rest_framework import authentication
 from application.services.infrastructure.estimates_service import EstimatesService
 from application.services.domain.domain_service_interface import DomainServiceInterface
-from application.services.domain.shipping_service import ShippingService
 from application.services.domain.fuel_combustion_service import FuelService
 from decimal import Decimal
 from rest_framework.response import Response
@@ -171,9 +170,9 @@ class ApiServices():
             if not isinstance(transport, str):
                 raise TypeError('distance_unit is no string')
 
-            ship_s = ShippingService()
-            ship = ship_s.create_shipping_entity(weight_unit, weight, distance_unit, distance, transport)
-            json =  ship_s.convert_shipping_entity_to_json(ship)
+            ds = DomainServiceInterface()
+            ship = ds.create_shipping_entity(weight_unit, weight, distance_unit, distance, transport)
+            json =  ds.convert_shipping_entity_to_json(ship)
             return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
