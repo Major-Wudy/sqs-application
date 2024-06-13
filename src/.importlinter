@@ -16,6 +16,13 @@ forbidden_modules=
     requests
     coverage
     import-linter
+    pytest
+    unittest-xml-reporting
+    django_rest_framework
+    drf-spectacular
+    wiremock
+    locust
+    mysqlclient
 
 [importlinter:contract:domain-services]
 name=Domain Services doesn´t import anything outside Domain Models and Domain Services
@@ -29,6 +36,13 @@ forbidden_modules=
     coverage
     import-linter
     requests
+    pytest
+    unittest-xml-reporting
+    django_rest_framework
+    drf-spectacular
+    wiremock
+    locust
+    mysqlclient
 
 [importlinter:contract:infrastructure-services]
 name=Infrastructure Services doesn´t import Domain Models only accesses them via Domain Services (allow indirect imports / Import chains)
@@ -37,11 +51,29 @@ source_modules=
     application.services.infrastructure
 forbidden_modules=
     application.models
+    application.services.domain
     application.migrations
     django
     coverage
     import-linter
 allow_indirect_imports=True
+
+
+[importlinter:contract:domain-interface]
+name=Domain Interface Service doesn´t import Infrastructure and Domain Models only access Domain Models via Domain Services (allow indirect imports / Import chains)
+type=forbidden
+source_modules=
+    application.services.domain_interface
+forbidden_modules=
+    application.models
+    application.services.infrastructure
+    application.migrations
+    django
+    coverage
+    import-linter
+allow_indirect_imports=True
+
+
 
 [importlinter:contract:Main-domain-independence-contract]
 name = Main Domain services are independent (Main: electricity, flight, fuel_combustion and shipping - supportive: distance_unit_service, transport_service, weight_unit_service) 

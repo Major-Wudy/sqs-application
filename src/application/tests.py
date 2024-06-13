@@ -28,7 +28,7 @@ class DistanceUnitTestCase(unittest.TestCase):
         self.assertEqual(default_du, "km")
         self.assertEqual(type_error_default_du, "km")
 
-from application.services.domain.domain_service_interface import DomainServiceInterface
+from application.services.domain_interface.domain_service_interface import DomainServiceInterface
 from application.models.electricity.electricity_unit import ElectricityUnit
 from decimal import Decimal
 # Test electricity service

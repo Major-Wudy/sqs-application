@@ -5,7 +5,7 @@ parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
 
 from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
-from application.services.domain.domain_service_interface import DomainServiceInterface
+from application.services.domain_interface.domain_service_interface import DomainServiceInterface
 from application.services.domain.fuel_combustion_service import FuelService
 from decimal import Decimal
 import requests

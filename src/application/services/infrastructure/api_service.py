@@ -7,7 +7,7 @@ src_dor = os.path.dirname(application_dir)
 
 from rest_framework import authentication
 from application.services.infrastructure.estimates_service import EstimatesService
-from application.services.domain.domain_service_interface import DomainServiceInterface
+from application.services.domain_interface.domain_service_interface import DomainServiceInterface
 from application.services.domain.fuel_combustion_service import FuelService
 from decimal import Decimal
 from rest_framework.response import Response
