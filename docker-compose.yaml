@@ -11,7 +11,6 @@ services:
       - ./wiremock/stubs:/home/wiremock
 
   web:
-    restart: on-failure:5
     build:
       context: .
       dockerfile: src/Dockerfile
