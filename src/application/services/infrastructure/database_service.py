@@ -31,19 +31,7 @@ class DatabaseService():
     def insert_requests(self, request, session_id):
         pass
 
-    """abstract method up for implementation to interact with your Database update
-
-        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
-        :param table: database table name
-        :type table: str
-        :param updates: Key value array with column as key and update as value 
-        :type updates: array
-    
-    @abstractmethod
-    def update(table: str, updates: array):
-        pass
-
-    abstract method up for implementation to interact with your Database delete
+    """abstract method up for implementation to interact with your Database delete
 
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
         :param table: database table name
@@ -53,5 +41,11 @@ class DatabaseService():
     """
     @abstractmethod
     def delete_request(params: array):
+        pass
+
+    """
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    """
+    def insert_carbon_score(self, carbon_g, carbon_kg, carbon_lb, carbon_mt, session_id):
         pass
     

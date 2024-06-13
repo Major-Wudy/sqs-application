@@ -259,3 +259,21 @@ class ApiServices():
             token = auth_header.split(' ')[1]
             return token
         return ""
+
+    def get_carbon_score_from_request(self, response, session_id):
+        try:
+            resp_json = response.data
+            data = resp_json.get('data')
+            attributes = data.get('attributes')
+
+            carbon_g = attributes.get('carbon_g')
+            carbon_kg = attributes.get('carbon_kg')
+            carbon_lb = attributes.get('carbon_lb')
+            carbon_mt = attributes.get('carbon_mt')
+
+            ds = DomainServiceInterface()
+            score = ds.create_carbon_score(Decimal(carbon_g), Decimal(carbon_kg), Decimal(carbon_lb), Decimal(carbon_mt), session_id)
+            
+            return ds.convert_score_to_json(score)
+        except Exception as err:
+            return {'error': f'something went wrong {err}'}

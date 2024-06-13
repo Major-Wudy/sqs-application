@@ -35,3 +35,11 @@ class DatabaseServiceInterface(DatabaseService):
             return self.execute_sql(query, params)
         except Exception as err:
             print(err)
+
+    def insert_carbon_score(self, carbon_g = 0, carbon_kg = 0, carbon_lb = 0, carbon_mt = 0, session_id = ""):
+        try:
+            query = "INSERT INTO carbon_score (carbon_g, carbon_kg, carbon_lb, carbon_mt, session_id) VALUES(%s,%s,%s,%s,%s)"
+            params = [carbon_g, carbon_kg, carbon_lb, carbon_mt, session_id]
+            return self.execute_sql(query, params)
+        except Exception as err:
+            print(err)

@@ -17,19 +17,19 @@ from decimal import Decimal
 class CarbonService():
     """create carbon score entity
 
-    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
-    :param score_g: estimated carbon score in gramms
-    :type score_g: Decimal
-    :param score_kg: estimated carbon score in kilo gramms
-    :type score_kg: Decimal
-    :param score_lb: estimated carbon score in pounds
-    :type score_lb: Decimal
-    :param score_mt: estimated carbon score in mega tons
-    :type score_mt: Decimal
-    :param session_id: user session id or auth token
-    :type session_id: str
-    :returns: Score
-    :rtype: Score
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param score_g: estimated carbon score in gramms
+        :type score_g: Decimal
+        :param score_kg: estimated carbon score in kilo gramms
+        :type score_kg: Decimal
+        :param score_lb: estimated carbon score in pounds
+        :type score_lb: Decimal
+        :param score_mt: estimated carbon score in mega tons
+        :type score_mt: Decimal
+        :param session_id: user session id or auth token
+        :type session_id: str
+        :returns: Score
+        :rtype: Score
     """
     @classmethod
     def create_carbon_score(cls, score_g: Decimal, score_kg: Decimal, score_lb: Decimal, score_mt: Decimal, session_id: str) -> Score:
@@ -43,11 +43,11 @@ class CarbonService():
 
     """converts given Carbon Score Entity to json
 
-    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
-    :param score: Score entity
-    :type score: Score
-    :returns: dictionary
-    :rtype: dict
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param score: Score entity
+        :type score: Score
+        :returns: dictionary
+        :rtype: dict
     """
     @classmethod
     def convert_score_to_json(cls, score: Score) -> dict:

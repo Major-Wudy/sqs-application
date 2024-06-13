@@ -11,12 +11,13 @@ from application.services.domain.electricity_service import ElectricityService
 from application.services.domain.flight_service import FlightService
 from application.services.domain.shipping_service import ShippingService
 from application.services.domain.fuel_combustion_service import FuelService
+from application.services.domain.carbon_service import CarbonService
 
 from decimal import Decimal
 from abc import ABC, abstractmethod
 import simplejson as json
 
-class DomainServiceInterface(ElectricityService, FlightService, ShippingService, FuelService):
+class DomainServiceInterface(ElectricityService, FlightService, ShippingService, FuelService, CarbonService):
 
     """creates electricity entity
 
@@ -269,3 +270,35 @@ class DomainServiceInterface(ElectricityService, FlightService, ShippingService,
         if api_unit == "" and api_name == "":
             fuel = self.create_fuel_combustion_entity(value, source_type_name)
         return self.convert_fuel_entity_to_json(fuel)
+
+    """create carbon score entity
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param score_g: estimated carbon score in gramms
+        :type score_g: Decimal
+        :param score_kg: estimated carbon score in kilo gramms
+        :type score_kg: Decimal
+        :param score_lb: estimated carbon score in pounds
+        :type score_lb: Decimal
+        :param score_mt: estimated carbon score in mega tons
+        :type score_mt: Decimal
+        :param session_id: user session id or auth token
+        :type session_id: str
+        :returns: Score
+        :rtype: Score
+    """
+    def create_carbon_score(cls, score_g: Decimal, score_kg: Decimal, score_lb: Decimal, score_mt: Decimal, session_id: str):
+        cs = CarbonService()
+        return cs.create_carbon_score(score_g, score_kg, score_lb, score_mt, session_id)
+
+    """converts given Carbon Score Entity to json
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param score: Score entity
+        :type score: Score
+        :returns: dictionary
+        :rtype: dict
+    """
+    def convert_score_to_json(cls, score) -> dict:
+        cs = CarbonService()
+        return cs.convert_score_to_json(score)

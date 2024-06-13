@@ -185,6 +185,12 @@ def get_estimate_electricity(request):
         resp = api.get_estimate_for_electricity_from_post(data)
         if resp:
             dbs.delete_request(token=token)
+            
+            if resp.status_code == 201:
+                score = api.get_carbon_score_from_request(resp, token)
+                print(score)
+                dbs.insert_carbon_score(score.get('carbon_g'), score.get('carbon_kg'), score.get('carbon_lb'), score.get('carbon_mt'), token)
+
         return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
