@@ -8,6 +8,7 @@ sys.path.append(parent_dir)
 sys.path.append(application_dir)
 
 from application.services.domain.electricity_service import ElectricityService
+from application.services.domain.flight_service import FlightService
 from application.models.electricity.electricity import Electricity
 from application.models.electricity.electricity_unit import ElectricityUnit
 from application.models.activity.activity_type import ActivityType

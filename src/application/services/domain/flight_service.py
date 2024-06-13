@@ -21,6 +21,12 @@ import simplejson as json
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
 """
 class FlightService():
+    """create flight entity
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosensehim.de)
+        :param passengers
+
+    """
     @classmethod
     def create_flight_entity(cls, passengers: int, departure: str, destination: str, distance_unit: str, cabin: str) -> Flight:
         try:

@@ -40,17 +40,17 @@ jobs:
 
     - name: Run migrations
       run: |
-          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application-web-1")
           docker exec $CONTAINER_ID sh -c "cd src && python manage.py migrate"
 
     - name: Setup User 
       run: |
-          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application-web-1")
           docker exec $CONTAINER_ID sh -c "cd src && python manage.py createsuperuser --noinput --username docker --email raphael.wudy@stud.th-rosenheim.de"
     
     - name: Set auth token 
       run: |
-          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application-web-1")
           CMD_OUTPUT=$(docker exec $CONTAINER_ID sh -c "cd src && python manage.py drf_create_token docker")
           TOKEN=$(echo "$CMD_OUTPUT" | awk '{print $3}')
           echo "$TOKEN"
@@ -64,7 +64,7 @@ jobs:
 
     - name: Run tests
       run: |
-          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application-web-1")
           docker exec $CONTAINER_ID sh -c "cd src && coverage run manage.py test --verbosity=2 && coverage xml -o coverage-reports/coverage.xml"
 
     - name: Edit coverage report
@@ -83,22 +83,22 @@ jobs:
 
     - name: Run ArchUnit with Import-linter
       run: |
-          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application-web-1")
           docker exec $CONTAINER_ID sh -c "cd src && lint-imports"
 
     - name: Run restassured like tests with wiremock simulated api
       run: |
-          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application-web-1")
           docker exec $CONTAINER_ID sh -c "cd src && cd application && python -m unittest api_tests.py"
 
     - name: Run Locust Tests
       run: |
-          CONTAINER_ID=$(docker ps -qf "name=sqs-application_web_1")
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application-web-1")
           docker exec locust-master sh -c "cd /mnt/locust/ && locust --headless -u 100 -r 10 --run-time 30s --host=http://web:8000/"
 
     - name: Run Karate API Tests
       run: |
-          CONTAINER_ID=$(docker ps -qf "name=sqs-application_karate_1")
+          CONTAINER_ID=$(docker ps -qf "name=sqs-application-karate-1")
           docker exec $CONTAINER_ID sh -c "java -jar karate.jar tests"
 
           docker cp $CONTAINER_ID:/karate/target/karate-reports/karate-summary.html karate/reports/
