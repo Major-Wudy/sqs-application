@@ -92,5 +92,5 @@ class FuelService():
     :returns: server response as json
     """
     @abstractmethod
-    def get_estimate_for_fuel_use(self, value: Decimal, source_type_name: str = "", api_unit: str = "", api_name: str = ""):
+    def prepare_fuel_for_estimate(self, value: Decimal, source_type_name: str = "", api_unit: str = "", api_name: str = ""):
         pass

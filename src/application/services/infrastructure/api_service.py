@@ -8,7 +8,6 @@ src_dor = os.path.dirname(application_dir)
 from rest_framework import authentication
 from application.services.infrastructure.estimates_service import EstimatesService
 from application.services.domain_interface.domain_service_interface import DomainServiceInterface
-from application.services.domain.fuel_combustion_service import FuelService
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
@@ -218,9 +217,9 @@ class ApiServices():
             if not isinstance(consumption, Decimal):
                 raise TypeError('consumption is no decimal value')
 
-            fs = FuelService()
-            fuel = fs.create_fuel_combustion_entity(consumption, source)
-            json =  fs.convert_fuel_entity_to_json(fuel)
+            ds = DomainServiceInterface()
+            fuel = ds.create_fuel_combustion_entity(consumption, source)
+            json =  ds.convert_fuel_entity_to_json(fuel)
             return Response(json, status=status.HTTP_201_CREATED)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}

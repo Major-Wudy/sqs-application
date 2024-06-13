@@ -10,12 +10,13 @@ sys.path.append(application_dir)
 from application.services.domain.electricity_service import ElectricityService
 from application.services.domain.flight_service import FlightService
 from application.services.domain.shipping_service import ShippingService
+from application.services.domain.fuel_combustion_service import FuelService
 
 from decimal import Decimal
 from abc import ABC, abstractmethod
 import simplejson as json
 
-class DomainServiceInterface(ElectricityService, FlightService, ShippingService):
+class DomainServiceInterface(ElectricityService, FlightService, ShippingService, FuelService):
 
     """creates electricity entity
 
@@ -218,3 +219,53 @@ class DomainServiceInterface(ElectricityService, FlightService, ShippingService)
     def convert_shipping_entity_to_json(self, ship) -> json:
         s = ShippingService()
         return s.convert_shipping_entity_to_json(ship)
+
+    """create fuel combustion entity
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param consumption_value: Amount of your consumed fuel source
+    :type consumption_value: Decimal
+    :param source_type_name: name of your fuel source
+    :type source_type_name: str
+    :param api_unit: corresponding api_unit value
+    :type api_unit: str
+    :param api_name: corresponding api_name
+    :type api_name: str
+    :returns: Fuel combustion entity
+    """
+    def create_fuel_combustion_entity(self, consumption_value: Decimal, source_type_name: str = "", api_unit: str = "", api_name: str = ""):
+        fs = FuelService()
+        return fs.create_fuel_combustion_entity(consumption_value, source_type_name, api_unit, api_name)
+
+    """converts given fuel entity to json
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param fuel: fuel entity
+    :type fuel: FuelCombustion
+    :returns: JSON 
+    :rtype: json
+    """
+    def convert_fuel_entity_to_json(self, fuel) -> json:
+        fs = FuelService()
+        return fs.convert_fuel_entity_to_json(fuel)
+
+    """abstract method up for implementation to get estimates from a carbon score api
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param value: Amount of your consumed fuel source
+    :type value: Decimal
+    :param source_type_name: name of your fuel source
+    :type source_type_name: str
+    :param api_unit: corresponding api_unit value
+    :type api_unit: str
+    :param api_name: corresponding api_name
+    :type api_name: str
+    :returns: server response as json
+    """
+    def prepare_fuel_for_estimate(self, value: Decimal, source_type_name: str = "", api_unit: str = "", api_name: str = ""):
+        if source_type_name == "":
+            fuel = self.create_fuel_combustion_entity(value, "", api_unit, api_name)
+
+        if api_unit == "" and api_name == "":
+            fuel = self.create_fuel_combustion_entity(value, source_type_name)
+        return self.convert_fuel_entity_to_json(fuel)

@@ -6,7 +6,6 @@ application_dir = os.path.dirname(parent_dir)
 
 from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
 from application.services.domain_interface.domain_service_interface import DomainServiceInterface
-from application.services.domain.fuel_combustion_service import FuelService
 from decimal import Decimal
 import requests
 import simplejson
@@ -16,10 +15,8 @@ import simplejson
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
     :param CarbonInterfaceRequestService: Used API Interface class
     :type CarbonInterfaceRequestService: CarbonInterfaceRequestService
-    :param FuelService: Domain Service to access all functionalities around fuel consumption
-    :type FuelService: FuelService
 """
-class EstimatesService(CarbonInterfaceRequestService, FuelService):
+class EstimatesService(CarbonInterfaceRequestService):
     """Post some data against url
 
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
@@ -156,17 +153,11 @@ class EstimatesService(CarbonInterfaceRequestService, FuelService):
     """
     def get_estimate_for_fuel_use(self, value: Decimal, source_type_name: str = "", api_unit: str = "", api_name: str = ""): 
         try:
-            fs = FuelService()
-            if source_type_name == "":
-                fuel = fs.create_fuel_combustion_entity(value, "", api_unit, api_name)
-
-            if api_unit == "" and api_name == "":
-                fuel = fs.create_fuel_combustion_entity(value, source_type_name)
-
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
-        
-            payload = fs.convert_fuel_entity_to_json(fuel)
+            
+            ds = DomainServiceInterface()
+            payload = ds.prepare_fuel_for_estimate(value, source_type_name, api_unit, api_name)
 
             return self.post(url, json=payload, headers=headers)
         except Exception as err:
