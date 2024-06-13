@@ -60,8 +60,8 @@ from application.services.domain.flight_service import FlightService
 # Test flight service
 class FlightServiceTestCase(unittest.TestCase):
     def test_create_flight_entity(self):
-        fs = FlightService()
-        fl = fs.create_flight_entity(2, "MUC", "DUB", "KM", "economy")
+        ds = DomainServiceInterface()
+        fl = ds.create_flight_entity(2, "MUC", "DUB", "KM", "economy")
         self.assertEqual(fl.type, "flight")
         self.assertEqual(fl.passengers, 2)
         self.assertEqual(fl.leg.departure_airport, "MUC")
@@ -69,24 +69,24 @@ class FlightServiceTestCase(unittest.TestCase):
         self.assertEqual(fl.leg.cabin_class, "economy")
 
     def test_create_leg_object(self):
-        fs = FlightService()
-        leg = fs.create_leg_object("MUC", "DUB", "premium")
+        ds = DomainServiceInterface()
+        leg = ds.create_leg_object("MUC", "DUB", "premium")
         self.assertEqual(leg.departure_airport, "MUC")
         self.assertEqual(leg.destination_airport, "DUB")
         self.assertEqual(leg.cabin_class, "premium")
 
     def test_get_cabin_class(self):
-        fs = FlightService()
-        cabin_economy = fs.get_cabin_class("economy")
-        cabin_premium = fs.get_cabin_class("premium")
-        cabin_default = fs.get_cabin_class("fist_class")
+        ds = DomainServiceInterface()
+        cabin_economy = ds.get_cabin_class("economy")
+        cabin_premium = ds.get_cabin_class("premium")
+        cabin_default = ds.get_cabin_class("fist_class")
         self.assertEqual(cabin_economy, "economy")
         self.assertEqual(cabin_premium, "premium")
         self.assertEqual(cabin_default, "economy")
 
     def test_iata_airport_info_url(self):
-        fs = FlightService()
-        url = fs.iata_airport_info_url()
+        ds = DomainServiceInterface()
+        url = ds.iata_airport_info_url()
         self.assertEqual(url, "https://www.iata.org/en/publications/directories/code-search/?")
 
 from application.services.domain.fuel_combustion_service import FuelService

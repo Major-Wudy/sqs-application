@@ -9,6 +9,7 @@ sys.path.append(application_dir)
 
 from application.models.electricity.electricity import Electricity
 from application.models.electricity.electricity_unit import ElectricityUnit
+from application.models.activity.activity_type import ActivityType
 from decimal import Decimal
 from abc import ABC, abstractmethod
 import simplejson as json
@@ -18,7 +19,7 @@ import simplejson as json
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
 """
 class ElectricityService():
-    """abstract method up for implementation should create electricity entity
+    """creates electricity entity
 
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
     :param consumption_valule: consumed electricity value
@@ -33,8 +34,12 @@ class ElectricityService():
     :rtype: Electricity
     """
     @abstractmethod
-    def create_electricity_entity(self, consumption_value: Decimal, country: str, state: str, unit: str = ElectricityUnit.KWH) -> Electricity:
-        pass
+    def create_electricity_entity(cls, consumption_value: Decimal, country: str, state: str, unit: str = ElectricityUnit.KWH) -> Electricity:
+        if unit != None:
+            elec = Electricity(ActivityType.ELECTRICITY, consumption_value, country, state)
+        if unit == None:
+            elec = Electricity(ActivityType.ELECTRICITY, consumption_value, country, state, unit)
+        return elec
 
     """changes electricity unit for given electricity entity
 
@@ -83,7 +88,8 @@ class ElectricityService():
     :type state: str
     :param unit: electricity unit kwh or mwh
     :type unit: str
-    :returns: Json of electricity entity
+    :returns: json
+    :rtype: json
     """
     @abstractmethod
     def prepare_electricity_for_estimate(self, value: Decimal, country: str, state: str, unit: str) -> json:

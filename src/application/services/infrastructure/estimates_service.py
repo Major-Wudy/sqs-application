@@ -6,7 +6,6 @@ application_dir = os.path.dirname(parent_dir)
 
 from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
 from application.services.domain.domain_service_interface import DomainServiceInterface
-from application.services.domain.flight_service import FlightService
 from application.services.domain.shipping_service import ShippingService
 from application.services.domain.fuel_combustion_service import FuelService
 from decimal import Decimal
@@ -18,8 +17,6 @@ import simplejson
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
     :param CarbonInterfaceRequestService: Used API Interface class
     :type CarbonInterfaceRequestService: CarbonInterfaceRequestService
-    :param DomainServiceInterface: Domain Service Interface to access all functionalities from domain services
-    :type DomainServiceInterface: DomainServiceInterface
     :param FlightService: Domain Service to access all functionalities around flights
     :type: FlightService: FlightService
     :param ShippingService: Domain Service to access all functionalities around shipping
@@ -27,7 +24,7 @@ import simplejson
     :param FuelService: Domain Service to access all functionalities around fuel consumption
     :type FuelService: FuelService
 """
-class EstimatesService(CarbonInterfaceRequestService, FlightService, ShippingService, FuelService):
+class EstimatesService(CarbonInterfaceRequestService, ShippingService, FuelService):
     """Post some data against url
 
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
@@ -110,12 +107,11 @@ class EstimatesService(CarbonInterfaceRequestService, FlightService, ShippingSer
     """
     def get_estimate_for_flight(self, passengers: int, departure: str, destination: str, unit: str, cabin: str):
         try:
-            fs = FlightService()
-            fl = fs.create_flight_entity(passengers, departure, destination, unit, cabin)
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
             
-            payload = fs.convert_flight_entity_to_json(fl)
+            ds = DomainServiceInterface()
+            payload = ds.prepare_flight_for_estimate(passengers, departure, destination, unit, cabin)
 
             return self.post(url, json=payload, headers=headers)
         except Exception as err:

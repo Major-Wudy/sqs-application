@@ -9,14 +9,12 @@ sys.path.append(application_dir)
 
 from application.services.domain.electricity_service import ElectricityService
 from application.services.domain.flight_service import FlightService
-from application.models.electricity.electricity import Electricity
-from application.models.electricity.electricity_unit import ElectricityUnit
-from application.models.activity.activity_type import ActivityType
+
 from decimal import Decimal
 from abc import ABC, abstractmethod
 import simplejson as json
 
-class DomainServiceInterface(ElectricityService):
+class DomainServiceInterface(ElectricityService, FlightService):
 
     """creates electricity entity
 
@@ -32,12 +30,9 @@ class DomainServiceInterface(ElectricityService):
     :returns: Electricity entity
     :rtype: Electricity
     """
-    def create_electricity_entity(self, consumption_value: Decimal, country: str, state: str, unit: str = ElectricityUnit.KWH) -> Electricity:
-        if unit != None:
-            elec = Electricity(ActivityType.ELECTRICITY, consumption_value, country, state)
-        if unit == None:
-            elec = Electricity(ActivityType.ELECTRICITY, consumption_value, country, state, unit)
-        return elec
+    def create_electricity_entity(self, consumption_value: Decimal, country: str, state: str, unit: str = ""):
+        es = ElectricityService()
+        return es.create_electricity_entity(consumption_value, country, state, unit)
 
     """prepare electricity entity for api call
 
@@ -67,7 +62,7 @@ class DomainServiceInterface(ElectricityService):
     :param unit: Electricity unit you want kwh or mwh
     :type unit: ElectricityUnit
     """
-    def change_electricity_unit(self, elec: Electricity, unit: ElectricityUnit):
+    def change_electricity_unit(self, elec, unit):
         es = ElectricityService()
         es.change_electricity_unit(elec, unit)
 
@@ -80,6 +75,94 @@ class DomainServiceInterface(ElectricityService):
     :returns: JSON 
     :rtype: json
     """
-    def convert_electricity_entity_to_json(cls, elec: Electricity) -> json:
+    def convert_electricity_entity_to_json(cls, elec) -> json:
         es = ElectricityService()
         return es.convert_electricity_entity_to_json(elec)
+
+
+    """create flight entity
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosensehim.de)
+        :param passengers: amount of passengers
+        :type passengers: int
+        :param departure:  Airport from which you are departing. International abbreviation Dublin equals DUB
+        :type departure: str
+        :param destination: Airport where you arrive. International abbreviation Munich equals MUC
+        :type destination: str 
+        :param distance_unit: the distance unit you want your estimates be based on km or mi 
+        :type distance_unit: str
+        :param cabin: Cabin class economy or premium
+        :type cabin: str
+        :returns: Flight entity
+    """
+    def create_flight_entity(self, passengers: int, departure: str, destination: str, distance_unit: str, cabin: str):
+        fs = FlightService()
+        return fs.create_flight_entity(passengers, departure, destination, distance_unit, cabin)
+
+    """create needed leg object for your flight entity. containing destination and departure airports and choosen cabin class
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param departure: Airport from which you are departing. International abbreviation Dublin equals DUB
+    :type departure: str
+    :param destination: Airport where you arrive. International abbreviation Munich equals MUC
+    :type destination: str
+    :param cabin: Cabin class you intending to book
+    :type cabin: str
+    :returns: Leg entity containing destination and departure Airports and cabin class  
+    """
+    def create_leg_object(self, departure: str, destination: str, cabin: str):
+        fs = FlightService()
+        return fs.create_leg_object(departure, destination, cabin)
+
+    """get cabin class from given string value
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param type: Choosen cabin class for your flight
+    :type type: str
+    :returns: Cabin class economy or premium
+    """
+    def get_cabin_class(self, type: str):
+        fs = FlightService()
+        return fs.get_cabin_class(type)
+
+    """abstract method up for implementation to get estimates from a carbon score api
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param passangers: Amount of passengers
+    :type passengers: int
+    :param departure:  Airport from which you are departing. International abbreviation Dublin equals DUB
+    :type departure: str
+    :param destination: Airport where you arrive. International abbreviation Munich equals MUC
+    :type destination: str 
+    :param unit: the distance unit you want your estimates be based on km or mi 
+    :type unit: str
+    :param cabin: Cabin class economy or premium
+    :type cabin: str
+    :returns: json flight entity
+    :rtype: json
+    """
+    def prepare_flight_for_estimate(self, passengers: int, departure: str, destination: str, unit: str, cabin: str) -> json:
+       fl = self.create_flight_entity(passengers, departure, destination, unit, cabin)
+       return self.convert_flight_entity_to_json(fl)
+
+    """converts given flight entity to json
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :param flight: Flight entity
+    :type flight: flight
+    :returns: JSON 
+    :rtype: json
+    """
+    def convert_flight_entity_to_json(self, flight) -> json:
+        fs = FlightService
+        return fs.convert_flight_entity_to_json(flight)
+
+    """Helper function for possible ui implementation 
+
+    :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+    :returns: IATA URL for official international airport abbreviations
+    :rtype: str
+    """
+    def iata_airport_info_url(self) -> str:
+        fs = FlightService()
+        return fs.iata_airport_info_url()
