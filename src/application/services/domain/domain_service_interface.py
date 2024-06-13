@@ -204,7 +204,7 @@ class DomainServiceInterface(ElectricityService, FlightService, ShippingService)
     :rtype: json
     """
     def prepare_for_shipping_estimate(self, weight_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str) -> json:
-        ship = self.create_shipping_entity(w_unit, weight_value, distance_unit, distance_value, transport_method)
+        ship = self.create_shipping_entity(weight_unit, weight_value, distance_unit, distance_value, transport_method)
         return self.convert_shipping_entity_to_json(ship)
 
     """converts shipping entity to json
