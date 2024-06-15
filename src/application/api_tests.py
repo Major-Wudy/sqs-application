@@ -23,10 +23,10 @@ class ApiTestCase(unittest.TestCase):
     flight_endpoint = "/api/create/flight/"
     shipping_endpoint = "/api/create/shipping/"
     fuel_endpoint = "/api/create/fuel/"
-    estimate_electricity_endpoint = "/api/get/estimate/electricity/"
-    estimate_flight_endpoint = "/api/get/estimate/flight/"
-    estimate_shipping_endpoint = "/api/get/estimate/shipping/"
-    estimate_fuel_endpoint = "/api/get/estimate/fuel/"
+    estimate_electricity_endpoint = "/api/estimate/electricity/"
+    estimate_flight_endpoint = "/api/estimate/flight/"
+    estimate_shipping_endpoint = "/api/estimate/shipping/"
+    estimate_fuel_endpoint = "/api/estimate/fuel/"
 
     header = {'Authorization': 'Bearer ' + token}
 

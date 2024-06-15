@@ -1,7 +1,7 @@
 Feature: Test POST /api/get/estimate/shipping/
 
   Background:
-    * url 'http://web:8000/api/get/estimate/shipping/'
+    * url 'http://web:8000/api/estimate/shipping/'
     * header Authorization = 'Bearer ' + java.lang.System.getenv('TOKEN_UNIT_TEST')
 
   Scenario: Get shipping estimate - Successful request

@@ -33,7 +33,7 @@ class ElectricityService():
     :returns: Electricity entity
     :rtype: Electricity
     """
-    @abstractmethod
+    @classmethod
     def create_electricity_entity(cls, consumption_value: Decimal, country: str, state: str, unit: str = ElectricityUnit.KWH) -> Electricity:
         if unit != None:
             elec = Electricity(ActivityType.ELECTRICITY, consumption_value, country, state)

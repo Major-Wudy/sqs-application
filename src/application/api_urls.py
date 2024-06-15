@@ -5,13 +5,14 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 urlpatterns = [
     path('create/electricity/', api.create_electricity),
-    path('get/estimate/electricity/', api.get_estimate_electricity),
+    path('estimate/electricity/', api.get_estimate_electricity),
     path('create/flight/', api.create_flight),
-    path('get/estimate/flight/', api.get_estimate_flight),
+    path('estimate/flight/', api.get_estimate_flight),
     path('create/shipping/', api.create_shipping),
-    path('get/estimate/shipping/', api.get_estimate_shipping),
+    path('estimate/shipping/', api.get_estimate_shipping),
     path('create/fuel/', api.create_fuel),
-    path('get/estimate/fuel/', api.get_estimate_fuel),
+    path('estimate/fuel/', api.get_estimate_fuel),
+    path('get/score/', api.get_carbon_score_for_token),
     # OpenAPI
     path('v1/schema/', SpectacularAPIView.as_view(api_version='v1'), name='schema'),
     # Optional UI:

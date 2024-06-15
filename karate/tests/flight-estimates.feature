@@ -1,7 +1,7 @@
 Feature: Test POST /api/get/estimate/flight/
 
   Background:
-    * url 'http://web:8000/api/get/estimate/flight/'
+    * url 'http://web:8000/api/estimate/flight/'
     * header Authorization = 'Bearer ' + java.lang.System.getenv('TOKEN_UNIT_TEST')
 
   Scenario: Get flight estimate - Successful request

@@ -1,7 +1,7 @@
 Feature: Test POST /api/get/estimate/fuel/
 
   Background:
-    * url 'http://web:8000/api/get/estimate/fuel/'
+    * url 'http://web:8000/api/estimate/fuel/'
     * header Authorization = 'Bearer ' + java.lang.System.getenv('TOKEN_UNIT_TEST')
 
   Scenario: Get fuel estimate - Successful request

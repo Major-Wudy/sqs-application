@@ -53,7 +53,6 @@ forbidden_modules=
     application.models
     application.services.domain
     application.migrations
-    django
     coverage
     import-linter
 allow_indirect_imports=True
@@ -68,18 +67,58 @@ forbidden_modules=
     application.models
     application.services.infrastructure
     application.migrations
+    coverage
     django
+    import-linter
+allow_indirect_imports=True
+
+[importlinter:contract:infrastructure-interface]
+name=Infrastructure Interface Service doesn´t import Domain and Domain Models 
+type=forbidden
+source_modules=
+    application.services.infrastructure_interface
+forbidden_modules=
+    application.models
+    application.services.domain
+    application.migrations
     coverage
     import-linter
+
+[importlinter:contract:outer-ring]
+name=API and Views etc doen´t import anything but infrastructure services or infrastructure interfaces
+type=forbidden
+source_modules=
+    application.api
+    application.api_tests
+    application.api_urls
+    application.urls
+    application.admin
+    application.admin
+forbidden_modules=
+    application.models
+    application.services.domain
+    application.migrations
 allow_indirect_imports=True
 
 
 
 [importlinter:contract:Main-domain-independence-contract]
-name = Main Domain services are independent (Main: electricity, flight, fuel_combustion and shipping - supportive: distance_unit_service, transport_service, weight_unit_service) 
+name = Main Domain services are independent (Main: electricity, flight, fuel_combustion, carbon and shipping - supportive: distance_unit_service, transport_service, weight_unit_service) 
 type = independence
 modules =
     application.services.domain.electricity_service
     application.services.domain.flight_service
     application.services.domain.fuel_combustion_service
     application.services.domain.shipping_service
+    application.services.domain.carbon_service
+
+[importlinter:contract:Main-domain-models-independence-contract]
+name = Main Domain models are independent (Main: electricity, flight, fuel_combustion, carbon, activity and shipping) 
+type = independence
+modules =
+    application.models.electricity
+    application.models.activity
+    application.models.flight
+    application.models.fuel
+    application.models.shipping
+    application.models.carbon

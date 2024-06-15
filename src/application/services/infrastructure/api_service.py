@@ -250,6 +250,10 @@ class ApiServices():
     """get token form auth header
 
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param request: http request with bearer token
+        :type request: request
+        :returns: token
+        :rtype: str
     """
     @classmethod
     def get_token_from_header(cls, request):
@@ -260,7 +264,18 @@ class ApiServices():
             return token
         return ""
 
-    def get_carbon_score_from_request(self, response, session_id):
+    """get carbon score from request for token or session id
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param request: http request with bearer token
+        :type request: request
+        :param session_id: token or session_id from request
+        :type session_id: str
+        :returns: score as json
+        :rtype: json
+    """
+    @classmethod
+    def get_carbon_score_from_request(cls, response, session_id):
         try:
             resp_json = response.data
             data = resp_json.get('data')
@@ -277,3 +292,19 @@ class ApiServices():
             return ds.convert_score_to_json(score)
         except Exception as err:
             return {'error': f'something went wrong {err}'}
+
+    """get carbon score sum from database with given unit
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param token: identifiyer for your database sum up
+        :type token: str
+        :param unit: unit you want your score displayed in
+        :type unit: str
+        :returns: database response as json
+    """
+    @classmethod
+    def get_carbon_score_for_token(cls, token: str, unit: str):
+        dbs = DatabaseServiceInterface()
+        score = dbs.sum_carbon_score_for_session_id(token, unit)
+        json = {f"score_{unit}":score}
+        return Response(json, status=status.HTTP_200_OK, content_type=cls.content_json)

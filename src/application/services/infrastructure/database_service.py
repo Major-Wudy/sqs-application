@@ -13,6 +13,15 @@ from array import *
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
 """
 class DatabaseService():
+    """execute sql queries
+
+        :author: Raphael Wudy (raphae.wudy@stud.th-rosenheim.de)
+        :param query: sql query for execution
+        :type query: str
+        :param params: Array of your params default is none
+        :type params: array or None
+        :returns: database entries on select or affected rows by update, delete, insert
+    """
     def execute_sql(self, query, params=None):
         with connection.cursor() as cursor:
             cursor.execute(query, params)
@@ -24,8 +33,10 @@ class DatabaseService():
     """abstract method up for implementation to interact with your Database update
 
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
-        :param params: your insert values
-        :type params: array
+        :param request: request from api to save for unsucceded call to do it later
+        :type request: json
+        :param session_id: identifyer for user
+        :type session_id: str
    """
     @abstractmethod
     def insert_requests(self, request, session_id):
@@ -40,12 +51,36 @@ class DatabaseService():
         :type params: array
     """
     @abstractmethod
-    def delete_request(params: array):
+    def delete_request(self, params: array):
         pass
 
-    """
+    """abstract method up for implementation insert carbon scores into database
+
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param carbon_g: carbon pollution in gramms
+        :type carbon_g: decimal
+        :param carbon_kg: carbon pollution in kilogramms
+        :type carbon_kg: decimal
+        :param carbon_lb: carbon pollution in pounds
+        :type carbon_lb: decimal
+        :param carbon_mt: carbon pollution in megatons
+        :type carbon_mt: decimal
+        :param session_id: identifyer for user etc. in database
+        :type session_id: str
     """
+    @abstractmethod
     def insert_carbon_score(self, carbon_g, carbon_kg, carbon_lb, carbon_mt, session_id):
+        pass
+
+    """ abstractmethod up for implementation delete carbon score for user or specific one
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param id: Id of your database entry
+        :type id: int
+        :param token: identifiyer for all scores per user
+        :type token: str
+    """
+    @abstractmethod
+    def delete_carbon_score(self, id, token):
         pass
     
