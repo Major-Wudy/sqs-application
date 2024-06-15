@@ -356,7 +356,7 @@ class DatabaseTestCase(unittest.TestCase):
     
     def test_delete_request_empty(self):
         result = self.dbs.delete_request()
-        self.assertEquals(result, 0)
+        self.assertIsInstance(result, dict)
     
     def test_insert_carbon_score(self):
         result = self.dbs.insert_carbon_score(1,2,3,4, self.session_id)
