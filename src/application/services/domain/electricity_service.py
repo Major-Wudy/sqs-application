@@ -1,5 +1,6 @@
 import sys
 import os
+import logging
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
@@ -55,8 +56,8 @@ class ElectricityService():
             if not isinstance(elec, Electricity) or not isinstance(unit, ElectricityUnit):
                 raise TypeError()
             elec.electricity_unit = unit
-        except TypeError:
-            print("Wrong elec parameters")
+        except TypeError as err:
+            logging.error(f"TypeError raised {err}")
 
     """converts given electricity Entity to json
 

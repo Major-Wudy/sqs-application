@@ -9,6 +9,7 @@ sys.path.append(application_dir)
 
 from application.models.carbon.score import Score
 from decimal import Decimal
+import logging
 
 """Domain Service CarbonService
 
@@ -38,7 +39,8 @@ class CarbonService():
                 raise TypeError()
             
             return Score(Decimal(score_g), Decimal(score_kg), Decimal(score_lb), Decimal(score_mt), session_id)
-        except TypeError:
+        except TypeError as err:
+            logging.error(f"TypeError raised {err}")
             return Score(Decimal(0), Decimal(0), Decimal(0), Decimal(0), "")
 
     """converts given Carbon Score Entity to json
@@ -61,7 +63,8 @@ class CarbonService():
                 "carbon_mt":str(score.score_mt.quantize(Decimal('0.01'))),
                 "sessionId":score.session_id,
             }
-        except TypeError:
+        except TypeError as err:
+            logging.error(f"TypeError raised {err}")
             return {
                 "carbon_g": "0",
                 "carbon_kg": "0",

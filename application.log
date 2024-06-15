@@ -1,0 +1,99 @@
+2024-06-15:14:24:08,921 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:24:25,462 INFO     [autoreload.py:266] /app/src/application/services/domain/carbon_service.py changed, reloading.
+2024-06-15:14:24:26,164 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:25:02,876 INFO     [autoreload.py:266] /app/src/application/services/domain/carbon_service.py changed, reloading.
+2024-06-15:14:25:03,575 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:25:16,040 INFO     [autoreload.py:266] /app/src/application/services/domain/carbon_service.py changed, reloading.
+2024-06-15:14:25:16,757 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:25:21,138 INFO     [autoreload.py:266] /app/src/application/services/domain/carbon_service.py changed, reloading.
+2024-06-15:14:25:21,815 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:25:27,194 INFO     [autoreload.py:266] /app/src/application/services/domain/carbon_service.py changed, reloading.
+2024-06-15:14:25:27,982 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:25:51,569 INFO     [autoreload.py:266] /app/src/application/services/domain/distance_unit_service.py changed, reloading.
+2024-06-15:14:25:52,226 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:26:04,685 INFO     [autoreload.py:266] /app/src/application/services/domain/distance_unit_service.py changed, reloading.
+2024-06-15:14:26:05,477 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:26:17,951 INFO     [autoreload.py:266] /app/src/application/services/domain/electricity_service.py changed, reloading.
+2024-06-15:14:26:18,646 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:26:30,067 INFO     [autoreload.py:266] /app/src/application/services/domain/electricity_service.py changed, reloading.
+2024-06-15:14:26:30,709 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:26:45,189 INFO     [autoreload.py:266] /app/src/application/services/domain/flight_service.py changed, reloading.
+2024-06-15:14:26:45,893 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:26:53,393 INFO     [autoreload.py:266] /app/src/application/services/domain/flight_service.py changed, reloading.
+2024-06-15:14:26:54,108 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:27:12,644 INFO     [autoreload.py:266] /app/src/application/services/domain/flight_service.py changed, reloading.
+2024-06-15:14:27:13,327 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:27:27,792 INFO     [autoreload.py:266] /app/src/application/services/domain/fuel_combustion_service.py changed, reloading.
+2024-06-15:14:27:28,591 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:27:54,357 INFO     [autoreload.py:266] /app/src/application/services/domain/fuel_combustion_service.py changed, reloading.
+2024-06-15:14:27:55,505 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:28:11,198 INFO     [autoreload.py:266] /app/src/application/services/domain/fuel_combustion_service.py changed, reloading.
+2024-06-15:14:28:12,371 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:28:28,903 INFO     [autoreload.py:266] /app/src/application/services/domain/shipping_service.py changed, reloading.
+2024-06-15:14:28:29,900 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:28:45,475 INFO     [autoreload.py:266] /app/src/application/services/domain/shipping_service.py changed, reloading.
+2024-06-15:14:28:46,531 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:28:57,072 INFO     [autoreload.py:266] /app/src/application/services/domain/transport_service.py changed, reloading.
+2024-06-15:14:28:58,046 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:29:07,700 INFO     [autoreload.py:266] /app/src/application/services/domain/transport_service.py changed, reloading.
+2024-06-15:14:29:08,761 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:29:23,317 INFO     [autoreload.py:266] /app/src/application/services/domain/weight_unit_service.py changed, reloading.
+2024-06-15:14:29:24,270 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:29:29,599 INFO     [autoreload.py:266] /app/src/application/services/domain/weight_unit_service.py changed, reloading.
+2024-06-15:14:29:30,417 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:29:36,825 INFO     [autoreload.py:266] /app/src/application/services/domain/fuel_combustion_service.py changed, reloading.
+2024-06-15:14:29:37,817 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:30:19,917 INFO     [autoreload.py:266] /app/src/application/services/domain_interface/domain_service_interface.py changed, reloading.
+2024-06-15:14:30:20,928 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:31:04,003 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/api_service.py changed, reloading.
+2024-06-15:14:31:05,040 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:31:17,797 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/api_service.py changed, reloading.
+2024-06-15:14:31:18,795 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:31:30,561 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/api_service.py changed, reloading.
+2024-06-15:14:31:31,567 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:31:43,172 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/api_service.py changed, reloading.
+2024-06-15:14:31:44,105 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:32:01,803 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/api_service.py changed, reloading.
+2024-06-15:14:32:02,680 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:32:27,439 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/api_service.py changed, reloading.
+2024-06-15:14:32:28,625 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:32:35,302 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/api_service.py changed, reloading.
+2024-06-15:14:32:36,548 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:32:43,108 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/api_service.py changed, reloading.
+2024-06-15:14:32:43,996 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:32:49,683 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/api_service.py changed, reloading.
+2024-06-15:14:32:50,864 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:33:42,158 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/estimates_service.py changed, reloading.
+2024-06-15:14:33:43,057 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:35:17,534 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/estimates_service.py changed, reloading.
+2024-06-15:14:35:18,236 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:35:29,768 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/estimates_service.py changed, reloading.
+2024-06-15:14:35:30,450 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:35:42,912 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/estimates_service.py changed, reloading.
+2024-06-15:14:35:43,618 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:35:49,001 INFO     [autoreload.py:266] /app/src/application/services/infrastructure/estimates_service.py changed, reloading.
+2024-06-15:14:35:49,686 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:36:48,658 INFO     [autoreload.py:266] /app/src/application/services/infrastructure_interface/database_interface.py changed, reloading.
+2024-06-15:14:36:49,390 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:36:54,833 INFO     [autoreload.py:266] /app/src/application/services/infrastructure_interface/database_interface.py changed, reloading.
+2024-06-15:14:36:55,480 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:37:14,075 INFO     [autoreload.py:266] /app/src/application/api.py changed, reloading.
+2024-06-15:14:37:14,815 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:37:51,556 INFO     [autoreload.py:266] /app/src/application/api.py changed, reloading.
+2024-06-15:14:37:52,212 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:38:00,623 INFO     [autoreload.py:266] /app/src/application/api.py changed, reloading.
+2024-06-15:14:38:01,308 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:38:13,775 INFO     [autoreload.py:266] /app/src/application/api.py changed, reloading.
+2024-06-15:14:38:14,562 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:38:24,075 INFO     [autoreload.py:266] /app/src/application/api.py changed, reloading.
+2024-06-15:14:38:24,785 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:38:35,253 INFO     [autoreload.py:266] /app/src/application/api.py changed, reloading.
+2024-06-15:14:38:35,988 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:38:46,449 INFO     [autoreload.py:266] /app/src/application/api.py changed, reloading.
+2024-06-15:14:38:47,164 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:38:54,583 INFO     [autoreload.py:266] /app/src/application/api.py changed, reloading.
+2024-06-15:14:38:55,259 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:38:56,619 INFO     [autoreload.py:266] /app/src/application/api.py changed, reloading.
+2024-06-15:14:38:57,362 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-15:14:39:01,793 INFO     [autoreload.py:266] /app/src/application/api.py changed, reloading.
+2024-06-15:14:39:02,491 INFO     [autoreload.py:668] Watching for file changes with StatReloader

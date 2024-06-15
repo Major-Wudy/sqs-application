@@ -1,5 +1,6 @@
 import sys
 import os
+import logging
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
@@ -33,5 +34,6 @@ def create_weight_unit(unit: str) -> WeightUnit:
         else:
             # Set gramms as default value
             return WeightUnit.G
-    except TypeError:
+    except TypeError as err:
+        logging.error(f"Default value will be assigned. TypeError raised {err}")
         return WeightUnit.G

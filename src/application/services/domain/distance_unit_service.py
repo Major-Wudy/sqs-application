@@ -1,5 +1,6 @@
 import sys
 import os
+import logging
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
@@ -29,5 +30,6 @@ def create_distance_unit(unit: str) -> DistanceUnit:
         else:
             # Set Km as default value
             return DistanceUnit.KM
-    except TypeError:
+    except TypeError as err:
+        logging.error(f"Default value will be assigned. TypeError raised {err}")
         return DistanceUnit.KM

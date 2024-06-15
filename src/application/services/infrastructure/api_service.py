@@ -1,5 +1,6 @@
 import sys
 import os
+import logging
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
@@ -62,9 +63,11 @@ class ApiServices():
             json_data =  ds.convert_electricity_entity_to_json(elec)
             return Response(json_data, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
+            logging.error(f"TypeError raised {typeErr}")
             error = {"error":f"Wrong parameter type: {typeErr}"}
             return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type=cls.content_json)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
@@ -83,6 +86,7 @@ class ApiServices():
             json = es.get_estimate_for_electricity_use(Decimal(electricity.get("electricity_value")), electricity.get("country"), electricity.get("state"), electricity.get("electricity_unit"))
             return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
@@ -111,9 +115,11 @@ class ApiServices():
             json =  ds.convert_flight_entity_to_json(flight)
             return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
+            logging.error(f"TypeError raised {typeErr}")
             error = {"error":f"Wrong parameter type: {typeErr}"}
             return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type=cls.content_json)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
@@ -136,6 +142,7 @@ class ApiServices():
             json_data = es.get_estimate_for_flight(flight.get("passengers"), legs[0]['departure_airport'], legs[0]['destination_airport'], flight.get("distance_unit"), legs[0]['cabin_class'])
             return Response(json_data, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
@@ -175,9 +182,11 @@ class ApiServices():
             json =  ds.convert_shipping_entity_to_json(ship)
             return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
+            logging.error(f"TypeError raised {typeErr}")
             error = {"error":f"Wrong parameter type: {typeErr}"}
             return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type=cls.content_json)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
@@ -196,6 +205,7 @@ class ApiServices():
             json = es.get_estimate_for_shipping(shipping.get("weight_unit"), Decimal(shipping.get("weight_value")), shipping.get("distance_unit"), Decimal(shipping.get("distance_value")), shipping.get("transport_method"))
             return Response(json, status=status.HTTP_201_CREATED)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
@@ -223,9 +233,11 @@ class ApiServices():
             json =  ds.convert_fuel_entity_to_json(fuel)
             return Response(json, status=status.HTTP_201_CREATED)
         except TypeError as typeErr:
+            logging.error(f"TypeError raised {typeErr}")
             error = {"error":f"Wrong parameter type: {typeErr}"}
             return Response(error, status=status.HTTP_400_BAD_REQUEST, content_type=cls.content_json)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
@@ -244,6 +256,7 @@ class ApiServices():
             json = es.get_estimate_for_fuel_use(Decimal(fuel.get("fuel_source_value")), "", fuel.get("fuel_source_unit"), fuel.get("fuel_source_type"))
             return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
 
@@ -291,6 +304,7 @@ class ApiServices():
             
             return ds.convert_score_to_json(score)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             return {'error': f'something went wrong {err}'}
 
     """get carbon score sum from database with given unit
