@@ -349,6 +349,10 @@ class DatabaseTestCase(unittest.TestCase):
     def test_insert_request_empty(self):
         result = self.dbs.insert_request(request="", session_id=self.session_id)
         self.assertIsInstance(result, dict)
+    
+    def test_insert_request_empty_session_id(self):
+        result = self.dbs.insert_request(request="test", session_id="")
+        self.assertIsInstance(result, dict)
 
     def test_delete_request(self):
         result = self.dbs.delete_request(token=self.session_id)
@@ -357,6 +361,10 @@ class DatabaseTestCase(unittest.TestCase):
     def test_delete_request_empty(self):
         result = self.dbs.delete_request()
         self.assertIsInstance(result, dict)
+    
+    def test_delete_request_by_id(self):
+        result = self.dbs.delete_request(id=1)
+        self.assertIsInstance(result, int)
     
     def test_insert_carbon_score(self):
         result = self.dbs.insert_carbon_score(1,2,3,4, self.session_id)
@@ -370,12 +378,28 @@ class DatabaseTestCase(unittest.TestCase):
         result = self.dbs.delete_carbon_score(token=self.session_id)
         self.assertIsInstance(result, int)
     
+    def test_delete_carbon_score_by_id(self):
+        result = self.dbs.delete_carbon_score(id=1)
+        self.assertIsInstance(result, int)
+    
     def test_delete_carbon_score_empty(self):
         result = self.dbs.delete_carbon_score()
         self.assertIsInstance(result, dict)
 
     def test_sum_carbon_score_for_session_id(self):
         result = self.dbs.sum_carbon_score_for_session_id(token=self.session_id)
+        self.assertIsInstance(result, Decimal)
+    
+    def test_sum_carbon_score_for_session_id_kg(self):
+        result = self.dbs.sum_carbon_score_for_session_id(token=self.session_id, unit="kg")
+        self.assertIsInstance(result, Decimal)
+    
+    def test_sum_carbon_score_for_session_id_lb(self):
+        result = self.dbs.sum_carbon_score_for_session_id(token=self.session_id, unit="lb")
+        self.assertIsInstance(result, Decimal)
+    
+    def test_sum_carbon_score_for_session_id_mt(self):
+        result = self.dbs.sum_carbon_score_for_session_id(token=self.session_id, unit="mt")
         self.assertIsInstance(result, Decimal)
     
     def test_sum_carbon_score_for_session_id_empty(self):
