@@ -1,5 +1,6 @@
 import sys
 import os
+import logging
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
@@ -34,4 +35,5 @@ def create_transport(method: str) -> Transport:
             # Set truck as default value
             return Transport.TRUCK
     except TypeError:
+        logging.error(f"Default value will be assigned. TypeError raised {err}")
         return Transport.TRUCK

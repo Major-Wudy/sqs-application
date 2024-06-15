@@ -1,5 +1,6 @@
 import sys
 import os
+import logging
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
@@ -54,11 +55,11 @@ class FuelService():
                 raise ValueError()
 
             return FuelCombustion(ActivityType.FUEL_COMBUSTION, fuel_api_name, fuel_unit, consumption_value)
-        except TypeError:
-            print("Wrong fuel parameters")
+        except TypeError as err:
+            logging.error(f"TypeError raised {err}")
             return None
-        except ValueError:
-            print("fuel Variables are empty")
+        except ValueError as err:
+            logging.error(f"ValueError raised {err}")
             return None
     
     """converts given fuel entity to json

@@ -1,5 +1,6 @@
 import sys
 import os
+import logging
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
@@ -49,20 +50,11 @@ class ShippingService():
             weight_unit = create_weight_unit(w_unit)
             transport = create_transport(transport_method)
             return Shipping(ActivityType.SHIPPING, weight_unit, weight_value, distance_unit, distance_value, transport)
-        except TypeError:
-            if not isinstance(w_unit, str):
-                print("w_unit is wrong")
-            if not isinstance(weight_value, Decimal):
-                print("weight_value is wrong")
-            if not isinstance(distance_unit, str):
-                print("distance_unit is wrong")
-            if not isinstance(distance_value, Decimal):
-                print("distance_value is wrong") 
-            if not isinstance(transport_method, str):
-                print("transport_method is wrong")
+        except TypeError as err:
+            logging.error(f"TypeError raised {err}")
             return None
         except Exception as err:
-            print(f'an error occured {err}')
+            logging.error(f"Exception raised {err}")
     
     """abstract method up for implementation to get estimates form a carbon score api
 

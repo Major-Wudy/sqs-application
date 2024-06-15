@@ -1,5 +1,6 @@
 import sys
 import os
+import logging
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
@@ -46,8 +47,8 @@ class FlightService():
             distance_unit = create_distance_unit(distance_unit)
             leg_object = cls.create_leg_object(departure, destination, cabin)
             return Flight(ActivityType.FLIGHT, passengers, leg_object, distance_unit)
-        except TypeError:
-            print("Wrong parameters flight")
+        except TypeError as err:
+            logging.error(f"TypeError raised {err}")
 
     """create needed leg object for your flight entity. containing destination and departure airports and choosen cabin class
 
@@ -87,7 +88,8 @@ class FlightService():
             else:
                 # Set Km as default value
                 return CabinClass.ECONOMY
-        except TypeError:
+        except TypeError as err:
+            logging.error(f"Default value will be assigned. TypeError raised {err}")
             return CabinClass.ECONOMY
     
     """abstract method up for implementation to get estimates from a carbon score api

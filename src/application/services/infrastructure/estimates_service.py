@@ -1,5 +1,6 @@
 import sys
 import os
+import logging
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
@@ -50,12 +51,14 @@ class EstimatesService(CarbonInterfaceRequestService):
 
             return response.json()
         except requests.exceptions.HTTPError as http_err:
+            logging.error(f"HTTPError raised {http_err}")
             message = request_args
             return {'error': f'HTTP error occurred: {http_err}. {message}'}
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             return {'error': f'something went wrong {err}. Url provided?'}
         else:
-            print(response.json())
+            logging.error(f"other error raised {response.json()}")
 
     """get estimate for electricity use
 
@@ -81,6 +84,7 @@ class EstimatesService(CarbonInterfaceRequestService):
 
             return self.post(url, json=payload, headers=headers)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             return {'error': f'Please check params. Error message {err}'}
     
     """get estimate for your flight
@@ -109,6 +113,7 @@ class EstimatesService(CarbonInterfaceRequestService):
 
             return self.post(url, json=payload, headers=headers)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             return {'error': f'Please check params. Error message {err}'}
     
     """get estimate for package shipping
@@ -137,6 +142,7 @@ class EstimatesService(CarbonInterfaceRequestService):
             
             return self.post(url, json=payload, headers=headers)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             return {'error': f'Please check params. Error message {err}'}
 
     """get estimate for fuel consumption
@@ -163,4 +169,5 @@ class EstimatesService(CarbonInterfaceRequestService):
 
             return self.post(url, json=payload, headers=headers)
         except Exception as err:
+            logging.error(f"Exception raised {err}")
             return {'error': f'Please check params. Error message {err}'}

@@ -14,6 +14,7 @@ from decimal import Decimal
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample, OpenApiResponse, OpenApiRequest, OpenApiCallback
 from drf_spectacular.types import OpenApiTypes
 from rest_framework import status
+import logging
 
 @extend_schema(
     description="create an electricity Object",
@@ -92,9 +93,11 @@ def create_electricity(request):
             dbs.delete_request(request=data)
         return resp
     except TypeError as err:
+        logging.error(f"TypeError raised {err}")
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
+        logging.error(f"Exception raised {err}")
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -190,9 +193,11 @@ def get_estimate_electricity(request):
 
         return resp 
     except TypeError as err:
+        logging.error(f"TypeError raised {err}")
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
+        logging.error(f"Exception raised {err}")
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -283,9 +288,11 @@ def create_flight(request):
             dbs.delete_request(request=data)
         return resp 
     except TypeError as err:
+        logging.error(f"TypeError raised {err}")
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
+        logging.error(f"Exception raised {err}")
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -391,9 +398,11 @@ def get_estimate_flight(request):
             dbs.insert_carbon_score(score.get('carbon_g'), score.get('carbon_kg'), score.get('carbon_lb'), score.get('carbon_mt'), token)
         return resp 
     except TypeError as err:
+        logging.error(f"TypeError raised {err}")
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
+        logging.error(f"Exception raised {err}")
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -476,9 +485,11 @@ def create_shipping(request):
             dbs.delete_request(request=data)
         return resp 
     except TypeError as err:
+        logging.error(f"TypeError raised {err}")
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
+        logging.error(f"Exception raised {err}")
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -575,9 +586,11 @@ def get_estimate_shipping(request):
             dbs.insert_carbon_score(score.get('carbon_g'), score.get('carbon_kg'), score.get('carbon_lb'), score.get('carbon_mt'), token)
         return resp 
     except TypeError as err:
+        logging.error(f"TypeError raised {err}")
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
+        logging.error(f"Exception raised {err}")
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -655,9 +668,11 @@ def create_fuel(request):
             dbs.delete_request(request=data)
         return resp 
     except TypeError as err:
+        logging.error(f"TypeError raised {err}")
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
+        logging.error(f"Exception raised {err}")
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -750,9 +765,11 @@ def get_estimate_fuel(request):
             dbs.insert_carbon_score(score.get('carbon_g'), score.get('carbon_kg'), score.get('carbon_lb'), score.get('carbon_mt'), token)
         return resp 
     except TypeError as err:
+        logging.error(f"TypeError raised {err}")
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
+        logging.error(f"Exception raised {err}")
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -818,9 +835,11 @@ def get_carbon_score_for_token(request):
         token = api.get_token_from_header(request)
         return api.get_carbon_score_for_token(token, data.get('unit'))
     except TypeError as err:
+        logging.error(f"TypeError raised {err}")
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
+        logging.error(f"Exception raised {err}")
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -873,5 +892,6 @@ def delete_carbon_score_for_token(request):
         message = {"ok":"nothing to delete"}
         return Response(message, status=status.HTTP_200_OK)
     except Exception as err:
+        logging.error(f"Exception raised {err}")
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
