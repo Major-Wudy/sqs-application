@@ -50,7 +50,7 @@ class ShippingService():
             weight_unit = create_weight_unit(w_unit)
             transport = create_transport(transport_method)
             return Shipping(ActivityType.SHIPPING, weight_unit, weight_value, distance_unit, distance_value, transport)
-        except TypeError:
+        except TypeError as err:
             logging.error(f"TypeError raised {err}")
             return None
         except Exception as err:
