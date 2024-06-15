@@ -6,7 +6,6 @@ application_dir = os.path.dirname(parent_dir)
 
 from django.db import connection
 from abc import ABC, abstractmethod
-from array import *
 
 """Infrastructure Service Database Service
 
@@ -45,10 +44,12 @@ class DatabaseService():
     """abstract method up for implementation to interact with your Database delete
 
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
-        :param table: database table name
-        :type table: str
-        :param params: Where clause of your delete statement key value pairs column as key condition as value 
-        :type params: array
+        :param id: id in database
+        :type id: int
+        :param token: identifiyer for user 
+        :type token: str
+        :param request: request inserted into db
+        :type reuest: str or json
         :returns: affected rows count
     """
     @abstractmethod

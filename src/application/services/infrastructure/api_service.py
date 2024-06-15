@@ -316,6 +316,6 @@ class ApiServices():
         :type token: str or None
     """
     def delete_carbon_score_by_token(self, token=None):
-        if not token == None:
+        if token != None:
             dbs = DatabaseServiceInterface()
             return dbs.delete_carbon_score(token=token)

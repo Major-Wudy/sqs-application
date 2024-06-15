@@ -862,7 +862,7 @@ def get_carbon_score_for_token(request):
 @api_view(['GET'])
 @authentication_classes([BearerAuthentication])
 @permission_classes([IsAuthenticated])
-def delete_carbon_scor_for_token(request):
+def delete_carbon_score_for_token(request):
     try:
         api = ApiServices()
         token = api.get_token_from_header(request)

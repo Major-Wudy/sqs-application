@@ -78,7 +78,7 @@ class DomainServiceInterface(ElectricityService, FlightService, ShippingService,
     :returns: JSON 
     :rtype: json
     """
-    def convert_electricity_entity_to_json(cls, elec) -> json:
+    def convert_electricity_entity_to_json(self, elec) -> json:
         es = ElectricityService()
         return es.convert_electricity_entity_to_json(elec)
 
@@ -287,7 +287,7 @@ class DomainServiceInterface(ElectricityService, FlightService, ShippingService,
         :returns: Score
         :rtype: Score
     """
-    def create_carbon_score(cls, score_g: Decimal, score_kg: Decimal, score_lb: Decimal, score_mt: Decimal, session_id: str):
+    def create_carbon_score(self, score_g: Decimal, score_kg: Decimal, score_lb: Decimal, score_mt: Decimal, session_id: str):
         cs = CarbonService()
         return cs.create_carbon_score(score_g, score_kg, score_lb, score_mt, session_id)
 
@@ -299,6 +299,6 @@ class DomainServiceInterface(ElectricityService, FlightService, ShippingService,
         :returns: dictionary
         :rtype: dict
     """
-    def convert_score_to_json(cls, score) -> dict:
+    def convert_score_to_json(self, score) -> dict:
         cs = CarbonService()
         return cs.convert_score_to_json(score)

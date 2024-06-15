@@ -5,7 +5,6 @@ parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
 
 from application.services.infrastructure.database_service import DatabaseService
-from array import *
 
 """Instrastructure Service Interface Database
 
@@ -41,23 +40,25 @@ class DatabaseServiceInterface(DatabaseService):
     """delete request from database by id, token or request data
 
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
-        :param table: database table name
-        :type table: str
-        :param params: Where clause of your delete statement key value pairs column as key condition as value 
-        :type params: array
+        :param id: id in database
+        :type id: int
+        :param token: identifiyer for user 
+        :type token: str
+        :param request: request inserted into db
+        :type reuest: str or json
         :returns: affected rows count
     """
     def delete_request(self, id = "", token = "", request = ""):
         try:
             query = ""
             params = []
-            if not id == "":
+            if id != "":
                 query = "DELETE FROM request WHERE id = %s;"
                 params = [id]
-            if not token == "":
+            if token != "":
                 query = "DELETE FROM request WHERE session_id = %s;"
                 params = [token]
-            if request == "":
+            if request != "":
                 query = "DELETE FROM request WHERE request = %s;"
                 params = [token]
 
@@ -82,7 +83,7 @@ class DatabaseServiceInterface(DatabaseService):
     """
     def insert_carbon_score(self, carbon_g = 0, carbon_kg = 0, carbon_lb = 0, carbon_mt = 0, session_id = ""):
         try:
-            if not session_id == "":
+            if session_id != "":
                 query = "INSERT INTO carbon_score (carbon_g, carbon_kg, carbon_lb, carbon_mt, session_id) VALUES(%s,%s,%s,%s,%s)"
                 params = [carbon_g, carbon_kg, carbon_lb, carbon_mt, session_id]
                 return self.execute_sql(query, params)
@@ -105,10 +106,10 @@ class DatabaseServiceInterface(DatabaseService):
         try:
             query = ""
             params = []
-            if not id == None:
+            if id != None:
                 query = "DELETE FROM carbon_score WHERE id = %s;"
                 params = [id]
-            if not token == None:
+            if token != None:
                 query = "DELETE FROM carbon_score WHERE session_id = %s;"
                 params = [token]
             return self.execute_sql(query, params)
@@ -136,7 +137,7 @@ class DatabaseServiceInterface(DatabaseService):
                 case "mt":
                     query = "SELECT SUM(carbon_mt) FROM carbon_score WHERE session_id = %s;"
 
-            if not token == None:
+            if token != None:
                 params = [token]
                 score = self.execute_sql(query, params)
                 return score[0][0]
