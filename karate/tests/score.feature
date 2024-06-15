@@ -17,7 +17,7 @@ Feature: Test POST /api/get/score/
   Scenario: get score - Invalid value
     Given request { "anakin": "skywalker" }
     When method post
-    Then status 500
+    Then status 400
 
   Scenario: get score - Unauthorized
     Given request { "unit": "g" }
