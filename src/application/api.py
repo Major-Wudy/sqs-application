@@ -870,6 +870,8 @@ def delete_carbon_score_for_token(request):
         if deleted:
             message = {"success":"all carbon scores deleted"}
             return Response(message, status=status.HTTP_200_OK)
+        message = {"ok":"nothing to delete"}
+        return Response(message, status=status.HTTP_200_OK)
     except Exception as err:
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
