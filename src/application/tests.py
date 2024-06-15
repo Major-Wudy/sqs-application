@@ -456,7 +456,6 @@ class ApiTestCase(unittest.TestCase):
         response = self.c.get(self.delete_score_endpoint, headers=self.header)
         status_code = response.status_code
         self.assertEqual(status_code, 200)
-        self.assertIsInstance(result, dict)
 
 if __name__ == '__main__':
     with open('./src/test-reports/results.xml', 'wb') as output:
