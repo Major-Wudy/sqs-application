@@ -393,6 +393,8 @@ class ApiTestCase(unittest.TestCase):
     flight_endpoint = "/api/create/flight/"
     shipping_endpoint = "/api/create/shipping/"
     fuel_endpoint = "/api/create/fuel/"
+    score_endpoint = "/api/get/score/"
+    delete_score_endpoint = "/api/delete/score/"
     header = {'Authorization': 'Bearer ' + os.environ.get('TOKEN_UNIT_TEST')}
     def test_api_create_electricity(self):
         response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers=self.header)
@@ -442,6 +444,19 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('fuel_source_type'), "ng")
         self.assertEqual(result.get('fuel_source_unit'), "thousand_cubic_feet")
         self.assertEqual(result.get('fuel_source_value'), "500.00")
+    
+    def test_api_get_score(self):
+        response = self.c.post(self.score_endpoint, {"unit":"g"}, headers=self.header, content_type='application/json')
+        status_code = response.status_code
+        result = response.json()
+        self.assertEqual(status_code, 200)
+        self.assertIsInstance(result, dict)
+    
+    def test_api_delete_score(self):
+        response = self.c.get(self.delete_score_endpoint, headers=self.header)
+        status_code = response.status_code
+        self.assertEqual(status_code, 200)
+        self.assertIsInstance(result, dict)
 
 if __name__ == '__main__':
     with open('./src/test-reports/results.xml', 'wb') as output:

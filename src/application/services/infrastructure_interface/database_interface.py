@@ -32,9 +32,9 @@ class DatabaseServiceInterface(DatabaseService):
             query = "INSERT INTO request (request, session_id) VALUES (%s, %s);"
             return self.execute_sql(query, [request, session_id])
 
-        except ValueError as verr:
+        except ValueError:
             return {"error":"wrong parameters please check your values"}
-        except Exception as err:
+        except Exception:
             return {"error":"something went wrong - insert request in db aborted"}
 
     """delete request from database by id, token or request data
@@ -88,7 +88,7 @@ class DatabaseServiceInterface(DatabaseService):
                 params = [carbon_g, carbon_kg, carbon_lb, carbon_mt, session_id]
                 return self.execute_sql(query, params)
             raise ValueError()
-        except ValueError as err:
+        except ValueError:
             return {"error":"No Session Id specified on insert carbon score into db"}
         except Exception as err:
             return {"error":f"something went wrong - insert carbon score into db message: {err}"}
@@ -142,7 +142,7 @@ class DatabaseServiceInterface(DatabaseService):
                 score = self.execute_sql(query, params)
                 return score[0][0]
             raise ValueError()
-        except ValueError as err:
+        except ValueError:
             return {"error":"missing token"}
         except Exception as err:
             return {"error":f"something went wrong - sum carbon score from db err: {err}"}
