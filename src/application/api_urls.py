@@ -13,6 +13,7 @@ urlpatterns = [
     path('create/fuel/', api.create_fuel),
     path('estimate/fuel/', api.get_estimate_fuel),
     path('get/score/', api.get_carbon_score_for_token),
+    path('delete/score/', api.delete_carbon_scor_for_token),
     # OpenAPI
     path('v1/schema/', SpectacularAPIView.as_view(api_version='v1'), name='schema'),
     # Optional UI:

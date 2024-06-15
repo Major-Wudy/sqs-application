@@ -34,9 +34,10 @@ class DatabaseServiceInterface(DatabaseService):
             return self.execute_sql(query, [request, session_id])
 
         except ValueError as verr:
-            print(verr)
+            return {"error":"wrong parameters please check your values"}
         except Exception as err:
-            print(err)
+            return {"error":"something went wrong - insert request in db aborted"}
+
     """delete request from database by id, token or request data
 
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
@@ -48,6 +49,8 @@ class DatabaseServiceInterface(DatabaseService):
     """
     def delete_request(self, id = "", token = "", request = ""):
         try:
+            query = ""
+            params = []
             if not id == "":
                 query = "DELETE FROM request WHERE id = %s;"
                 params = [id]
@@ -60,7 +63,7 @@ class DatabaseServiceInterface(DatabaseService):
 
             return self.execute_sql(query, params)
         except Exception as err:
-            print(err)
+            return {"error":f"something went wrong - delete request from db aborted. error: {err}"}
 
     """insert carbon score into database
 
@@ -79,11 +82,15 @@ class DatabaseServiceInterface(DatabaseService):
     """
     def insert_carbon_score(self, carbon_g = 0, carbon_kg = 0, carbon_lb = 0, carbon_mt = 0, session_id = ""):
         try:
-            query = "INSERT INTO carbon_score (carbon_g, carbon_kg, carbon_lb, carbon_mt, session_id) VALUES(%s,%s,%s,%s,%s)"
-            params = [carbon_g, carbon_kg, carbon_lb, carbon_mt, session_id]
-            return self.execute_sql(query, params)
+            if not session_id == "":
+                query = "INSERT INTO carbon_score (carbon_g, carbon_kg, carbon_lb, carbon_mt, session_id) VALUES(%s,%s,%s,%s,%s)"
+                params = [carbon_g, carbon_kg, carbon_lb, carbon_mt, session_id]
+                return self.execute_sql(query, params)
+            raise ValueError()
+        except ValueError as err:
+            return {"error":"No Session Id specified on insert carbon score into db"}
         except Exception as err:
-            print(err)
+            return {"error":f"something went wrong - insert carbon score into db message: {err}"}
 
     """delete specific carbon score by id or all for one user by token
 
@@ -96,6 +103,8 @@ class DatabaseServiceInterface(DatabaseService):
     """
     def delete_carbon_score(self, id=None, token=None):
         try:
+            query = ""
+            params = []
             if not id == None:
                 query = "DELETE FROM carbon_score WHERE id = %s;"
                 params = [id]
@@ -104,7 +113,7 @@ class DatabaseServiceInterface(DatabaseService):
                 params = [token]
             return self.execute_sql(query, params)
         except Exception as err:
-            print(err)
+            return {"error":f"something went wrong - delete carbon score from db message: {err}"}
 
     """ sum up carbon score for one user
 
@@ -131,5 +140,9 @@ class DatabaseServiceInterface(DatabaseService):
                 params = [token]
                 score = self.execute_sql(query, params)
                 return score[0][0]
+            raise ValueError()
+        except ValueError as err:
+            return {"error":"missing token"}
         except Exception as err:
-            print(err)
+            return {"error":f"something went wrong - sum carbon score from db err: {err}"}
+            

@@ -26,3 +26,12 @@ class QuickstartUser(HttpUser):
     def create_fuel(self):
         fuel = self.client.post("api/create/fuel/", json={"source":"Natural Gas","value":500}, headers=self.header)
         response = self.client.post("api/estimate/fuel/", json=fuel.json(), headers=self.header)
+    
+    @task(1)
+    def get_score(self):
+        fuel = self.client.post("api/get/score/", json={"unit":"g"}, headers=self.header)
+    
+    
+    @task(1)
+    def delete_score(self):
+        fuel = self.client.get("api/delete/score/", headers=self.header)

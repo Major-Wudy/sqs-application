@@ -823,3 +823,53 @@ def get_carbon_score_for_token(request):
     except Exception as err:
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@extend_schema(
+    description="delete carbon score for token",
+        request=[
+            OpenApiCallback(name="delete carbon score", path="/api/delete/score/", decorator="requests"),
+        ],
+        responses={
+            status.HTTP_200_OK: OpenApiResponse("Success",
+                description="Success",
+                examples=[
+                    OpenApiExample(name="Success",
+                        value={
+                                "success":"all carbon scores deleted"
+                            })
+                    ],
+                ),
+            status.HTTP_401_UNAUTHORIZED: OpenApiResponse("UnauthorizedError",
+                description="UnauthorizedError",
+                examples=[
+                    OpenApiExample(name="UnauthorizedError",
+                        value={
+                            "detail":"Authentication credentials were not provided."
+                            })
+                    ],
+            ),
+            status.HTTP_500_INTERNAL_SERVER_ERROR: OpenApiResponse("Internal Server Error",
+                description="Internal Server Error",
+                examples=[
+                    OpenApiExample(name="Internal Server Error",
+                        value={
+                            "error":"Something went wrong"
+                            })
+                    ],
+            ),
+        }
+    )
+@api_view(['GET'])
+@authentication_classes([BearerAuthentication])
+@permission_classes([IsAuthenticated])
+def delete_carbon_scor_for_token(request):
+    try:
+        api = ApiServices()
+        token = api.get_token_from_header(request)
+        deleted = api.delete_carbon_score_by_token(token)
+        if deleted:
+            message = {"success":"all carbon scores deleted"}
+            return Response(message, status=status.HTTP_200_OK)
+    except Exception as err:
+        error = {'error': f"Something went wrong {err}"}
+        return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

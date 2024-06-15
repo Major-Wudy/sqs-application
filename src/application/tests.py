@@ -335,6 +335,52 @@ class ApiServiceTestCase(unittest.TestCase):
         resp = self.api.get_estimate_for_fuel_from_post("test")
         self.assertEqual(resp.status_code, 500)
         self.assertTrue(resp, dict)
+        
+
+from application.services.infrastructure_interface.database_interface import DatabaseServiceInterface
+class DatabaseTestCase(unittest.TestCase):
+    dbs = DatabaseServiceInterface()
+    request = {"testing":"request"}
+    session_id = "ExecuteOrder66"
+    def test_insert_request(self):
+        result = self.dbs.insert_request(self.request, self.session_id)
+        self.assertEquals(result, 1)
+    
+    def test_insert_request_empty(self):
+        result = self.dbs.insert_request(request="", session_id=self.session_id)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_request(self):
+        result = self.dbs.delete_request(token=self.session_id)
+        self.assertIsInstance(result, int)
+    
+    def test_delete_request_empty(self):
+        result = self.dbs.delete_request()
+        self.assertEquals(result, 0)
+    
+    def test_insert_carbon_score(self):
+        result = self.dbs.insert_carbon_score(1,2,3,4, self.session_id)
+        self.assertEquals(result, 1)
+    
+    def test_insert_carbon_score_empty_id(self):
+        result = self.dbs.insert_carbon_score(1,2,3,4)
+        self.assertIsInstance(result, dict)
+    
+    def test_delete_carbon_score(self):
+        result = self.dbs.delete_carbon_score(token=self.session_id)
+        self.assertIsInstance(result, int)
+    
+    def test_delete_carbon_score_empty(self):
+        result = self.dbs.delete_carbon_score()
+        self.assertIsInstance(result, dict)
+
+    def test_sum_carbon_score_for_session_id(self):
+        result = self.dbs.sum_carbon_score_for_session_id(token=self.session_id)
+        self.assertIsInstance(result, Decimal)
+    
+    def test_sum_carbon_score_for_session_id_empty(self):
+        result = self.dbs.sum_carbon_score_for_session_id()
+        self.assertIsInstance(result, dict)
 
 from django.test import Client
 from dotenv import load_dotenv

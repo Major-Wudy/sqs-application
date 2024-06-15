@@ -49,9 +49,10 @@ class DatabaseService():
         :type table: str
         :param params: Where clause of your delete statement key value pairs column as key condition as value 
         :type params: array
+        :returns: affected rows count
     """
     @abstractmethod
-    def delete_request(self, params: array):
+    def delete_request(self, id = "", token = "", request = ""):
         pass
 
     """abstract method up for implementation insert carbon scores into database

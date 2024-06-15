@@ -308,3 +308,14 @@ class ApiServices():
         score = dbs.sum_carbon_score_for_session_id(token, unit)
         json = {f"score_{unit}":score}
         return Response(json, status=status.HTTP_200_OK, content_type=cls.content_json)
+
+    """delete all carbon scores for identifyer
+
+        :author Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param token: identifiyer for database
+        :type token: str or None
+    """
+    def delete_carbon_score_by_token(self, token=None):
+        if not token == None:
+            dbs = DatabaseServiceInterface()
+            return dbs.delete_carbon_score(token=token)
