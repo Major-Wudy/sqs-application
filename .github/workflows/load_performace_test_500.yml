@@ -2,7 +2,7 @@ name: Load Performance test 500 Users
 
 on:
   workflow_run:
-    workflows: ["Load Performance test 200 Users"]
+    workflows: ["Docker Build"]
     types:
       - completed
     branches:
