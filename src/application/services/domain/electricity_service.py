@@ -88,9 +88,10 @@ class ElectricityService():
     :type state: str
     :param unit: electricity unit kwh or mwh
     :type unit: str
-    :returns: Server Response as Json
+    :returns: json
+    :rtype: json
     """
     @abstractmethod
-    def get_estimate_for_electricity_use(self, value: Decimal, country: str, state: str, unit: str):
+    def prepare_electricity_for_estimate(self, value: Decimal, country: str, state: str, unit: str) -> json:
         pass
 

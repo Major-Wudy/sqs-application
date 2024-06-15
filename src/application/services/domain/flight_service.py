@@ -21,6 +21,22 @@ import simplejson as json
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
 """
 class FlightService():
+    """create flight entity
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosensehim.de)
+        :param passengers: amount of passengers
+        :type passengers: int
+        :param departure:  Airport from which you are departing. International abbreviation Dublin equals DUB
+        :type departure: str
+        :param destination: Airport where you arrive. International abbreviation Munich equals MUC
+        :type destination: str 
+        :param distance_unit: the distance unit you want your estimates be based on km or mi 
+        :type distance_unit: str
+        :param cabin: Cabin class economy or premium
+        :type cabin: str
+        :returns: Flight entity
+        :rtype: Flight
+    """
     @classmethod
     def create_flight_entity(cls, passengers: int, departure: str, destination: str, distance_unit: str, cabin: str) -> Flight:
         try:
@@ -47,8 +63,8 @@ class FlightService():
     """
     @classmethod
     def create_leg_object(cls, departure: str, destination: str, cabin: str) -> Leg:
-            cabin_class = cls.get_cabin_class(cabin)
-            return Leg(departure, destination, cabin_class)
+        cabin_class = cls.get_cabin_class(cabin)
+        return Leg(departure, destination, cabin_class)
 
     """get cabin class from given string value
 
@@ -90,7 +106,7 @@ class FlightService():
     :returns: server response as json
     """
     @abstractmethod
-    def get_estimate_for_flight(self, passengers: int, departure: str, destination: str, unit: str, cabin: str):
+    def prepare_flight_for_estimate(self, passengers: int, departure: str, destination: str, unit: str, cabin: str):
         pass
     
     """Helper function for possible ui implementation 

@@ -80,7 +80,7 @@ class ShippingService():
     :returns: server response as json
     """
     @abstractmethod
-    def get_estimate_for_shipping(self, weight_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str):
+    def prepare_for_shipping_estimate(self, weight_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str):
         pass
 
     """converts shipping entity to json

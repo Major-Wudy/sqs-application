@@ -5,10 +5,8 @@ parent_dir = os.path.dirname(current_dir)
 application_dir = os.path.dirname(parent_dir)
 
 from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
-from application.services.domain.electricity_service import ElectricityService
-from application.services.domain.flight_service import FlightService
-from application.services.domain.shipping_service import ShippingService
-from application.services.domain.fuel_combustion_service import FuelService
+from application.services.domain_interface.domain_service_interface import DomainServiceInterface
+from application.services.infrastructure_interface.database_interface import DatabaseServiceInterface
 from decimal import Decimal
 import requests
 import simplejson
@@ -18,16 +16,8 @@ import simplejson
     :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
     :param CarbonInterfaceRequestService: Used API Interface class
     :type CarbonInterfaceRequestService: CarbonInterfaceRequestService
-    :param ElectricityService: Domain Service to access all functionalities around electricity
-    :type ElectricityService: ElectricityService
-    :param FlightService: Domain Service to access all functionalities around flights
-    :type: FlightService: FlightService
-    :param ShippingService: Domain Service to access all functionalities around shipping
-    :type ShippingService: ShippingService
-    :param FuelService: Domain Service to access all functionalities around fuel consumption
-    :type FuelService: FuelService
 """
-class EstimatesService(CarbonInterfaceRequestService, ElectricityService, FlightService, ShippingService, FuelService):
+class EstimatesService(CarbonInterfaceRequestService):
     """Post some data against url
 
         :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
@@ -83,13 +73,12 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
     """
     def get_estimate_for_electricity_use(self, value: Decimal, country: str, state: str, unit: str):
         try:
-            es = ElectricityService()
-            elec = es.create_electricity_entity(Decimal(value), country, state, unit)
-            
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
             
-            payload = es.convert_electricity_entity_to_json(elec)
+            ds = DomainServiceInterface()
+            payload = ds.prepare_electricity_for_estimate(value, country, state, unit)
+
             return self.post(url, json=payload, headers=headers)
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
@@ -112,12 +101,11 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
     """
     def get_estimate_for_flight(self, passengers: int, departure: str, destination: str, unit: str, cabin: str):
         try:
-            fs = FlightService()
-            fl = fs.create_flight_entity(passengers, departure, destination, unit, cabin)
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
             
-            payload = fs.convert_flight_entity_to_json(fl)
+            ds = DomainServiceInterface()
+            payload = ds.prepare_flight_for_estimate(passengers, departure, destination, unit, cabin)
 
             return self.post(url, json=payload, headers=headers)
         except Exception as err:
@@ -141,14 +129,12 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
     """
     def get_estimate_for_shipping(self, weight_unit: str, weight_value: Decimal, distance_unit: str, distance_value: Decimal, transport_method: str):
         try:
-            ship_s = ShippingService()
-            ship = ship_s.create_shipping_entity(weight_unit, weight_value, distance_unit, distance_value, transport_method)
-
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
-        
-            payload = ship_s.convert_shipping_entity_to_json(ship)
 
+            ds = DomainServiceInterface()
+            payload = ds.prepare_for_shipping_estimate(weight_unit, weight_value, distance_unit, distance_value, transport_method)
+            
             return self.post(url, json=payload, headers=headers)
         except Exception as err:
             return {'error': f'Please check params. Error message {err}'}
@@ -169,17 +155,11 @@ class EstimatesService(CarbonInterfaceRequestService, ElectricityService, Flight
     """
     def get_estimate_for_fuel_use(self, value: Decimal, source_type_name: str = "", api_unit: str = "", api_name: str = ""): 
         try:
-            fs = FuelService()
-            if source_type_name == "":
-                fuel = fs.create_fuel_combustion_entity(value, "", api_unit, api_name)
-
-            if api_unit == "" and api_name == "":
-                fuel = fs.create_fuel_combustion_entity(value, source_type_name)
-
             url = self.get_estimates_url()
             headers = self.get_authorization_and_content_type_header()
-        
-            payload = fs.convert_fuel_entity_to_json(fuel)
+            
+            ds = DomainServiceInterface()
+            payload = ds.prepare_fuel_for_estimate(value, source_type_name, api_unit, api_name)
 
             return self.post(url, json=payload, headers=headers)
         except Exception as err:

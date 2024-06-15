@@ -12,6 +12,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'carbonscore.settings'
 
 # Automated API Tests
 from django.test import Client
+from decimal import Decimal
 from dotenv import load_dotenv
 import simplejson as json
 import requests
@@ -23,10 +24,12 @@ class ApiTestCase(unittest.TestCase):
     flight_endpoint = "/api/create/flight/"
     shipping_endpoint = "/api/create/shipping/"
     fuel_endpoint = "/api/create/fuel/"
-    estimate_electricity_endpoint = "/api/get/estimate/electricity/"
-    estimate_flight_endpoint = "/api/get/estimate/flight/"
-    estimate_shipping_endpoint = "/api/get/estimate/shipping/"
-    estimate_fuel_endpoint = "/api/get/estimate/fuel/"
+    score_endpoint = "/api/get/score/"
+    score_delete_endpoint = "/api/delete/score/"
+    estimate_electricity_endpoint = "/api/estimate/electricity/"
+    estimate_flight_endpoint = "/api/estimate/flight/"
+    estimate_shipping_endpoint = "/api/estimate/shipping/"
+    estimate_fuel_endpoint = "/api/estimate/fuel/"
 
     header = {'Authorization': 'Bearer ' + token}
 
@@ -169,6 +172,37 @@ class ApiTestCase(unittest.TestCase):
         result = self.c.post(self.estimate_fuel_endpoint)
         status_code = result.status_code
         self.assertEqual(status_code, 401)
+
+    # Api testing score
+    def test_api_get_score(self):
+        response = self.c.post(self.score_endpoint, {"unit":"kg"}, headers=self.header)
+        status_code = response.status_code
+        result_json = response.json()
+        self.assertIsInstance(result_json, dict)
+        self.assertEqual(status_code, 200)
+
+    def test_api_401_wrong_token_score(self):
+        result = self.c.post(self.score_endpoint, headers={'Authorization': 'Bearer WrongToken'})
+        status_code = result.status_code
+        self.assertEqual(status_code, 401)
+
+    def test_api_create_fuel_400(self):
+        response = self.c.post(self.score_endpoint, {"Ahsoka":"Tano"}, headers=self.header)
+        status_code = response.status_code
+        self.assertEqual(status_code, 400)
+    
+    def test_api_delete_score(self):
+        response = self.c.get(self.score_delete_endpoint, headers=self.header)
+        status_code = response.status_code
+        result_json = response.json()
+        self.assertIsInstance(result_json, dict)
+        self.assertEqual(status_code, 200)
+
+    def test_api_401_wrong_token_score(self):
+        result = self.c.get(self.score_delete_endpoint, headers={'Authorization': 'Bearer WrongToken'})
+        status_code = result.status_code
+        self.assertEqual(status_code, 401)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -7,10 +7,8 @@ src_dor = os.path.dirname(application_dir)
 
 from rest_framework import authentication
 from application.services.infrastructure.estimates_service import EstimatesService
-from application.services.domain.electricity_service import ElectricityService
-from application.services.domain.flight_service import FlightService
-from application.services.domain.shipping_service import ShippingService
-from application.services.domain.fuel_combustion_service import FuelService
+from application.services.domain_interface.domain_service_interface import DomainServiceInterface
+from application.services.infrastructure_interface.database_interface import DatabaseServiceInterface
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
@@ -59,9 +57,9 @@ class ApiServices():
             unit = data.get('unit')
             if not isinstance(unit, str):
                 raise TypeError('unit is not a string')
-            es = ElectricityService()
-            elec = es.create_electricity_entity(Decimal(value), country, state, unit)
-            json_data =  es.convert_electricity_entity_to_json(elec)
+            ds = DomainServiceInterface()
+            elec = ds.create_electricity_entity(Decimal(value), country, state, unit)
+            json_data =  ds.convert_electricity_entity_to_json(elec)
             return Response(json_data, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
@@ -108,9 +106,9 @@ class ApiServices():
             if not isinstance(legs, list):
                 raise TypeError('leg is not a dict')
 
-            fs = FlightService()
-            flight = fs.create_flight_entity(int(passengers), legs[0]['departure'], legs[0]['destination'], unit, legs[0]['class'])
-            json =  fs.convert_flight_entity_to_json(flight)
+            ds = DomainServiceInterface()
+            flight = ds.create_flight_entity(int(passengers), legs[0]['departure'], legs[0]['destination'], unit, legs[0]['class'])
+            json =  ds.convert_flight_entity_to_json(flight)
             return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
@@ -172,9 +170,9 @@ class ApiServices():
             if not isinstance(transport, str):
                 raise TypeError('distance_unit is no string')
 
-            ship_s = ShippingService()
-            ship = ship_s.create_shipping_entity(weight_unit, weight, distance_unit, distance, transport)
-            json =  ship_s.convert_shipping_entity_to_json(ship)
+            ds = DomainServiceInterface()
+            ship = ds.create_shipping_entity(weight_unit, weight, distance_unit, distance, transport)
+            json =  ds.convert_shipping_entity_to_json(ship)
             return Response(json, status=status.HTTP_201_CREATED, content_type=cls.content_json)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
@@ -220,9 +218,9 @@ class ApiServices():
             if not isinstance(consumption, Decimal):
                 raise TypeError('consumption is no decimal value')
 
-            fs = FuelService()
-            fuel = fs.create_fuel_combustion_entity(consumption, source)
-            json =  fs.convert_fuel_entity_to_json(fuel)
+            ds = DomainServiceInterface()
+            fuel = ds.create_fuel_combustion_entity(consumption, source)
+            json =  ds.convert_fuel_entity_to_json(fuel)
             return Response(json, status=status.HTTP_201_CREATED)
         except TypeError as typeErr:
             error = {"error":f"Wrong parameter type: {typeErr}"}
@@ -248,3 +246,76 @@ class ApiServices():
         except Exception as err:
             error = {"error":f"Something went wrong {err}"}
             return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR, content_type=cls.content_json)
+
+    """get token form auth header
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param request: http request with bearer token
+        :type request: request
+        :returns: token
+        :rtype: str
+    """
+    @classmethod
+    def get_token_from_header(cls, request):
+        auth_header = request.headers.get('Authorization')
+        
+        if auth_header and auth_header.startswith('Bearer '):
+            token = auth_header.split(' ')[1]
+            return token
+        return ""
+
+    """get carbon score from request for token or session id
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param request: http request with bearer token
+        :type request: request
+        :param session_id: token or session_id from request
+        :type session_id: str
+        :returns: score as json
+        :rtype: json
+    """
+    @classmethod
+    def get_carbon_score_from_request(cls, response, session_id):
+        try:
+            resp_json = response.data
+            data = resp_json.get('data')
+            attributes = data.get('attributes')
+
+            carbon_g = attributes.get('carbon_g')
+            carbon_kg = attributes.get('carbon_kg')
+            carbon_lb = attributes.get('carbon_lb')
+            carbon_mt = attributes.get('carbon_mt')
+
+            ds = DomainServiceInterface()
+            score = ds.create_carbon_score(Decimal(carbon_g), Decimal(carbon_kg), Decimal(carbon_lb), Decimal(carbon_mt), session_id)
+            
+            return ds.convert_score_to_json(score)
+        except Exception as err:
+            return {'error': f'something went wrong {err}'}
+
+    """get carbon score sum from database with given unit
+
+        :author: Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param token: identifiyer for your database sum up
+        :type token: str
+        :param unit: unit you want your score displayed in
+        :type unit: str
+        :returns: database response as json
+    """
+    @classmethod
+    def get_carbon_score_for_token(cls, token: str, unit: str):
+        dbs = DatabaseServiceInterface()
+        score = dbs.sum_carbon_score_for_session_id(token, unit)
+        json = {f"score_{unit}":score}
+        return Response(json, status=status.HTTP_200_OK, content_type=cls.content_json)
+
+    """delete all carbon scores for identifyer
+
+        :author Raphael Wudy (raphael.wudy@stud.th-rosenheim.de)
+        :param token: identifiyer for database
+        :type token: str or None
+    """
+    def delete_carbon_score_by_token(self, token=None):
+        if token != None:
+            dbs = DatabaseServiceInterface()
+            return dbs.delete_carbon_score(token=token)

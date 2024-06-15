@@ -1,7 +1,7 @@
 Feature: Test POST /api/get/estimate/electricity/
 
   Background:
-    * url 'http://web:8000/api/get/estimate/electricity/'
+    * url 'http://web:8000/api/estimate/electricity/'
     * header Authorization = 'Bearer ' + java.lang.System.getenv('TOKEN_UNIT_TEST')
 
   Scenario: Get electricity estimate - Successful request

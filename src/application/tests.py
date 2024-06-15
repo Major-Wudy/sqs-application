@@ -28,14 +28,14 @@ class DistanceUnitTestCase(unittest.TestCase):
         self.assertEqual(default_du, "km")
         self.assertEqual(type_error_default_du, "km")
 
-from application.services.domain.electricity_service import ElectricityService
+from application.services.domain_interface.domain_service_interface import DomainServiceInterface
 from application.models.electricity.electricity_unit import ElectricityUnit
 from decimal import Decimal
 # Test electricity service
-class ElectricityServiceTestCase(unittest.TestCase):
+class DomainServiceInterfaceElectricityTestCase(unittest.TestCase):
     def test_create_electricity_entity(self):
-        e = ElectricityService()
-        elec = e.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
+        ds = DomainServiceInterface()
+        elec = ds.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
         self.assertEqual(elec.type, "electricity")
         self.assertEqual(elec.electricity_value, Decimal(1678.5))
         self.assertEqual(elec.country, "Germany")
@@ -43,23 +43,25 @@ class ElectricityServiceTestCase(unittest.TestCase):
         self.assertEqual(elec.electricity_unit, "kwh")
 
     def test_change_electricity_unit(self):
-        e = ElectricityService()
-        elec = e.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
+        ds = DomainServiceInterface()
+        elec = ds.create_electricity_entity(Decimal(1678.5), "Germany", "Bavaria")
+
         self.assertEqual(elec.type, "electricity")
         self.assertEqual(elec.electricity_value, Decimal(1678.5))
         self.assertEqual(elec.country, "Germany")
         self.assertEqual(elec.state, "Bavaria")
         self.assertEqual(elec.electricity_unit, "kwh")
-        e.change_electricity_unit(elec, ElectricityUnit.MWH)
+
+        ds.change_electricity_unit(elec, ElectricityUnit.MWH)
         self.assertEqual(elec.electricity_unit, "mwh")
 
 
 from application.services.domain.flight_service import FlightService
 # Test flight service
-class FlightServiceTestCase(unittest.TestCase):
+class DomainServiceInterfaceFlightTestCase(unittest.TestCase):
     def test_create_flight_entity(self):
-        fs = FlightService()
-        fl = fs.create_flight_entity(2, "MUC", "DUB", "KM", "economy")
+        ds = DomainServiceInterface()
+        fl = ds.create_flight_entity(2, "MUC", "DUB", "KM", "economy")
         self.assertEqual(fl.type, "flight")
         self.assertEqual(fl.passengers, 2)
         self.assertEqual(fl.leg.departure_airport, "MUC")
@@ -67,24 +69,24 @@ class FlightServiceTestCase(unittest.TestCase):
         self.assertEqual(fl.leg.cabin_class, "economy")
 
     def test_create_leg_object(self):
-        fs = FlightService()
-        leg = fs.create_leg_object("MUC", "DUB", "premium")
+        ds = DomainServiceInterface()
+        leg = ds.create_leg_object("MUC", "DUB", "premium")
         self.assertEqual(leg.departure_airport, "MUC")
         self.assertEqual(leg.destination_airport, "DUB")
         self.assertEqual(leg.cabin_class, "premium")
 
     def test_get_cabin_class(self):
-        fs = FlightService()
-        cabin_economy = fs.get_cabin_class("economy")
-        cabin_premium = fs.get_cabin_class("premium")
-        cabin_default = fs.get_cabin_class("fist_class")
+        ds = DomainServiceInterface()
+        cabin_economy = ds.get_cabin_class("economy")
+        cabin_premium = ds.get_cabin_class("premium")
+        cabin_default = ds.get_cabin_class("fist_class")
         self.assertEqual(cabin_economy, "economy")
         self.assertEqual(cabin_premium, "premium")
         self.assertEqual(cabin_default, "economy")
 
     def test_iata_airport_info_url(self):
-        fs = FlightService()
-        url = fs.iata_airport_info_url()
+        ds = DomainServiceInterface()
+        url = ds.iata_airport_info_url()
         self.assertEqual(url, "https://www.iata.org/en/publications/directories/code-search/?")
 
 from application.services.domain.fuel_combustion_service import FuelService
@@ -119,14 +121,14 @@ class FuelCombustionServiceTestCase(unittest.TestCase):
         self.assertEqual(fusion_unit, "")
         self.assertEqual(fusion, "")
 
-from application.services.domain.shipping_service import ShippingService
+
 from application.services.domain.weight_unit_service import create_weight_unit
 from application.services.domain.transport_service import create_transport
 # Test shipping service
-class ShippingServiceTestCase(unittest.TestCase):
+class DomainServiceInterfaceShippingTestCase(unittest.TestCase):
     def test_create_shipping_entity(self):
-        s = ShippingService()
-        shipping = s.create_shipping_entity("kg", Decimal(2.05), "km", Decimal(250.3), "train")
+        ds = DomainServiceInterface()
+        shipping = ds.create_shipping_entity("kg", Decimal(2.05), "km", Decimal(250.3), "train")
         self.assertEqual(shipping.type, "shipping")
         self.assertEqual(shipping.weight_unit, "kg")
         self.assertEqual(shipping.weight_value, Decimal(2.05))
@@ -134,7 +136,7 @@ class ShippingServiceTestCase(unittest.TestCase):
         self.assertEqual(shipping.distance_value, Decimal(250.3))
         self.assertEqual(shipping.transport_method, "train")
 
-        shipping_defaults = s.create_shipping_entity("gramm", Decimal(2.05), "kilometer", Decimal(250.3), "LKW")
+        shipping_defaults = ds.create_shipping_entity("gramm", Decimal(2.05), "kilometer", Decimal(250.3), "LKW")
         self.assertEqual(shipping_defaults.type, "shipping")
         self.assertEqual(shipping_defaults.weight_unit, "g")
         self.assertEqual(shipping_defaults.weight_value, Decimal(2.05))
@@ -142,7 +144,7 @@ class ShippingServiceTestCase(unittest.TestCase):
         self.assertEqual(shipping_defaults.distance_value, Decimal(250.3))
         self.assertEqual(shipping_defaults.transport_method, "truck")
 
-        shipping_none = s.create_shipping_entity("gramm", "2.05", "kilometer", Decimal(250.3), "LKW")
+        shipping_none = ds.create_shipping_entity("gramm", "2.05", "kilometer", Decimal(250.3), "LKW")
         self.assertIsNone(shipping_none, None)
 
     def test_create_weight_unit(self):
@@ -333,6 +335,52 @@ class ApiServiceTestCase(unittest.TestCase):
         resp = self.api.get_estimate_for_fuel_from_post("test")
         self.assertEqual(resp.status_code, 500)
         self.assertTrue(resp, dict)
+        
+
+from application.services.infrastructure_interface.database_interface import DatabaseServiceInterface
+class DatabaseTestCase(unittest.TestCase):
+    dbs = DatabaseServiceInterface()
+    request = {"testing":"request"}
+    session_id = "ExecuteOrder66"
+    def test_insert_request(self):
+        result = self.dbs.insert_request(self.request, self.session_id)
+        self.assertEquals(result, 1)
+    
+    def test_insert_request_empty(self):
+        result = self.dbs.insert_request(request="", session_id=self.session_id)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_request(self):
+        result = self.dbs.delete_request(token=self.session_id)
+        self.assertIsInstance(result, int)
+    
+    def test_delete_request_empty(self):
+        result = self.dbs.delete_request()
+        self.assertIsInstance(result, dict)
+    
+    def test_insert_carbon_score(self):
+        result = self.dbs.insert_carbon_score(1,2,3,4, self.session_id)
+        self.assertEquals(result, 1)
+    
+    def test_insert_carbon_score_empty_id(self):
+        result = self.dbs.insert_carbon_score(1,2,3,4)
+        self.assertIsInstance(result, dict)
+    
+    def test_delete_carbon_score(self):
+        result = self.dbs.delete_carbon_score(token=self.session_id)
+        self.assertIsInstance(result, int)
+    
+    def test_delete_carbon_score_empty(self):
+        result = self.dbs.delete_carbon_score()
+        self.assertIsInstance(result, dict)
+
+    def test_sum_carbon_score_for_session_id(self):
+        result = self.dbs.sum_carbon_score_for_session_id(token=self.session_id)
+        self.assertIsInstance(result, Decimal)
+    
+    def test_sum_carbon_score_for_session_id_empty(self):
+        result = self.dbs.sum_carbon_score_for_session_id()
+        self.assertIsInstance(result, dict)
 
 from django.test import Client
 from dotenv import load_dotenv
@@ -345,6 +393,8 @@ class ApiTestCase(unittest.TestCase):
     flight_endpoint = "/api/create/flight/"
     shipping_endpoint = "/api/create/shipping/"
     fuel_endpoint = "/api/create/fuel/"
+    score_endpoint = "/api/get/score/"
+    delete_score_endpoint = "/api/delete/score/"
     header = {'Authorization': 'Bearer ' + os.environ.get('TOKEN_UNIT_TEST')}
     def test_api_create_electricity(self):
         response = self.c.post(self.electricity_endpoint, {"value":123.45, "country":"us","state":"fl","unit":"kwh"}, headers=self.header)
@@ -394,6 +444,18 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('fuel_source_type'), "ng")
         self.assertEqual(result.get('fuel_source_unit'), "thousand_cubic_feet")
         self.assertEqual(result.get('fuel_source_value'), "500.00")
+    
+    def test_api_get_score(self):
+        response = self.c.post(self.score_endpoint, {"unit":"g"}, headers=self.header, content_type='application/json')
+        status_code = response.status_code
+        result = response.json()
+        self.assertEqual(status_code, 200)
+        self.assertIsInstance(result, dict)
+    
+    def test_api_delete_score(self):
+        response = self.c.get(self.delete_score_endpoint, headers=self.header)
+        status_code = response.status_code
+        self.assertEqual(status_code, 200)
 
 if __name__ == '__main__':
     with open('./src/test-reports/results.xml', 'wb') as output:

@@ -7,13 +7,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import authentication_classes, permission_classes
 from application.services.infrastructure.api_service import BearerAuthentication
 from application.services.infrastructure.api_service import ApiServices
+from application.services.infrastructure_interface.database_interface import DatabaseServiceInterface
 from rest_framework.response import Response
 from rest_framework import status
 from decimal import Decimal
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample, OpenApiResponse, OpenApiRequest, OpenApiCallback
 from drf_spectacular.types import OpenApiTypes
 from rest_framework import status
-
 
 @extend_schema(
     description="create an electricity Object",
@@ -82,7 +82,15 @@ def create_electricity(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.create_electricity_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.create_electricity_from_post(data)
+        if resp.status_code == 201:
+            dbs.delete_request(request=data)
+        return resp
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -169,7 +177,18 @@ def get_estimate_electricity(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.get_estimate_for_electricity_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.get_estimate_for_electricity_from_post(data)
+        if resp.status_code == 201:
+            dbs.delete_request(request=data)
+            score = api.get_carbon_score_from_request(resp, token)
+            dbs.insert_carbon_score(score.get('carbon_g'), score.get('carbon_kg'), score.get('carbon_lb'), score.get('carbon_mt'), token)
+
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -254,7 +273,15 @@ def create_flight(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.create_flight_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.create_flight_from_post(data)
+        if resp.status_code == 201:
+            dbs.delete_request(request=data)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -352,7 +379,17 @@ def get_estimate_flight(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.get_estimate_for_flight_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+        
+        resp = api.get_estimate_for_flight_from_post(data)
+        if resp.status_code == 201:
+            dbs.delete_request(request=data)
+            score = api.get_carbon_score_from_request(resp, token)
+            dbs.insert_carbon_score(score.get('carbon_g'), score.get('carbon_kg'), score.get('carbon_lb'), score.get('carbon_mt'), token)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -429,7 +466,15 @@ def create_shipping(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.create_shipping_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.create_shipping_from_post(data)
+        if resp.status_code == 201:
+            dbs.delete_request(request=data)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -518,7 +563,17 @@ def get_estimate_shipping(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.get_estimate_for_shipping_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.get_estimate_for_shipping_from_post(data)
+        if resp.status_code == 201:
+            dbs.delete_request(request=data)
+            score = api.get_carbon_score_from_request(resp, token)
+            dbs.insert_carbon_score(score.get('carbon_g'), score.get('carbon_kg'), score.get('carbon_lb'), score.get('carbon_mt'), token)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -590,7 +645,15 @@ def create_fuel(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.create_fuel_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.create_fuel_from_post(data)
+        if resp.status_code == 201:
+            dbs.delete_request(request=data)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -675,10 +738,140 @@ def get_estimate_fuel(request):
             raise TypeError()
 
         api = ApiServices()
-        return api.get_estimate_for_fuel_from_post(data)
+        token = api.get_token_from_header(request)
+        dbs = DatabaseServiceInterface()
+        if token:
+            dbs.insert_request(data, token)
+
+        resp = api.get_estimate_for_fuel_from_post(data)
+        if resp.status_code == 201:
+            dbs.delete_request(request=data)
+            score = api.get_carbon_score_from_request(resp, token)
+            dbs.insert_carbon_score(score.get('carbon_g'), score.get('carbon_kg'), score.get('carbon_lb'), score.get('carbon_mt'), token)
+        return resp 
     except TypeError as err:
         error = {'error': f"request body does not contain valid json {err}"}
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as err:
+        error = {'error': f"Something went wrong {err}"}
+        return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@extend_schema(
+    description="get carbon score for token",
+        request=[
+            OpenApiCallback(name="carbon score", path="/api/get/score/", decorator="requests"),
+        ],
+        examples=[
+            OpenApiExample(name="unit", status_codes="200",
+                value={
+                    "unit": "g",
+                    })
+        ],
+        responses={
+            status.HTTP_200_OK: OpenApiResponse("Success",
+                description="Success",
+                examples=[
+                    OpenApiExample(name="Success",
+                        value={
+                                "score_g":29071994
+                            })
+                    ],
+                ),
+            status.HTTP_401_UNAUTHORIZED: OpenApiResponse("UnauthorizedError",
+                description="UnauthorizedError",
+                examples=[
+                    OpenApiExample(name="UnauthorizedError",
+                        value={
+                            "detail":"Authentication credentials were not provided."
+                            })
+                    ],
+            ),
+            status.HTTP_400_BAD_REQUEST: OpenApiResponse("Bad Request",
+                description="Bad Request",
+                examples=[
+                    OpenApiExample(name="Bad Request",
+                        value={
+                            "detail":"Please check your request. Body doesnt contain anything"
+                            })
+                    ],
+            ),
+            status.HTTP_500_INTERNAL_SERVER_ERROR: OpenApiResponse("Internal Server Error",
+                description="Internal Server Error",
+                examples=[
+                    OpenApiExample(name="Internal Server Error",
+                        value={
+                            "error":"Something went wrong"
+                            })
+                    ],
+            ),
+        }
+    )
+@api_view(['POST'])
+@authentication_classes([BearerAuthentication])
+@permission_classes([IsAuthenticated])
+def get_carbon_score_for_token(request):
+    try:
+        data = request.data
+        if not isinstance(data.get('unit'), str):
+            raise TypeError()
+        api = ApiServices()
+        token = api.get_token_from_header(request)
+        return api.get_carbon_score_for_token(token, data.get('unit'))
+    except TypeError as err:
+        error = {'error': f"request body does not contain valid json {err}"}
+        return Response(error, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as err:
+        error = {'error': f"Something went wrong {err}"}
+        return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@extend_schema(
+    description="delete carbon score for token",
+        request=[
+            OpenApiCallback(name="delete carbon score", path="/api/delete/score/", decorator="requests"),
+        ],
+        responses={
+            status.HTTP_200_OK: OpenApiResponse("Success",
+                description="Success",
+                examples=[
+                    OpenApiExample(name="Success",
+                        value={
+                                "success":"all carbon scores deleted"
+                            })
+                    ],
+                ),
+            status.HTTP_401_UNAUTHORIZED: OpenApiResponse("UnauthorizedError",
+                description="UnauthorizedError",
+                examples=[
+                    OpenApiExample(name="UnauthorizedError",
+                        value={
+                            "detail":"Authentication credentials were not provided."
+                            })
+                    ],
+            ),
+            status.HTTP_500_INTERNAL_SERVER_ERROR: OpenApiResponse("Internal Server Error",
+                description="Internal Server Error",
+                examples=[
+                    OpenApiExample(name="Internal Server Error",
+                        value={
+                            "error":"Something went wrong"
+                            })
+                    ],
+            ),
+        }
+    )
+@api_view(['GET'])
+@authentication_classes([BearerAuthentication])
+@permission_classes([IsAuthenticated])
+def delete_carbon_score_for_token(request):
+    try:
+        api = ApiServices()
+        token = api.get_token_from_header(request)
+        deleted = api.delete_carbon_score_by_token(token)
+        if deleted:
+            message = {"success":"all carbon scores deleted"}
+            return Response(message, status=status.HTTP_200_OK)
+        message = {"ok":"nothing to delete"}
+        return Response(message, status=status.HTTP_200_OK)
     except Exception as err:
         error = {'error': f"Something went wrong {err}"}
         return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
