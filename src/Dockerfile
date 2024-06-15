@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Systemabhängigkeiten installieren
 RUN apt-get update \
-    && --no-install-recommend apt-get install -y \ 
+    && --no-install-recommends apt-get install -y \ 
        python3-dev \
        default-libmysqlclient-dev \
        build-essential \
