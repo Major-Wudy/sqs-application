@@ -35,6 +35,8 @@ Die Anwendung wird von mir im Rahmen der Vorlesung entwickelt und danach nicht m
 [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 
+## Neben dieser Readme Datei finden sich weitere Beschreibungen im Wiki
+Biespiel: [Test Setup](https://github.com/Major-Wudy/sqs-application/wiki/Test-Setup), [IaC](https://github.com/Major-Wudy/sqs-application/wiki/Infrastructure-as-code-(Iac)-mit-Docker), [Statische Code Analyse](https://github.com/Major-Wudy/sqs-application/wiki/Statische-Analysen) etc. 
   
 
 ## Qualitätsziele
