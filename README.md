@@ -164,7 +164,6 @@ Liste der Kommunikationsbeziehungen:
 ![level1-whitebox](https://github.com/Major-Wudy/sqs-application/assets/47253607/d8d6e085-7c93-4fe6-a994-18bd491c9edc)
 
 
-
 *Begründung:*  
 
 Die Applikation wird in eine persistente Datenhaltung, eine externe API zur Berechnung der geschätzten CO² Emissionen und der Geschäftslogik unterteilt.
@@ -173,9 +172,17 @@ Die Applikation wird in eine persistente Datenhaltung, eine externe API zur Bere
   
 
 *Enthaltene Bausteine:*
-- Carbonscore: Bearbeitet Nutzeranfragen und bereitet diese für das jeweilige Nachbarsystem vor und verarbeitet die zurückgemeldeten Anworten der Systeme für Anwender
 - Datenbank: Sopeichert notwendige persistene Daten
 - Carboninterface API: Errechnet die geschätzen CO² Emissionen für die übermittelten Werte
+- UI: Ist die grafische Schnittstelle der Anwendungslogik zu einem Administrator, sp#teren Maintainer oder anderen Entwickler
+- Infrastructure Service API: Bearbeitet alle API-Calls der eigenen API ab und stellt diese zur Verwendung bereit
+- Infrastructure Service carboninterface API: Übernimmt die Anfragen von Infrastructure Service API und bereitet diese für die Abfrage der Carboninterface API vor.
+- Infrastructure Service Interface: Ein Interface der Anwendung zur Kommunikation mit der Datenbank über einen vorgeschalteten Datanbank Service
+- Database Service: Baut die Verbindung zur Datenbank auf und führt Queries aus
+- Domain Service Interface: Implementiert die Domain Services und bietet anderen Komponenten ein Interface zur Kommunikation mit der Geschäftslogik
+- Domain Services: Beinhält die Geschäftslogik
+- Domain Models: Beinhaltet die Datenmodelle und Entitäten
+- Administrator: Verwendet die Applikation
   
 
 Wichtige Schnittstellen  
@@ -186,6 +193,7 @@ Wichtige Schnittstellen  
 | Datenbank | Speicherung von Daten der Anwendung über die Laufzeit einer Session hinweg. |
 | Infrastructure Service Interface | Zugriff auf die Datenbank ist über dieses Interface möglich.| |
 | Domain Service Interface | Zugriff auf die Geschäftslogik in den Domain Services über dieses Interface möglich.|
+| UI | Grafische Schnittstelle zum Administator, Anwender der Anwendung |
 
   
 
@@ -234,6 +242,47 @@ ODBC-Verbindung mit der MySQL-Datenbank, die über das Framework [Django](https:
 
 *Risiken*
 - Zu starke Einbindung der Datenbank in die API, schmälter die Geschwindigkeit der API
+
+### Infrastructure Service Interface
+*Zweck*
+Kommuniziert mit dem Datavase Service zur Erstellung von Queries und Datenbereinigung vor Übergabe dieser an den Database Service. Ist ein Interface zur Kapselung der Datenbank in der Anwendung. Einfachere Wartung und Austausch der Datebnak möglich.
+
+*Schnittstelle*
+
+Ein Interface, welches die abstrakte Methoden des Database Services implementiert. Stellt Funktionen in der Anwendung zur Verwendung der Datebank bereit.
+
+*Erfüllte Anforderungen*
+- einfache Handhabung der Datenbankinteraktion in der Anwendung
+- Wartbarkeit
+- leichter Austausch der Datenbank möglich
+
+### Domain Service Interface
+*Zweck* 
+
+Kapselung der Geschäftslogik als eigenständige Einheit. Stellt der restlichen Anwendung einen Single Point of Contact zur Verfügung.
+
+*Schnittstelle*
+
+Ein Interface, welches die Funktionalität der Geschäftslogik zur Verfügung stellt.
+
+*Erfüllte Anforderungen*
+- einfache Handhabung zur Verwendung der Geschäftslogik
+- Wartbarkeit
+- Austausch der Geschäftslogik / ERgänzung möglich
+
+### UI
+*Zweck*
+
+Kommunikation mit der Anwendung über eine grafische Oberfläche zur einfachen und schnellen Einarbeitung in die Verwendung der Anwendung. 
+
+*Schnittstelle*
+- grafische Oberfläche
+
+*Erfüllte Anforderungen*
+- schnelle und einfache Bedienung der Anwendung ohne "anprogrammieren" der Anwendung
+- Testen der Ergebnisse und Funktionsweise der Anwendung
+- Dokumentation der API
+
 
 ## Ebene 2
 
