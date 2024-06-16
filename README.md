@@ -284,63 +284,85 @@ Kommunikation mit der Anwendung über eine grafische Oberfläche zur einfachen u
 - Dokumentation der API
 
 
-## Ebene 2
+## Ebene 2 - Domain
+### Domain Service Interface
+![level2-whitebox-ds-interface](https://github.com/Major-Wudy/sqs-application/assets/47253607/55f7e92a-1369-4fc2-853a-bf66f8a3d282)
 
+*Zweck*
+
+Dient zur Kapselung der Geschäftslogik vom restlichen Teil der Anwendung. Erhöht die Warbarkeit der Anwendung. 
+
+*Enthaltene Bausteine* 
+- Domain Services: Implementiert diese und stellt deren Funktionen bereit
+
+*Schnittstellen*
+- Infrastructure Service API: Stellt als Single Point of Contact Funktionen der Domain Services bereit
+- Infrastructure Service carboninterface API: Stellt als Single Point of Contact Fnuktionen der Domain Services bereit
+
+*Erfüllte Anforderungen*
+- Kapselung der Geschäftslogik
+- Wartbarkeit der Anwendung
+- Austauschfähige Geschäftslogik
+
+### Domain Services
+![level2-whitebox-ds-domain](https://github.com/Major-Wudy/sqs-application/assets/47253607/55a2fa81-d288-451d-9ddd-c3bd32e514f2)
+
+*Zweck* 
+
+Beinhält die einzelnen Services für die Bearbeitung der Geschäftslogik
+
+*Enthaltene Bausteine*
+- Flight Service: Stellt Funktionen zur Erstellung einer Flug-Aktivität bereit
+- Electricity Service: Stellt Funktionen zur Erstellung eines Stromverbrauchs bereit
+- Shipping Service: Stellt Funktionen zur Erstellung von Versendungen (Pakete, Briefe etc.) bereit
+- Fuel Service: Stellt Funktionen zum Verbrauch von Brennstoff bereit
+- Distance Service: Gibt die möglichen Distanzeinheiten wieder
+- Weight Service: Gibt die möglichen Gewichtseinheiten wieder
+- Transport Service: Gibt mögliche Transportmöglichkeiten wieder
+
+*Schnitstellen* 
+- Domain Models: Implementiert die Entitäten der Geschäftslogik
+- Domain Service Interface: Stellt für die Funktionen des Domain Services Bereit
+
+
+### Domain Models
+![level2-whitebox-domain-service](https://github.com/Major-Wudy/sqs-application/assets/47253607/add6b92d-360a-461f-9f00-0d20e9f04d0c)
+
+*Zweck*
+
+Stellt die Enitäten der Geschfätslogik dar.
+
+*Enthaltene Bausteine*
+- Activity: gibt die möglichen Aktivitättstypen wieder
+- electricity: Enthlält die Objektdefinition für Stromverbrauch
+- flight: Enthält die Objektdefinition für Flüge
+- shipping: Enthält die Objektdefinition für das Versenden von Paketen
+- carbon: Enthält die Objektdefinitionen für CO² Emission
+- distance: Enthält die Objektdefinition für Distanzobjekte
+- fuel: Enthält die Objektdefinition für Brennstoffe
+- weights: Enthält die Objektdefinition für Gewichtseinheiten
+
+*Schnittstelle*
+- Domain Servies: Nutzt die Models zur Bereistellung der Geschäftslogik
   
 
-### Whitebox *\<Baustein 1>*
+### Infrastruture API Service
 
-  
+![level2-whitebox-is-api](https://github.com/Major-Wudy/sqs-application/assets/47253607/c71d3019-e4c9-4264-a2fb-85e379df97d3)
 
-*\<Whitebox-Template>*
+*Zweck*
 
-  
+Bereitstellung einer API zur Verwendung der Geschäftslogik und Interaktion zwischen zwei Systemen
 
-### Whitebox *\<Baustein 2>*
+*Enthaltene Bausteine*
+- API URLs: Stellt die URLs für die API zur Verfügung und verbindet diese mit den API Views
+- API Views: Stellt die Views für die OpenAPI Swagger Oberfläche bereit und verbindet diese mit dem genutzten API Service
+- Infrastructure Service API: Implementiert die Logik der API und nutzt dazu Domain Service Interface und Database Servcie Interface (Infrastructure Service Interface), sowie Infrastructure Service carboninterface API
 
-  
-
-*\<Whitebox-Template>*
-
-  
-
-…
-
-  
-
-### Whitebox *\<Baustein m>*
-
-  
-
-*\<Whitebox-Template>*
-
-  
-
-## Ebene 3
-
-  
-
-### Whitebox \<\_Baustein x.1\_\>
-
-  
-
-*\<Whitebox-Template>*
-
-  
-
-### Whitebox \<\_Baustein x.2\_\>
-
-  
-
-*\<Whitebox-Template>*
-
-  
-
-### Whitebox \<\_Baustein y.1\_\>
-
-  
-
-*\<Whitebox-Template>*
+*Schnittstellen* 
+- Domain Service Interface: Single Point of Contact zur Geschäftslogik
+- Database Service Interface: Single Point of Contact zur Datenbank
+- Infrastructure Service carboninterface API: Kommunikation mit dem externen System Carboninterface API 
 
   
 
