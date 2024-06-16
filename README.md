@@ -157,86 +157,83 @@ Liste der Kommunikationsbeziehungen:
   
 
 ## Whitebox Gesamtsystem
+*Scope und Kontext*
 
+![Scope_and_context](https://github.com/Major-Wudy/sqs-application/assets/47253607/d9373f73-9433-4c38-9253-29d401b7f284)
+
+![level1-whitebox](https://github.com/Major-Wudy/sqs-application/assets/47253607/d8d6e085-7c93-4fe6-a994-18bd491c9edc)
+
+
+
+*Begründung:*  
+
+Die Applikation wird in eine persistente Datenhaltung, eine externe API zur Berechnung der geschätzten CO² Emissionen und der Geschäftslogik unterteilt.
+- Die Applikation ist kein Datebnakmanagementsystem, daher wird für die persistente Datenhaltung ein Nachbarsystem benötigt
+- Die Applikation hat keine Möglichkeit zur Eigenberechnung der geschätzen CO² Emissionen, daher wird eine 3rd Party API zur Berechnung benötigt
   
 
-***\<Übersichtsdiagramm>***
-
-  
-
-Begründung  
-
-*\<Erläuternder Text>*
-
-  
-
-Enthaltene Bausteine  
-
-*\<Beschreibung der enthaltenen Bausteine (Blackboxen)>*
-
+*Enthaltene Bausteine:*
+- Carbonscore: Bearbeitet Nutzeranfragen und bereitet diese für das jeweilige Nachbarsystem vor und verarbeitet die zurückgemeldeten Anworten der Systeme für Anwender
+- Datenbank: Sopeichert notwendige persistene Daten
+- Carboninterface API: Errechnet die geschätzen CO² Emissionen für die übermittelten Werte
   
 
 Wichtige Schnittstellen  
 
-*\<Beschreibung wichtiger Schnittstellen>*
+| **Name**        | **Verantwortung** |
+|-----------------|-------------------|
+| Carboninterface API | Zur Errechnung der geschätzen CO² Emissionen einer Aktivität. |
+| Datenbank | Speicherung von Daten der Anwendung über die Laufzeit einer Session hinweg. |
+| Infrastructure Service Interface | Zugriff auf die Datenbank ist über dieses Interface möglich.| |
+| Domain Service Interface | Zugriff auf die Geschäftslogik in den Domain Services über dieses Interface möglich.|
 
   
 
-### \<Name Blackbox 1>
+### Carboninterface
+*Zweck*
 
+Die Applikation hat selbst keine Möglichkeiten zur Berechnung von CO² Emissionen und nutzt daher diese 3rd Party API zur Berechnung dieser. Die Carboninterface API liefert anhand übermittelter Daten die geschätze CO² Emission für die Aktivität. Dabei werden Die Daten als JSON bereitgestellt und enthalten ermittelten Werte in gm kg, lb und mt.
+
+*Schnittstelle*
+[Beschreibung der Schnittstelle](https://docs.carboninterface.com/#/?id=estimates-api
   
 
-*\<Zweck/Verantwortung>*
+*Dokumentation*
+- [Dokumentation der API](https://docs.carboninterface.com/#/)
+- [Postman Collection](https://docs.carboninterface.com/#/?id=postman)
+- [Authentifizierung](https://docs.carboninterface.com/#/?id=authentication)
 
-  
+*Erfüllte Anforderungen*
+- Open Source
+- Einfache Verwendung durch JSON Datenübermittlung
+- Authentifizierung mit Bearer Token
+- Rückgabe der CO² Emissionen bei Übergabe einer Aktivität 
 
-*\<Schnittstelle(n)>*
+*Probleme*
+- Im freien Plan sind nur 200 Calls pro Monat möglich, mehr muss finanziell per ABo gelöst werden
 
-  
 
-*\<(Optional) Qualitäts-/Leistungsmerkmale>*
+### Datenbank
+*Zweck*
 
-  
+Speichern der Token zur Kommunikation mit der eigenen API, Zwischenspeicherung der gesendeten Request, damit bei Systemabsturz eine Queue zum Abarbeiten entsteht, Speichern der CO² Emissionen für einen User.
 
-*\<(Optional) Ablageort/Datei(en)>*
+*Schnittstelle*
 
-  
+ODBC-Verbindung mit der MySQL-Datenbank, die über das Framework [Django](https://www.djangoproject.com/) implementiert wird. 
 
-*\<(Optional) Erfüllte Anforderungen>*
+*Dokumentation*
 
-  
+- [django.db](https://docs.djangoproject.com/en/5.0/ref/databases/)
+- [mysqlclient für Python](https://pypi.org/project/mysqlclient/)
 
-*\<(optional) Offene Punkte/Probleme/Risiken>*
+*Erfüllte Anforderung*
+- Know-how über die Verwendung
+- Dockerfähig
+- Mit Django und Python kompatibel
 
-  
-
-### \<Name Blackbox 2>
-
-  
-
-*\<Blackbox-Template>*
-
-  
-
-### \<Name Blackbox n>
-
-  
-
-*\<Blackbox-Template>*
-
-  
-
-### \<Name Schnittstelle 1>
-
-  
-
-…
-
-  
-
-### \<Name Schnittstelle m>
-
-  
+*Risiken*
+- Zu starke Einbindung der Datenbank in die API, schmälter die Geschwindigkeit der API
 
 ## Ebene 2
 
