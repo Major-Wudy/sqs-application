@@ -159,9 +159,9 @@ Liste der Kommunikationsbeziehungen:
 ## Whitebox Gesamtsystem
 *Scope und Kontext*
 
-![Scope_and_context](https://github.com/Major-Wudy/sqs-application/assets/47253607/d9373f73-9433-4c38-9253-29d401b7f284)
+![Scope_and_context](https://github.com/Major-Wudy/sqs-application/assets/47253607/588a28de-8b90-481c-a17d-74babca3972f)
 
-![level1-whitebox](https://github.com/Major-Wudy/sqs-application/assets/47253607/d8d6e085-7c93-4fe6-a994-18bd491c9edc)
+![level1-whitebox](https://github.com/Major-Wudy/sqs-application/assets/47253607/88fd3ef7-442f-4eb7-a8d0-b4a1e64143d8)
 
 
 *Begründung:*  
@@ -286,7 +286,8 @@ Kommunikation mit der Anwendung über eine grafische Oberfläche zur einfachen u
 
 ## Ebene 2 - Domain
 ### Domain Service Interface
-![level2-whitebox-ds-interface](https://github.com/Major-Wudy/sqs-application/assets/47253607/55f7e92a-1369-4fc2-853a-bf66f8a3d282)
+![level2-whitebox-ds-interface](https://github.com/Major-Wudy/sqs-application/assets/47253607/400eb443-b931-443f-864f-9be34203cea4)
+
 
 *Zweck*
 
@@ -305,7 +306,8 @@ Dient zur Kapselung der Geschäftslogik vom restlichen Teil der Anwendung. Erhö
 - Austauschfähige Geschäftslogik
 
 ### Domain Services
-![level2-whitebox-ds-domain](https://github.com/Major-Wudy/sqs-application/assets/47253607/55a2fa81-d288-451d-9ddd-c3bd32e514f2)
+![level2-whitebox-ds-domain](https://github.com/Major-Wudy/sqs-application/assets/47253607/07d9a6c4-2a63-4735-99df-f3552f29a8a7)
+
 
 *Zweck* 
 
@@ -326,7 +328,8 @@ Beinhält die einzelnen Services für die Bearbeitung der Geschäftslogik
 
 
 ### Domain Models
-![level2-whitebox-domain-service](https://github.com/Major-Wudy/sqs-application/assets/47253607/add6b92d-360a-461f-9f00-0d20e9f04d0c)
+![level2-whitebox-domain-service](https://github.com/Major-Wudy/sqs-application/assets/47253607/f596900d-d103-49d4-b206-5c024b064f33)
+
 
 *Zweck*
 
@@ -347,8 +350,7 @@ Stellt die Enitäten der Geschfätslogik dar.
   
 
 ### Infrastruture API Service
-
-![level2-whitebox-is-api](https://github.com/Major-Wudy/sqs-application/assets/47253607/c71d3019-e4c9-4264-a2fb-85e379df97d3)
+![level2-whitebox-is-api](https://github.com/Major-Wudy/sqs-application/assets/47253607/1a3bbb1e-bd90-44d3-90a1-898ae63b9534)
 
 *Zweck*
 
