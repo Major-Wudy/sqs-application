@@ -82,7 +82,8 @@ Organisatorischer Art:
 # Kontextabgrenzung
 
 ## Fachlicher Kontext
-![image](https://github.com/Major-Wudy/sqs-application/assets/47253607/39575ab4-e20c-4277-8b23-7fc9c3855d0f)
+![Kontextdiagramm](https://github.com/Major-Wudy/sqs-application/assets/47253607/983fbaf1-6cce-4781-87eb-1e85762ee353)
+
 
 CarbonScore ist das zu entwicklende System und implementiert die Schnittstellen CarbonInterface zur Berechnung der CO²-Emissionen einer Aktivität, Auth0 als Authentifizierungsmöglichkeit und eine Datenbank als persistenten Datenspeicher. Die Anwendung stellt dem User eine Benutzeroberfläche als Webanwendung zur Verfügung.
 
@@ -117,11 +118,8 @@ Liste der Kommunikationsbeziehungen:
   
 
 ## Technischer Kontext
+![technisches Kontextdiagramm](https://github.com/Major-Wudy/sqs-application/assets/47253607/2be758d1-c2c5-4277-8786-b6c8da5d6889)
 
-
-![technisches Kontextdiagramm](https://github.com/Major-Wudy/sqs-application/assets/47253607/2cee32e4-49d2-4d28-aaf9-be901545418a)
-
-  
 
 **Erläuterung der externen technischen Schnittstellen**
 
