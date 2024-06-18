@@ -85,7 +85,7 @@ Organisatorischer Art:
 ![Kontextdiagramm](https://github.com/Major-Wudy/sqs-application/assets/47253607/983fbaf1-6cce-4781-87eb-1e85762ee353)
 
 
-CarbonScore ist das zu entwicklende System und implementiert die Schnittstellen CarbonInterface zur Berechnung der CO²-Emissionen einer Aktivität, Auth0 als Authentifizierungsmöglichkeit und eine Datenbank als persistenten Datenspeicher. Die Anwendung stellt dem User eine Benutzeroberfläche als Webanwendung zur Verfügung.
+CarbonScore ist das zu entwicklende System und implementiert die Schnittstellen CarbonInterface zur Berechnung der CO²-Emissionen einer Aktivität und eine Datenbank als persistenten Datenspeicher. Die Anwendung stellt dem User eine Benutzeroberfläche als Webanwendung zur Verfügung.
 
 Liste von Nachbaren zum System und deren Beschreibung:
 | ID           | Nachbar        | Beschreibung |
@@ -568,12 +568,24 @@ python:
 # Glossar
 
   
+| **Begriff**               | **Beschreibung**                                                                                     |
+|---------------------------|------------------------------------------------------------------------------------------------------|
+| **SQS**                   | Softwarequalitätssicherung, eine Disziplin im Software Engineering, die sich auf die Sicherstellung der Qualität von Softwareprodukten konzentriert. |
+| **API**                   | Application Programming Interface, eine Schnittstelle, die es zwei Anwendungen ermöglicht, miteinander zu kommunizieren. |
+| **Carbon Score**          | Eine Kennzahl, die den CO₂-Ausstoß einer Person basierend auf deren Aktivitäten darstellt. |
+| **CarbonInterface**       | Eine API zur Berechnung der CO₂-Emissionen basierend auf übermittelten Aktivitätsdaten. |
+| **Docker**                | Eine Plattform zur Entwicklung, Auslieferung und Ausführung von Anwendungen in Containern. |
+| **Django**                | Ein hochgradiges Python-Webframework, das die Entwicklung sicherer und wartbarer Websites fördert. |
+| **MySQL**                 | Ein relationales Datenbankmanagementsystem, das für die Speicherung der Anwendungsdaten verwendet wird. |
+| **OpenAPI Standard**      | Ein Standard für die Erstellung von API-Dokumentationen, der die Spezifikation von RESTful APIs beschreibt. |
+| **Swagger**               | Ein Open-Source-Framework, das zur Beschreibung, Erstellung, Dokumentation und Nutzung von RESTful Webdiensten verwendet wird. |
+| **Infrastructure as Code (IaC)** | Ein Ansatz zur Verwaltung und Bereitstellung von Rechenzentren durch maschinenlesbare Definitionsdateien, anstatt physische Hardware-Konfigurations- oder interaktive Konfigurationswerkzeuge zu verwenden. |
+| **Onion Architecture**    | Ein Architekturansatz, der die Trennung von Bedenken fördert und die Entwicklung flexibler und testbarer Systeme unterstützt. |
+| **Unit Test**             | Eine Testmethode, bei der einzelne Einheiten oder Komponenten einer Software isoliert getestet werden. |
+| **Code Coverage**         | Ein Maß dafür, wie viel Prozent des Quellcodes durch Tests abgedeckt sind. |
+| **Statische Code Analyse** | Eine Methode zur Analyse von Quellcode, ohne ihn auszuführen, um potenzielle Fehler oder Verbesserungsmöglichkeiten zu identifizieren. |
+| **Bearer Token**          | Ein Sicherheitsmechanismus, bei dem ein Token zur Authentifizierung und Autorisierung von API-Anfragen verwendet wird. |
 
-| Begriff        | Definition        |
-
-|----------------|-------------------|
-
-| *\<Begriff-1>* | *\<Definition-1>* |
 
 | *\<Begriff-2*  | *\<Definition-2>* |
 
