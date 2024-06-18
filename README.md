@@ -118,7 +118,7 @@ Liste der Kommunikationsbeziehungen:
   
 
 ## Technischer Kontext
-![technisches Kontextdiagramm](https://github.com/Major-Wudy/sqs-application/assets/47253607/2be758d1-c2c5-4277-8786-b6c8da5d6889)
+![technisches Kontextdiagramm](https://github.com/Major-Wudy/sqs-application/assets/47253607/58fddbbf-9e89-4b19-bc29-63e1241c9152)
 
 
 **Erläuterung der externen technischen Schnittstellen**
