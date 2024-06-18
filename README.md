@@ -418,6 +418,7 @@ Bereitstellung einer API zur Verwendung der Geschäftslogik und Interaktion zwis
 ![Verteilungsdiagramm](https://github.com/Major-Wudy/sqs-application/assets/47253607/6a6aff80-f81a-4886-9781-3aa3f4e16602)
 
 Begründung  
+
 Die Infrastruktur der Applikation wurde virtualisiert und mit Docker Containern realisiert. Dies erleichtert es Maintainern oder anderen Entwicklern das Projekt Plattform unabhängig aufzusetzen und zu warten. Des Weiteren sind Sicherheitsaspekte durch Infrastructure as Code (Dockerfiles) abgebildet. Auch ist eine Skalierung der Applikation mit dieser Infrastructur möglich. Kommt ein Container an seine Grenzen, können mehr Ressourcen zugewiesen oder ein neuer Container gespawned werden. Außerdem ist die Ausfallsicherheit höher. Mit Docker Containern können mehrere Applikationen im selben Netzt liegen und auf Userinpuit warten. 
 
 Qualitäts- und/oder Leistungsmerkmale  
