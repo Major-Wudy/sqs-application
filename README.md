@@ -435,7 +435,8 @@ Zuordnung von Bausteinen zu Infrastruktur  
   
 
 # Querschnittliche Konzepte
-![crosscutting_framework](https://github.com/Major-Wudy/sqs-application/assets/47253607/9e8c9100-1807-4bb5-86fd-43a3652ca9c2)
+![crosscutting_framework](https://github.com/Major-Wudy/sqs-application/assets/47253607/703cabde-7a2f-4bbb-a0cb-068f729af33d)
+
 
 ## Logging
 Fehler und besondere Ereignisse sollen über alle Komponenten hinweg in Log-Dateien geschrieben werden. Dabei wäre es sinnvoll bei Fehlermeldungen die Messeges von den Exceptions mit zu loggen.
