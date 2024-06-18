@@ -435,35 +435,22 @@ Zuordnung von Bausteinen zu Infrastruktur  
   
 
 # Querschnittliche Konzepte
+![crosscutting_framework](https://github.com/Major-Wudy/sqs-application/assets/47253607/9e8c9100-1807-4bb5-86fd-43a3652ca9c2)
 
-  
+## Logging
+Fehler und besondere Ereignisse sollen über alle Komponenten hinweg in Log-Dateien geschrieben werden. Dabei wäre es sinnvoll bei Fehlermeldungen die Messeges von den Exceptions mit zu loggen.
 
-## *\<Konzept 1>*
+## Error Handling Try-Catch
+Kritische Funktionen müssen über alle Komponenten hinweg in Try-Catch Blöcken umschlossen sein, damit error handling betrieben werden kann und die Anwendung in keine undefinierten Zustände verfällt und nicht abstürzt.
 
-  
+## Django Framework
+Funktionen aus dem Django Framework (Database Connection, Views, Session handling) werden in den äußersten Schichten der Applikation integriert. UI, API  und Infrastruktur Datenbank
 
-*\<Erklärung>*
+## Database Service Interface
+Zur Kapselung der Datenbank und die deren Implementierung wird ein Interface für andere Komponenten der Applikation zur Verfügung gestellt. Damit soll die Wartbarkeit, Austauschbarkeit und Kapselung gesteigert werden
 
-  
-
-## *\<Konzept 2>*
-
-  
-
-*\<Erklärung>*
-
-  
-
-…
-
-  
-
-## *\<Konzept n>*
-
-  
-
-*\<Erklärung>*
-
+## Domain Serivce Interface
+Zur Kapselung der Geschäftslogik von der restlichen Applikation wird ein Interface implementiert und für andere Komponenten zur Verfüung gestellt. Damit soll die Wartbarkeit, Erweiterung, Verbesserung und Kapselung der Geschäftslogik erreicht werden.
   
 
 # Architekturentscheidungen
