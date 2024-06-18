@@ -415,61 +415,23 @@ Bereitstellung einer API zur Verwendung der Geschäftslogik und Interaktion zwis
   
 
 ## Infrastruktur Ebene 1
-
-  
-
-***\<Übersichtsdiagramm>***
-
-  
+![Verteilungsdiagramm](https://github.com/Major-Wudy/sqs-application/assets/47253607/6a6aff80-f81a-4886-9781-3aa3f4e16602)
 
 Begründung  
-
-*\<Erläuternder Text>*
-
-  
+Die Infrastruktur der Applikation wurde virtualisiert und mit Docker Containern realisiert. Dies erleichtert es Maintainern oder anderen Entwicklern das Projekt Plattform unabhängig aufzusetzen und zu warten. Des Weiteren sind Sicherheitsaspekte durch Infrastructure as Code (Dockerfiles) abgebildet. Auch ist eine Skalierung der Applikation mit dieser Infrastructur möglich. Kommt ein Container an seine Grenzen, können mehr Ressourcen zugewiesen oder ein neuer Container gespawned werden. Außerdem ist die Ausfallsicherheit höher. Mit Docker Containern können mehrere Applikationen im selben Netzt liegen und auf Userinpuit warten. 
 
 Qualitäts- und/oder Leistungsmerkmale  
-
-*\<Erläuternder Text>*
-
+- Ausfallsicherheit: Mehrere Container der Applikation können gespawned werden und somit die Last im Ausfall übernehmen. Die Applikation bleibt online
+- Skalierbar: Der Applikations Container kann dupliziert werden und im selben Netz betrieben werden. Die Container agieren unabhängig voneinander
+- Wartbarkeit: Die Applikation kann im Huntergrund migriert werden, während die Applikation noch läuft. Erst nach Abschluss der Wartung werden die Container nacheinander neu gestartet. Somit für den Anwender nicht bemerkbar
   
 
 Zuordnung von Bausteinen zu Infrastruktur  
-
-*\<Beschreibung der Zuordnung>*
-
-  
-
-## Infrastruktur Ebene 2
-
-  
-
-### *\<Infrastrukturelement 1>*
-
-  
-
-*\<Diagramm + Erläuterungen>*
-
-  
-
-### *\<Infrastrukturelement 2>*
-
-  
-
-*\<Diagramm + Erläuterungen>*
-
-  
-
-…
-
-  
-
-### *\<Infrastrukturelement n>*
-
-  
-
-*\<Diagramm + Erläuterungen>*
-
+- Application Container kommuniziert über eine native Datenbank Verbindung mit dem Database Container über die Komponente Database Connection API
+- Application Container kummuniziert über das docker network mit dem 3rd Party API Container Wiremock über die Komponente API Connection
+- Users Computer kommuniziert per http über das Internet mit dem Application Container über einen Web brwoser
+- Load Performance Container kommuniziert über  das docker network mit dem Application Container
+- ATDD Container kommuniziert über das docker network mit dem Application Container
   
 
 # Querschnittliche Konzepte
@@ -612,8 +574,9 @@ python:
   
 
 # Risiken und technische Schulden
-
-  
+|Risiko | Beschreibung |
+|-----|-----|
+|Django Rest Framework | Bie dieser Integration einer API kann es zu Performance Problemen kommen. Mögliche Lösungen hierfür sind Rate Limiting, Caching, Asynchrone Aufgaben. |
 
 # Glossar
 
