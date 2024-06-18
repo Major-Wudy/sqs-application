@@ -104,7 +104,7 @@ Liste der Kommunikationsbeziehungen:
 |--------------|----------------|-------------------|
 | 1 | User |  <ul> <li>Liefert Inputdaten zu einer CO²-Emissionsaktivität</li> <li>Liefert Eingaben für die Anwendung über ein Userinterface (UI)</li> </ul>  |
 | 2 | CarbonInterface | <ul> <li>Erhält über https und Api-Key eine JSON Anfrage mit Details zu einer CO²-Emissionsaktivität</li> <li>Gibt als Antwort ein JSON über http zurück</li> </ul> | 
-| 3 | Database | <ul> <li>Verbindet sich per Verbindungsstring mit der Anwendung</li> <li>Tauscht über einen Connector SQL Queries mit der Anwendung aus</li> </ul> |
+| 3 | Database | <ul> <li>Verbindet sich per Verbindungsstring mit der Anwendung</li> <li>Tauscht über einen Connector SQL Abfragen mit der Anwendung aus</li> </ul> |
 | 4 | CarbonScore | <ul> <li>Stellt dem User eine Oberfläche zur Verfügung, welche über den Browser mit http angesprochen werden kann</li> </ul> |
 | 5 | API | <ul> <li>Erhält Anfragen als JSON über http</li> <li>Sendet Antworten als JSON über http</li> </ul> | 
 
@@ -166,21 +166,21 @@ Liste der Kommunikationsbeziehungen:
 
 *Begründung:*  
 
-Die Applikation wird in eine persistente Datenhaltung, eine externe API zur Berechnung der geschätzten CO² Emissionen und der Geschäftslogik unterteilt.
-- Die Applikation ist kein Datebnakmanagementsystem, daher wird für die persistente Datenhaltung ein Nachbarsystem benötigt
-- Die Applikation hat keine Möglichkeit zur Eigenberechnung der geschätzen CO² Emissionen, daher wird eine 3rd Party API zur Berechnung benötigt
+Die Applikation wird in eine persistente Datenhaltung, eine externe API zur Berechnung der geschätzten CO²-Emissionen und der Geschäftslogik unterteilt.
+- Die Applikation ist kein Datenbankmanagementsystem, daher wird für die persistente Datenhaltung ein Nachbarsystem benötigt
+- Die Applikation hat keine Möglichkeit zur Eigenberechnung der geschätzten CO²-Emissionen, daher wird eine 3rd Party API zur Berechnung benötigt
   
 
 *Enthaltene Bausteine:*
-- Datenbank: Sopeichert notwendige persistene Daten
-- Carboninterface API: Errechnet die geschätzen CO² Emissionen für die übermittelten Werte
-- UI: Ist die grafische Schnittstelle der Anwendungslogik zu einem Administrator, sp#teren Maintainer oder anderen Entwickler
+- Datenbank: Speichert notwendige persistene Daten
+- Carboninterface API: Errechnet die geschätzten CO²-Emissionen für die übermittelten Werte
+- UI: Ist die grafische Schnittstelle der Anwendungslogik zu einem Administrator, späteren Maintainer oder anderen Entwickler
 - Infrastructure Service API: Bearbeitet alle API-Calls der eigenen API ab und stellt diese zur Verwendung bereit
-- Infrastructure Service carboninterface API: Übernimmt die Anfragen von Infrastructure Service API und bereitet diese für die Abfrage der Carboninterface API vor.
-- Infrastructure Service Interface: Ein Interface der Anwendung zur Kommunikation mit der Datenbank über einen vorgeschalteten Datanbank Service
-- Database Service: Baut die Verbindung zur Datenbank auf und führt Queries aus
+- Infrastructure Service carboninterface API: Übernimmt die Anfragen von Infrastructure Service API und bereitet diese zur Abfrage der Carboninterface API vor.
+- Infrastructure Service Interface: Ein Interface der Anwendung zur Kommunikation mit der Datenbank über einen vorgeschalteten Datenbank Service
+- Database Service: Baut die Verbindung zur Datenbank auf und führt Abfragen aus
 - Domain Service Interface: Implementiert die Domain Services und bietet anderen Komponenten ein Interface zur Kommunikation mit der Geschäftslogik
-- Domain Services: Beinhält die Geschäftslogik
+- Domain Services: Beinhaltet die Geschäftslogik
 - Domain Models: Beinhaltet die Datenmodelle und Entitäten
 - Administrator: Verwendet die Applikation
   
@@ -189,7 +189,7 @@ Wichtige Schnittstellen  
 
 | **Name**        | **Verantwortung** |
 |-----------------|-------------------|
-| Carboninterface API | Zur Errechnung der geschätzen CO² Emissionen einer Aktivität. |
+| Carboninterface API | Zur Errechnung der geschätzten CO²-Emissionen einer Aktivität. |
 | Datenbank | Speicherung von Daten der Anwendung über die Laufzeit einer Session hinweg. |
 | Infrastructure Service Interface | Zugriff auf die Datenbank ist über dieses Interface möglich.| |
 | Domain Service Interface | Zugriff auf die Geschäftslogik in den Domain Services über dieses Interface möglich.|
@@ -200,7 +200,7 @@ Wichtige Schnittstellen  
 ### Carboninterface
 *Zweck*
 
-Die Applikation hat selbst keine Möglichkeiten zur Berechnung von CO² Emissionen und nutzt daher diese 3rd Party API zur Berechnung dieser. Die Carboninterface API liefert anhand übermittelter Daten die geschätze CO² Emission für die Aktivität. Dabei werden Die Daten als JSON bereitgestellt und enthalten ermittelten Werte in gm kg, lb und mt.
+Die Applikation hat selbst keine Möglichkeiten zur Berechnung von CO²-Emissionen und nutzt daher diese 3rd Party API zur Berechnung dieser. Die Carboninterface API liefert anhand übermittelter Daten die geschätze CO² Emission für die Aktivität. Dabei werden Die Daten als JSON bereitgestellt und enthalten ermittelten Werte in gm kg, lb und mt.
 
 *Schnittstelle*
 [Beschreibung der Schnittstelle](https://docs.carboninterface.com/#/?id=estimates-api
@@ -215,7 +215,7 @@ Die Applikation hat selbst keine Möglichkeiten zur Berechnung von CO² Emission
 - Open Source
 - Einfache Verwendung durch JSON Datenübermittlung
 - Authentifizierung mit Bearer Token
-- Rückgabe der CO² Emissionen bei Übergabe einer Aktivität 
+- Rückgabe der CO²-Emissionen bei Übergabe einer Aktivität 
 
 *Probleme*
 - Im freien Plan sind nur 200 Calls pro Monat möglich, mehr muss finanziell per ABo gelöst werden
@@ -224,7 +224,7 @@ Die Applikation hat selbst keine Möglichkeiten zur Berechnung von CO² Emission
 ### Datenbank
 *Zweck*
 
-Speichern der Token zur Kommunikation mit der eigenen API, Zwischenspeicherung der gesendeten Request, damit bei Systemabsturz eine Queue zum Abarbeiten entsteht, Speichern der CO² Emissionen für einen User.
+Speichern der Token zur Kommunikation mit der eigenen API, Zwischenspeicherung der gesendeten Request, damit bei Systemabsturz eine Queue zum Abarbeiten entsteht, Speichern der CO²-Emissionen für einen User.
 
 *Schnittstelle*
 
@@ -245,7 +245,7 @@ ODBC-Verbindung mit der MySQL-Datenbank, die über das Framework [Django](https:
 
 ### Infrastructure Service Interface
 *Zweck*
-Kommuniziert mit dem Datavase Service zur Erstellung von Queries und Datenbereinigung vor Übergabe dieser an den Database Service. Ist ein Interface zur Kapselung der Datenbank in der Anwendung. Einfachere Wartung und Austausch der Datebnak möglich.
+Kommuniziert mit dem Datavase Service zur Erstellung von Abfragen und Datenbereinigung vor Übergabe dieser an den Database Service. Ist ein Interface zur Kapselung der Datenbank in der Anwendung. Einfachere Wartung und Austausch der Datebnak möglich.
 
 *Schnittstelle*
 
@@ -298,7 +298,7 @@ Dient zur Kapselung der Geschäftslogik vom restlichen Teil der Anwendung. Erhö
 
 *Schnittstellen*
 - Infrastructure Service API: Stellt als Single Point of Contact Funktionen der Domain Services bereit
-- Infrastructure Service carboninterface API: Stellt als Single Point of Contact Fnuktionen der Domain Services bereit
+- Infrastructure Service carboninterface API: Stellt als Single Point of Contact Funktionen der Domain Services bereit
 
 *Erfüllte Anforderungen*
 - Kapselung der Geschäftslogik
@@ -311,7 +311,7 @@ Dient zur Kapselung der Geschäftslogik vom restlichen Teil der Anwendung. Erhö
 
 *Zweck* 
 
-Beinhält die einzelnen Services für die Bearbeitung der Geschäftslogik
+Beinhaltet die einzelnen Services für die Bearbeitung der Geschäftslogik
 
 *Enthaltene Bausteine*
 - Flight Service: Stellt Funktionen zur Erstellung einer Flug-Aktivität bereit
@@ -333,7 +333,7 @@ Beinhält die einzelnen Services für die Bearbeitung der Geschäftslogik
 
 *Zweck*
 
-Stellt die Enitäten der Geschfätslogik dar.
+Stellt die Entitäten der Geschfätslogik dar.
 
 *Enthaltene Bausteine*
 - Activity: gibt die möglichen Aktivitättstypen wieder
@@ -346,10 +346,10 @@ Stellt die Enitäten der Geschfätslogik dar.
 - weights: Enthält die Objektdefinition für Gewichtseinheiten
 
 *Schnittstelle*
-- Domain Servies: Nutzt die Models zur Bereistellung der Geschäftslogik
+- Domain Services: Nutzt die Models zur Bereitstellung der Geschäftslogik
   
 
-### Infrastruture API Service
+### Infrastructure API Service
 ![level2-whitebox-is-api](https://github.com/Major-Wudy/sqs-application/assets/47253607/1a3bbb1e-bd90-44d3-90a1-898ae63b9534)
 
 *Zweck*
@@ -358,7 +358,7 @@ Bereitstellung einer API zur Verwendung der Geschäftslogik und Interaktion zwis
 
 *Enthaltene Bausteine*
 - API URLs: Stellt die URLs für die API zur Verfügung und verbindet diese mit den API Views
-- API Views: Stellt die Views für die OpenAPI Swagger Oberfläche bereit und verbindet diese mit dem genutzten API Service
+- API-Views: Stellt die Views für die OpenAPI Swagger Oberfläche bereit und verbindet diese mit dem genutzten API Service
 - Infrastructure Service API: Implementiert die Logik der API und nutzt dazu Domain Service Interface und Database Servcie Interface (Infrastructure Service Interface), sowie Infrastructure Service carboninterface API
 
 *Schnittstellen* 
@@ -381,7 +381,7 @@ Bereitstellung einer API zur Verwendung der Geschäftslogik und Interaktion zwis
 ### Ablaufbeschreibung
 1. gewünschte Aktivität über die UI auswählen (Electricity, Flight, Shipping, Fuel)
 1. Daten der ausgewählten Aktivität in die UI nach vorgegebenem Schema (JSON) eingeben
-1. Über die UI den HTTP POST Request mit den gewünschten Daten absenden
+1. über die UI den HTTP POST-Request mit den gewünschten Daten absenden
 1. Auf Rückmeldung des Systems warten
 
   
@@ -417,7 +417,7 @@ Bereitstellung einer API zur Verwendung der Geschäftslogik und Interaktion zwis
 
 Begründung  
 
-Die Infrastruktur der Applikation wurde virtualisiert und mit Docker Containern realisiert. Dies erleichtert es Maintainern oder anderen Entwicklern das Projekt Plattform unabhängig aufzusetzen und zu warten. Des Weiteren sind Sicherheitsaspekte durch Infrastructure as Code (Dockerfiles) abgebildet. Auch ist eine Skalierung der Applikation mit dieser Infrastructur möglich. Kommt ein Container an seine Grenzen, können mehr Ressourcen zugewiesen oder ein neuer Container gespawned werden. Außerdem ist die Ausfallsicherheit höher. Mit Docker Containern können mehrere Applikationen im selben Netzt liegen und auf Userinpuit warten. 
+Die Infrastruktur der Applikation wurde virtualisiert und mit Docker-Containern realisiert. Dies erleichtert es Maintainern oder anderen Entwicklern das Projekt Plattform unabhängig aufzusetzen und zu warten. Des Weiteren sind Sicherheitsaspekte durch Infrastructure as Code (Dockerfiles) abgebildet. Auch ist eine Skalierung der Applikation mit dieser Infrastructur möglich. Kommt ein Container an seine Grenzen, können mehr Ressourcen zugewiesen oder ein neuer Container gespawned werden. Außerdem ist die Ausfallsicherheit höher. Mit Docker-Containern können mehrere Applikationen im selben Netzt liegen und auf Userinpuit warten. 
 
 Qualitäts- und/oder Leistungsmerkmale  
 - Ausfallsicherheit: Mehrere Container der Applikation können gespawned werden und somit die Last im Ausfall übernehmen. Die Applikation bleibt online
@@ -428,7 +428,7 @@ Qualitäts- und/oder Leistungsmerkmale  
 Zuordnung von Bausteinen zu Infrastruktur  
 - Application Container kommuniziert über eine native Datenbank Verbindung mit dem Database Container über die Komponente Database Connection API
 - Application Container kummuniziert über das docker network mit dem 3rd Party API Container Wiremock über die Komponente API Connection
-- Users Computer kommuniziert per http über das Internet mit dem Application Container über einen Web brwoser
+- Users Computer kommuniziert per http über das Internet mit dem Application Container über einen Webbrowser
 - Load Performance Container kommuniziert über  das docker network mit dem Application Container
 - ATDD Container kommuniziert über das docker network mit dem Application Container
   
@@ -551,7 +551,7 @@ python:
 | 4 | Ist eine externe Schnittstelle nicht verfügbar, soll das System einen Hinweis darauf liefern und weiterlaufen. |
 | 5 | Die Logik des Systems ist durch Unittests getestet und kann durch ein Tool ausgewertet werden. Die Auswertung der Testabdeckung muss dabei >= 80% sein. |
 | 6 | Wird eine ander Datenbank oder ein andere Schnittstelle zur Berechnung des CarbonScores verwendet, kann diese ohne Anpassung der Fachlichkeit ausgetauscht und implementiert werden. |
-| 7 | Eine Funktion soll leicht verständlich sein und damit eine kognitiven Last von <= 15 sein. Diese soll über ein externes Tool geprüft werden. |
+| 7 | Eine Funktion soll leicht verständlich sein und damit eine kognitive Last von <= 15 sein. Diese soll über ein externes Tool geprüft werden. |
 | 8 | Bei Verbesserungen oder neuen Funktionen sollen diese in das Sytem implementiert werden können, ohne dass der Fachliche Kern der Anwendung angepasst werden muss. Beispiel: Hinzufügen eines Benutzerprofils für das Speicher der gesendeten Anfragen pro Benutzer |
 | 9 | Ein Anwender kann ohne weitere Dokumentation zur Verwendung der Anwendung die Anwendung erfolgreich bedienen. |
 | 10 | Die Anwendung soll innerhalb einer Sekunde eine Anwort an den Anwender senden. |
@@ -568,25 +568,44 @@ python:
 # Glossar
 
   
-| **Begriff**               | **Beschreibung**                                                                                     |
-|---------------------------|------------------------------------------------------------------------------------------------------|
-| **SQS**                   | Softwarequalitätssicherung, eine Disziplin im Software Engineering, die sich auf die Sicherstellung der Qualität von Softwareprodukten konzentriert. |
-| **API**                   | Application Programming Interface, eine Schnittstelle, die es zwei Anwendungen ermöglicht, miteinander zu kommunizieren. |
-| **Carbon Score**          | Eine Kennzahl, die den CO₂-Ausstoß einer Person basierend auf deren Aktivitäten darstellt. |
-| **CarbonInterface**       | Eine API zur Berechnung der CO₂-Emissionen basierend auf übermittelten Aktivitätsdaten. |
-| **Docker**                | Eine Plattform zur Entwicklung, Auslieferung und Ausführung von Anwendungen in Containern. |
-| **Django**                | Ein hochgradiges Python-Webframework, das die Entwicklung sicherer und wartbarer Websites fördert. |
-| **MySQL**                 | Ein relationales Datenbankmanagementsystem, das für die Speicherung der Anwendungsdaten verwendet wird. |
-| **OpenAPI Standard**      | Ein Standard für die Erstellung von API-Dokumentationen, der die Spezifikation von RESTful APIs beschreibt. |
-| **Swagger**               | Ein Open-Source-Framework, das zur Beschreibung, Erstellung, Dokumentation und Nutzung von RESTful Webdiensten verwendet wird. |
-| **Infrastructure as Code (IaC)** | Ein Ansatz zur Verwaltung und Bereitstellung von Rechenzentren durch maschinenlesbare Definitionsdateien, anstatt physische Hardware-Konfigurations- oder interaktive Konfigurationswerkzeuge zu verwenden. |
-| **Onion Architecture**    | Ein Architekturansatz, der die Trennung von Bedenken fördert und die Entwicklung flexibler und testbarer Systeme unterstützt. |
-| **Unit Test**             | Eine Testmethode, bei der einzelne Einheiten oder Komponenten einer Software isoliert getestet werden. |
-| **Code Coverage**         | Ein Maß dafür, wie viel Prozent des Quellcodes durch Tests abgedeckt sind. |
-| **Statische Code Analyse** | Eine Methode zur Analyse von Quellcode, ohne ihn auszuführen, um potenzielle Fehler oder Verbesserungsmöglichkeiten zu identifizieren. |
-| **Bearer Token**          | Ein Sicherheitsmechanismus, bei dem ein Token zur Authentifizierung und Autorisierung von API-Anfragen verwendet wird. |
+| **Begriff**                            | **Beschreibung**                                                                                     |
+|----------------------------------------|------------------------------------------------------------------------------------------------------|
+| **SQS**                                | Softwarequalitätssicherung, eine Disziplin im Software Engineering, die sich auf die Sicherstellung der Qualität von Softwareprodukten konzentriert. |
+| **Carbon Score**                       | Eine Kennzahl, die den CO₂-Ausstoß einer Person basierend auf deren Aktivitäten darstellt. |
+| **Anwender**                           | In erster Linie wird hier als Anwender ein Administrator, der die Anwendung wartet oder weiterentwickelt, verstanden. |
+| **CarbonInterface**                    | Eine API zur Berechnung der CO₂-Emissionen basierend auf übermittelten Aktivitätsdaten. |
+| **OpenAPI Standard**                   | Ein Standard für die Erstellung von API-Dokumentationen, der die Spezifikation von RESTful APIs beschreibt. |
+| **Swagger**                            | Ein Open-Source-Framework, das zur Beschreibung, Erstellung, Dokumentation und Nutzung von RESTful Webdiensten verwendet wird. |
+| **Infrastructure as Code (IaC)**       | Ein Ansatz zur Verwaltung und Bereitstellung von Rechenzentren durch maschinenlesbare Definitionsdateien, anstatt physische Hardware-Konfigurations- oder interaktive Konfigurationswerkzeuge zu verwenden. |
+| **Onion Architecture**                 | Ein Architekturansatz, der die Trennung von Bedenken fördert und die Entwicklung flexibler und testbarer Systeme unterstützt. |
+| **Statische Code Analyse**             | Eine Methode zur Analyse von Quellcode, ohne ihn auszuführen, um potenzielle Fehler oder Verbesserungsmöglichkeiten zu identifizieren. |
+| **Whitebox Gesamtsystem**              | Eine Darstellung der inneren Struktur des Systems, einschließlich aller internen Komponenten und deren Beziehungen. |
+| **Scope und Kontext**                  | Der Umfang und der Kontext einer Anwendung, einschließlich der Grenzen, Ziele und relevanten externen Systeme. |
+| **Infrastructure Service API**         | Eine API, die alle Anfragen der eigenen API verarbeitet und zur Verwendung bereitstellt. |
+| **Database Service**                   | Ein Service, der die Verbindung zur Datenbank aufbaut und SQL-Abfragen ausführt. |
+| **Domain Service Interface**           | Ein Interface, das die Geschäftslogik implementiert und anderen Komponenten zur Verfügung stellt. |
+| **Domain Services**                    | Enthält die Geschäftslogik der Anwendung. |
+| **Domain Models**                      | Beinhaltet die Datenmodelle und Entitäten, die in der Geschäftslogik verwendet werden. |
+| **Postman Collection**                 | Eine Sammlung von API-Anfragen, die in Postman zum Testen und Dokumentieren von APIs verwendet wird. |
+| **Flight Service**                     | Ein Service zur Verwaltung und Erstellung von Flugaktivitäten innerhalb der Geschäftslogik. |
+| **Electricity Service**                | Ein Service zur Verwaltung und Erstellung von Stromverbrauchsaktivitäten. |
+| **Shipping Service**                   | Ein Service zur Verwaltung und Erstellung von Versandaktivitäten (Pakete, Briefe, etc.). |
+| **Fuel Service**                       | Ein Service zur Verwaltung und Erstellung von Brennstoffverbrauchsaktivitäten. |
+| **Distance Service**                   | Ein Service zur Verwaltung und Bereitstellung von Distanzinformationen. |
+| **Weight Service**                     | Ein Service zur Verwaltung und Bereitstellung von Gewichtsinformationen. |
+| **Transport Service**                  | Ein Service zur Verwaltung und Bereitstellung von Transportinformationen. |
+| **Activity**                           | Ein Datenmodell, das mögliche Aktivitätstypen repräsentiert. |
+| **Aktivität**                          | Eine Aktivität, die CO²-Emissionen verursacht. |
+| **Infrastructure Service carboninterface API** | Verarbeitet Anfragen von der Infrastructure Service API und bereitet sie für die Carboninterface API vor. |
+| **Database Connection API**            | Die Komponente, die die native Datenbankverbindung im Anwendungskontainer verwaltet. |
+| **Wiremock**                           | Ein Tool zum Mocking und Stubbing von APIs für Testzwecke. |
+| **ATDD (Acceptance Test-Driven Development)** | Eine Methode, bei der Akzeptanztests vor der Entwicklung geschrieben werden, um sicherzustellen, dass die Anforderungen erfüllt werden. |
+| **Crosscutting Framework**             | Ein Rahmenwerk für Querschnittskonzepte, die in allen Teilen einer Softwarearchitektur relevant sind, wie Logging und Fehlerbehandlung. |
+| **Logging**                            | Das Schreiben von Fehlern und besonderen Ereignissen in Log-Dateien zur Überwachung und Fehleranalyse der Anwendung. |
+| **Error Handling**                     | Der Umgang mit Fehlern in der Software durch Try-Catch-Blöcke, um die Anwendung vor Abstürzen und undefinierten Zuständen zu schützen. |
+| **Database Service Interface**         | Ein Interface zur Kapselung der Datenbank und deren Implementierung, das anderen Komponenten der Applikation zur Verfügung gestellt wird. |
+| **Domain Service Interface**           | Ein Interface zur Kapselung der Geschäftslogik von der restlichen Applikation, das anderen Komponenten zur Verfügung gestellt wird. |
 
 
-| *\<Begriff-2*  | *\<Definition-2>* |
 
 
