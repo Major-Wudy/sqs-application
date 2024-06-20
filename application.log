@@ -100,3 +100,6 @@
 2024-06-15:14:42:26,170 INFO     [autoreload.py:266] /app/src/application/services/domain/shipping_service.py changed, reloading.
 2024-06-15:14:42:27,112 INFO     [autoreload.py:668] Watching for file changes with StatReloader
 2024-06-20:17:02:35,236 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-20:17:49:49,412 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-20:17:49:57,437 ERROR    [api_service.py:122] Exception raised 'departure'
+2024-06-20:17:49:57,438 ERROR    [log.py:241] Internal Server Error: /api/create/flight/

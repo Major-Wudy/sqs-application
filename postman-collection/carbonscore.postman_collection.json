@@ -1,0 +1,309 @@
+{
+	"info": {
+		"_postman_id": "8663f4ff-5189-40be-ae46-f2e5ebcb48de",
+		"name": "carbonscore",
+		"description": "# Carbon Score Postman Collection\n\nDiese Postman Collection zeigt die Implementierung der gesamten API-Funktionalität der Anwendung Carbon Score.\n\n## Base URL hinterlegen\n\nDamit die API funkionsfähig ist, muss zuerst eine Collection Variable hinterlegt werden. Diese Variable ist die Basis Url der Anwendung bps. \\[base_url = \"localhost\" oder \"my-website.com\"\\]\n\n## Bearer Token hinterlegen\n\nDie API funktioniert nur mit einem Bearer Token. Daher muss sich von der Anwendung mit Django ein Bearer Token zu einem User generiert werden. Dieses Token kann man sich als Admin mit dem nachfolgenden Befehl generieren. StartFragment\n\n```\nmanage.py drf_create_token <username>\n\n ```\n\nEndFragment\n\nEntweder mit python vor manage.py oder django-admin. Je nachdem, wie man mit der Anwendung interagiert. Dokumentation dazu: [https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication](https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication)\n\nDie einzelnen Requests erben alle notwendigen Variablen von der Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29345041"
+	},
+	"item": [
+		{
+			"name": "create electricity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"value\":123.45,\r\n    \"country\":\"us\",\r\n    \"state\":\"fl\",\r\n    \"unit\":\"kwh\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/create/electricity/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"create",
+						"electricity",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get estimate electricity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"electricity\",\r\n    \"electricity_unit\": \"kwh\",\r\n    \"electricity_value\": 123.0,\r\n    \"country\": \"us\",\r\n    \"state\": \"fl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/estimate/electricity/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"estimate",
+						"electricity",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create flight",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"passengers\":2,\r\n    \"legs\":[{\"departure\":\"MUC\",\"destination\":\"DUB\",\"class\":\"premium\"}],\r\n    \"distance_unit\":\"km\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/create/flight/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"create",
+						"flight",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create shipping",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"weight_value\":123.45,\r\n    \"weight_unit\": \"g\",\r\n    \"distance_value\": 500.01,\r\n    \"distance_unit\": \"km\",\r\n    \"transport_method\": \"plane\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/create/shipping/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"create",
+						"shipping",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create fuel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"source\":\"Natural Gas\",\r\n    \"value\":500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/create/fuel/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"create",
+						"fuel",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get estimate flight",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"flight\",\r\n    \"passengers\": 2,\r\n    \"legs\": [\r\n        {\r\n            \"departure_airport\": \"MUC\",\r\n            \"destination_airport\": \"DUB\",\r\n            \"cabin_class\": \"premium\"\r\n        }\r\n    ],\r\n    \"distance_unit\": \"km\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/estimate/flight/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"estimate",
+						"flight",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get estimate shipping",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"shipping\",\r\n    \"weight_value\": \"123.45\",\r\n    \"weight_unit\": \"g\",\r\n    \"distance_value\": \"500.01\",\r\n    \"distance_unit\": \"km\",\r\n    \"transport_method\": \"plane\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/estimate/shipping/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"estimate",
+						"shipping",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get estimate fuel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"fuel_combustion\",\r\n    \"fuel_source_type\": \"ng\",\r\n    \"fuel_source_unit\": \"thousand_cubic_feet\",\r\n    \"fuel_source_value\": 500.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/estimate/fuel/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"estimate",
+						"fuel",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get carbon score",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"unit\": \"kg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/get/score/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"get",
+						"score",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete carbon score",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/delete/score/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"delete",
+						"score",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "dcd52b4996698b6c5db63df6894550fe1069d2a0",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}
