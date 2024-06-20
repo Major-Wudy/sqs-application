@@ -83,6 +83,13 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('legs')[0]['destination_airport'], "DUB")
         self.assertEqual(result.get('legs')[0]['cabin_class'], "premium")
         self.assertEqual(result.get('distance_unit'), "km")
+
+    def test_api_create_flight_estimate(self):
+        json_data ={"type": "flight","passengers": "2","legs": [{"departure_airport": "MUC","destination_airport": "DUB","cabin_class": "premium"}],"distance_unit": "km"}
+        
+        result = self.c.post(self.estimate_flight_endpoint, json_data, headers=self.header)
+        status_code = result.status_code
+        self.assertEqual(status_code, 201)
     
     def test_api_create_flight_401(self): 
         response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"departure":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"})
