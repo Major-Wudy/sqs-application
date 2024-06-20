@@ -378,7 +378,7 @@ Bereitstellung einer API zur Verwendung der Geschäftslogik und Interaktion zwis
 |-----|-----|-----|
 | Erstellen einer Aktivität | Eingabe von Details einer Aktivität über das Userinterface | Anwender/Webbrowser |
 ||Authentifizierung des Users | Api |
-||Validierung des Requets | Api |
+||Validierung des Requests | Api |
 ||Speichern des Request in der Datenbank | Databse Service Interface |
 || Request verarbeiten | Domain Service Interface|
 || Erstellen der Aktivität | Domain Service |
@@ -400,7 +400,7 @@ Besonderheiten
 |-----|-----|-----|
 | Ermitteln der geschätzten CO² Emissionen | Eingabe einer Aktivität aus Laufzeitszenario 1 einer Aktivität über das Userinterface | Anwender/Webbrowser |
 ||Authentifizierung des Users | Api |
-||Validierung des Requets | Api |
+||Validierung des Requests | Api |
 ||Speichern des Request in der Datenbank | Databse Service Interface |
 || Request verarbeiten | 3rd Party API |
 || Errechnen der CO² Emission | 3rd Party API |
@@ -425,7 +425,7 @@ Besonderheiten
 |-----|-----|-----|
 | CO² Emission für einen User errechnen anhand der Aktivitäten | Eingabe der Einheit der CO² Emission über das Userinterface | Anwender/Webbrowser |
 ||Authentifizierung des Users | Api |
-||Validierung des Requets | Api |
+||Validierung des Requests | Api |
 || Request verarbeiten | Domain Service Interface|
 || Aufsummieren der CO² Emission über die Datanbank | Database Service Interface |
 || Erstellen der CO³ Emissoin | Domain Service |
@@ -445,7 +445,7 @@ Besonderheiten
 |-----|-----|-----|
 | CO² Emission für einen User errechnen anhand der Aktivitäten | Eingabe der Einheit der CO² Emission über das Userinterface | Anwender/Webbrowser |
 ||Authentifizierung des Users | Api |
-||Validierung des Requets | Api |
+||Validierung des Requests | Api |
 || Request verarbeiten | Domain Service Interface|
 || Löschen aller CO² Emission über die Datanbank | Database Service Interface |
 || Response an den Webbrowser zurückgeben | Api |
