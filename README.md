@@ -369,12 +369,13 @@ Bereitstellung einer API zur Verwendung der Geschäftslogik und Interaktion zwis
   
 
 # Laufzeitsicht
+  ![runtime](https://github.com/Major-Wudy/sqs-application/assets/47253607/449b9f03-790b-41d0-b220-e124d068027a)
 
-  
 
 ## *\<Bezeichnung Laufzeitszenario 1>*
 
-  
+
+
 
 -   \<hier Laufzeitdiagramm oder Ablaufbeschreibung einfügen>
 
