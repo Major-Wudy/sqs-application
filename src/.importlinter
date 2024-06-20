@@ -9,6 +9,7 @@ source_modules=
     application.models
 forbidden_modules=
     application.services.domain
+    application.services.infrastructure
     application.migrations
     django
     python-dotenv
@@ -99,8 +100,6 @@ forbidden_modules=
     application.services.domain
     application.migrations
 allow_indirect_imports=True
-
-
 
 [importlinter:contract:Main-domain-independence-contract]
 name = Main Domain services are independent (Main: electricity, flight, fuel_combustion, carbon and shipping - supportive: distance_unit_service, transport_service, weight_unit_service) 

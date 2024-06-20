@@ -414,6 +414,10 @@ class ApiTestCase(unittest.TestCase):
     c = Client()
     load_dotenv()
     electricity_endpoint = "/api/create/electricity/"
+    electricity_estimates_endpoint = "/api/estimate/electricity/"
+    estimate_shipping_endpoint = "/api/estimate/shipping/"
+    estimate_fuel_endpoint = "/api/estimate/fuel/"
+    estimate_flight_endpoint = "/api/estimate/flight/"
     flight_endpoint = "/api/create/flight/"
     shipping_endpoint = "/api/create/shipping/"
     fuel_endpoint = "/api/create/fuel/"
@@ -431,6 +435,26 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(json.get('electricity_value'), "123.45")
         self.assertEqual(json.get('country'), "us")
         self.assertEqual(json.get('state'), "fl")
+    
+    def test_api_create_electricity_400(self):
+        response = self.c.post(self.electricity_endpoint, {}, headers=self.header)
+        status_code = response.status_code
+        json = response.json()
+        self.assertEqual(status_code, 400)
+    
+    def test_api_create_electricity_estimate(self):
+        json_data ={"type": "electricity", "electricity_unit": "kwh", "electricity_value": "1650", "country": "us", "state": "fl"}
+        
+        result = self.c.post(self.electricity_estimates_endpoint, json_data, headers=self.header)
+        result_json = result.json()
+        data = result_json.get('data')
+        attributes = data.get('attributes')
+        status_code = result.status_code
+        self.assertEqual(status_code, 201)
+        self.assertEqual(attributes.get('country'), 'us')
+        self.assertEqual(attributes.get('state'), 'fl')
+        self.assertEqual(attributes.get('electricity_unit'), 'kwh')
+        self.assertEqual(attributes.get('electricity_value'), 123.45)
 
     def test_api_create_flight(self):
         response = self.c.post(self.flight_endpoint, {"passengers":2,"legs":[{"departure":"MUC","destination":"DUB","class":"premium"}],"distance_unit":"km"}, headers=self.header, content_type='application/json')
@@ -445,6 +469,12 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('legs')[0]['cabin_class'], "premium")
         self.assertEqual(result.get('distance_unit'), "km")
 
+    def test_api_create_flight_400(self):
+        response = self.c.post(self.flight_endpoint, {}, headers=self.header)
+        status_code = response.status_code
+        json = response.json()
+        self.assertEqual(status_code, 400)
+
     def test_api_create_shipping(self):
         response = self.c.post(self.shipping_endpoint, {"weight_value":123.45,"weight_unit": "g","distance_value": 500.01,"distance_unit": "km","transport_method": "plane"}, headers=self.header, content_type='application/json')
         status_code = response.status_code
@@ -458,6 +488,26 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('distance_unit'), "km")
         self.assertEqual(result.get('transport_method'), "plane")
 
+    def test_api_create_shipping_400(self):
+        response = self.c.post(self.shipping_endpoint, {}, headers=self.header)
+        status_code = response.status_code
+        json = response.json()
+        self.assertEqual(status_code, 400)
+
+    def test_api_create_shipping_estimate(self):
+        json_data = {"type": "shipping","weight_value": "123.45","weight_unit": "g","distance_value": "500.01","distance_unit": "km","transport_method": "plane"}
+        
+        result = self.c.post(self.estimate_shipping_endpoint, json_data, headers=self.header)
+        result_json = result.json()
+        data = result_json.get('data')
+        attributes = data.get('attributes')
+        status_code = result.status_code
+        self.assertEqual(status_code, 201)
+        self.assertEqual(attributes.get('weight_unit'), "g")
+        self.assertEqual(attributes.get('weight_value'), 123.45)
+        self.assertEqual(attributes.get('distance_value'), 500.01)
+        self.assertEqual(attributes.get('distance_unit'), "km")
+
     def test_api_create_fuel(self):
         response = self.c.post(self.fuel_endpoint, {"source":"Natural Gas","value":500}, headers=self.header, content_type='application/json')
         status_code = response.status_code
@@ -468,6 +518,25 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(result.get('fuel_source_type'), "ng")
         self.assertEqual(result.get('fuel_source_unit'), "thousand_cubic_feet")
         self.assertEqual(result.get('fuel_source_value'), "500.00")
+
+    def test_api_create_fuel_400(self):
+        response = self.c.post(self.fuel_endpoint, {}, headers=self.header)
+        status_code = response.status_code
+        json = response.json()
+        self.assertEqual(status_code, 400)
+
+    def test_api_create_fuel_estimate(self):
+        json_data = {"type": "fuel_combustion","fuel_source_type": "ng","fuel_source_unit": "thousand_cubic_feet","fuel_source_value": "500.00"}
+        
+        result = self.c.post(self.estimate_fuel_endpoint, json_data, headers=self.header)
+        result_json = result.json()
+        data = result_json.get('data')
+        attributes = data.get('attributes')
+        status_code = result.status_code
+        self.assertEqual(status_code, 201)
+        self.assertEqual(attributes.get('fuel_source_type'), "ng")
+        self.assertEqual(attributes.get('fuel_source_unit'), "thousand_cubic_feet")
+        self.assertEqual(attributes.get('fuel_source_value'), 500.0)
     
     def test_api_get_score(self):
         response = self.c.post(self.score_endpoint, {"unit":"g"}, headers=self.header, content_type='application/json')
@@ -475,6 +544,12 @@ class ApiTestCase(unittest.TestCase):
         result = response.json()
         self.assertEqual(status_code, 200)
         self.assertIsInstance(result, dict)
+    
+    def test_api_create_score_400(self):
+        response = self.c.post(self.score_endpoint, {}, headers=self.header)
+        status_code = response.status_code
+        json = response.json()
+        self.assertEqual(status_code, 400)
     
     def test_api_delete_score(self):
         response = self.c.get(self.delete_score_endpoint, headers=self.header)
