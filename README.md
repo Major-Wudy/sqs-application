@@ -552,7 +552,7 @@ python:
 | 5 | Die Logik des Systems ist durch Unittests getestet und kann durch ein Tool ausgewertet werden. Die Auswertung der Testabdeckung muss dabei >= 80% sein. |
 | 6 | Wird eine ander Datenbank oder ein andere Schnittstelle zur Berechnung des CarbonScores verwendet, kann diese ohne Anpassung der Fachlichkeit ausgetauscht und implementiert werden. |
 | 7 | Eine Funktion soll leicht verständlich sein und damit eine kognitive Last von <= 15 sein. Diese soll über ein externes Tool geprüft werden. |
-| 8 | Bei Verbesserungen oder neuen Funktionen sollen diese in das Sytem implementiert werden können, ohne dass der Fachliche Kern der Anwendung angepasst werden muss. Beispiel: Hinzufügen eines Benutzerprofils für das Speicher der gesendeten Anfragen pro Benutzer |
+| 8 | Verbesserungen oder neuen Funktionen sollen in das Sytem implementiert werden können, ohne dass der Fachliche Kern der Anwendung angepasst werden muss. Beispiel: Hinzufügen eines Benutzerprofils für das Speicher der gesendeten Anfragen pro Benutzer |
 | 9 | Ein Anwender kann ohne weitere Dokumentation zur Verwendung der Anwendung die Anwendung erfolgreich bedienen. |
 | 10 | Die Anwendung soll innerhalb einer Sekunde eine Anwort an den Anwender senden. |
 | 11 | Egal ob Windwos, Mac oder Linux: Die Anwendung ist unter allen Betriebssystemen ausführbar. |
