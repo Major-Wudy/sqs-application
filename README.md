@@ -42,7 +42,7 @@ Biespiel: [Test Setup](https://github.com/Major-Wudy/sqs-application/wiki/Test-S
 ## Qualitätsziele
 Die Anwendung soll folgende Qualitätsziele (QZ) erreichen:
 
-| Priorität    | Qualitätsziel  | Szenatio          |
+| Priorität    | Qualitätsziel  | Szenario          |
 |--------------|----------------|-------------------|
 | 1 | Zuverlässigkeit | Das System führt Funktionen unter den festgelegten Bedingungen und Umgebungen aus. Geringe "meantime to recovery" und niedrige Anzahl an Ausfällen. | 
 | 2 | Wartbarkeit | Das System kann modifiziert werden, um es zu verbessern, korrigieren oder an geänderte Bedürfnisse anpassen. Übernimmt ein anderer Entwickler das System können eigene Funktionalitäten und Verbesserungen in das System eingearbeitet werden |
