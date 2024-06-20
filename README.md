@@ -372,42 +372,86 @@ Bereitstellung einer API zur Verwendung der Geschäftslogik und Interaktion zwis
   ![runtime](https://github.com/Major-Wudy/sqs-application/assets/47253607/449b9f03-790b-41d0-b220-e124d068027a)
 
 
-## *\<Bezeichnung Laufzeitszenario 1>*
-
-
-
-
--   \<hier Laufzeitdiagramm oder Ablaufbeschreibung einfügen>
-
+## Laufzeitszenario 1: Erstellen einer (CO²) Aktivität
 ### Ablaufbeschreibung
-1. gewünschte Aktivität über die UI auswählen (Electricity, Flight, Shipping, Fuel)
-1. Daten der ausgewählten Aktivität in die UI nach vorgegebenem Schema (JSON) eingeben
-1. über die UI den HTTP POST-Request mit den gewünschten Daten absenden
-1. Auf Rückmeldung des Systems warten
+|Schritt|Beschreibung|Akteur/Baustein|
+|-----|-----|-----|
+| Erstellen einer Aktivität | Eingabe von Details einer Aktivität über das Userinterface | Anwender/Webbrowser |
+||Authentifizierung des Users | Api |
+||Validierung des Requets | Api |
+||Speichern des Request in der Datenbank | Databse Service Interface |
+|| Request verarbeiten | Domain Service Interface|
+|| Erstellen der Aktivität | Domain Service |
+|| Entität zur Aktivität erstellen | Domain Model |
+|| Response vorbereiten mit Aktivitätsdaten | Domain Service |
+|| Response weitergeben | Domain Service Interface |
+|| Request aus der Datenbank löschen, da verarbeitet | Database Service Interface |
+|| Response an den Webbrowser zurückgeben | Api |
+
+Besonderheiten
+- Fehler die während der Laufzeit auftreten werden in eine Log-Datei geschrieben
+- Der Request des Anwenders wird in der Datenbank gespeichert. Sollte das System abstürzen, sind die noch nicht verarbeiteten Requests in der Datenbank vorhanden
 
   
 
--   \<hier Besonderheiten bei dem Zusammenspiel der Bausteine in diesem
+## Laufzeitszenario 2: Errechnen der geschätzen CO² Emissionen einer Aktivität
+### Ablaufbeschreibung
+|Schritt|Beschreibung|Akteur/Baustein|
+|-----|-----|-----|
+| Ermitteln der geschätzten CO² Emissionen | Eingabe einer Aktivität aus Laufzeitszenario 1 einer Aktivität über das Userinterface | Anwender/Webbrowser |
+||Authentifizierung des Users | Api |
+||Validierung des Requets | Api |
+||Speichern des Request in der Datenbank | Databse Service Interface |
+|| Request verarbeiten | 3rd Party API |
+|| Errechnen der CO² Emission | 3rd Party API |
+|| Response verarbeiten | Api |
+|CO² Emissoin speichern | CO² Emissions Enität verarbeiten | Domain Service Interface |
+|| CO² Enität erstlelen | Domain Service |
+|| Entität erstellen | Domain Models |
+|| Entität weiterleiten | Domain Service Interface |
+|| Entität speichern | Database Service Interface |
+|| Request aus der Datenbank löschen, da verarbeitet | Database Service Interface |
+|| Response an den Webbrowser zurückgeben | Api |
 
-    Szenario erläutern>
+Besonderheiten
+- Fehler die während der Laufzeit auftreten werden in eine Log-Datei geschrieben
+- Der Request des Anwenders wird in der Datenbank gespeichert. Sollte das System abstürzen, sind die noch nicht verarbeiteten Requests in der Datenbank vorhanden
 
-  
 
-## *\<Bezeichnung Laufzeitszenario 2>*
 
-  
+## Laufzeitszenario 3: CO² Emissionen errechnene für einen User
+### Ablaufbeschreibung
+|Schritt|Beschreibung|Akteur/Baustein|
+|-----|-----|-----|
+| CO² Emission für einen User errechnen anhand der Aktivitäten | Eingabe der Einheit der CO² Emission über das Userinterface | Anwender/Webbrowser |
+||Authentifizierung des Users | Api |
+||Validierung des Requets | Api |
+|| Request verarbeiten | Domain Service Interface|
+|| Aufsummieren der CO² Emission über die Datanbank | Database Service Interface |
+|| Erstellen der CO³ Emissoin | Domain Service |
+|| Entität zur CO² Emission erstellen | Domain Model |
+|| Response vorbereiten mit CO² Emission | Domain Service |
+|| Response weitergeben | Domain Service Interface |
+|| Response an den Webbrowser zurückgeben | Api |
 
-…
+Besonderheiten
+- Fehler die während der Laufzeit auftreten werden in eine Log-Datei geschrieben
+- Die Berechnung der CO² Emission soll über die Datenbank per SQL erfolgen
 
-  
 
-## *\<Bezeichnung Laufzeitszenario n>*
+## Laufzeitszenario 4: Löschen der CO² Emissionen eines Users 
+### Ablaufbeschreibung
+|Schritt|Beschreibung|Akteur/Baustein|
+|-----|-----|-----|
+| CO² Emission für einen User errechnen anhand der Aktivitäten | Eingabe der Einheit der CO² Emission über das Userinterface | Anwender/Webbrowser |
+||Authentifizierung des Users | Api |
+||Validierung des Requets | Api |
+|| Request verarbeiten | Domain Service Interface|
+|| Löschen aller CO² Emission über die Datanbank | Database Service Interface |
+|| Response an den Webbrowser zurückgeben | Api |
 
-  
-
-…
-
-  
+Besonderheiten
+- Fehler die während der Laufzeit auftreten werden in eine Log-Datei geschrieben
 
 # Verteilungssicht
 
