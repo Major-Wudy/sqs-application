@@ -99,3 +99,4 @@
 2024-06-15:14:39:02,491 INFO     [autoreload.py:668] Watching for file changes with StatReloader
 2024-06-15:14:42:26,170 INFO     [autoreload.py:266] /app/src/application/services/domain/shipping_service.py changed, reloading.
 2024-06-15:14:42:27,112 INFO     [autoreload.py:668] Watching for file changes with StatReloader
+2024-06-20:17:02:35,236 INFO     [autoreload.py:668] Watching for file changes with StatReloader
