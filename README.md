@@ -546,7 +546,7 @@ python:
 | **ID** | **Beschreibung** |
 |-----------------|-------------------|
 | 1 | Über 20 Minuten hinweg soll das System einer Last von 100 Usern mit ca. 50 Requests pro Sekunde standhalten. |
-| 2 | Bei Systemabsturz soll sich die selbst neustarten. Dies soll die Anwendung 5x veruschen, bevor es in einen dauerhaften Fehlerzustand übergeht. |
+| 2 | Bei Systemabsturz soll sich die selbst neustarten. Dies soll die Anwendung 3x veruschen, bevor es in einen dauerhaften Fehlerzustand übergeht. |
 | 3 | Beim Ausfall einer Instanz der Anwendung soll die Möglichkeit besitzen, den Trafiic der ausgefallenen Instanz auf andere Instanzen weiterzugeben. |
 | 4 | Ist eine externe Schnittstelle nicht verfügbar, soll das System einen Hinweis darauf liefern und weiterlaufen. |
 | 5 | Die Logik des Systems ist durch Unittests getestet und kann durch ein Tool ausgewertet werden. Die Auswertung der Testabdeckung muss dabei >= 80% sein. |
@@ -555,7 +555,7 @@ python:
 | 8 | Verbesserungen oder neuen Funktionen sollen in das Sytem implementiert werden können, ohne dass der Fachliche Kern der Anwendung angepasst werden muss. Beispiel: Hinzufügen eines Benutzerprofils für das Speicher der gesendeten Anfragen pro Benutzer |
 | 9 | Ein Anwender kann ohne weitere Dokumentation zur Verwendung der Anwendung die Anwendung erfolgreich bedienen. |
 | 10 | Die Anwendung soll innerhalb einer Sekunde eine Anwort an den Anwender senden. |
-| 11 | Egal ob Windwos, Mac oder Linux: Die Anwendung ist unter allen Betriebssystemen ausführbar. |
+| 11 | Egal ob Windwos, Mac oder Linux: Die Anwendung ist unter allen genannten Betriebssystemen ausführbar. |
 | 12 | Die Anwendung kann von einem System auf das andere portiert werden. Beispiel: Virtualisierte Anwendung als Docker Container. |
 | 13 | Anfragen an die Software können nur mit Token, die von der Anwendung ausgestellt sind erfolgen. Beispiel Auth mit Bearer Token für die API. |
   
