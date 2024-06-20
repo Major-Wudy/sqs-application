@@ -590,7 +590,7 @@ python:
 
 | **ID** | **Beschreibung** |
 |-----------------|-------------------|
-| 1 | Über 20 Minuten hinweg soll das System einer Last von 100 Usern mit ca. 50 Requests pro Sekunde standhalten. |
+| 1 | Über 20 Minuten hinweg soll das System einer Last von 100 Usern mit 40 Requests pro Sekunde standhalten. |
 | 2 | Bei Systemabsturz soll sich die selbst neustarten. Dies soll die Anwendung 3x veruschen, bevor es in einen dauerhaften Fehlerzustand übergeht. |
 | 3 | Beim Ausfall einer Instanz der Anwendung soll die Möglichkeit besitzen, den Trafiic der ausgefallenen Instanz auf andere Instanzen weiterzugeben. |
 | 4 | Ist eine externe Schnittstelle nicht verfügbar, soll das System einen Hinweis darauf liefern und weiterlaufen. |
