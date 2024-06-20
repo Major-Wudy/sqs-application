@@ -7,7 +7,6 @@ application_dir = os.path.dirname(parent_dir)
 
 from application.services.infrastructure.carbon_interface_api import CarbonInterfaceRequestService
 from application.services.domain_interface.domain_service_interface import DomainServiceInterface
-from application.services.infrastructure_interface.database_interface import DatabaseServiceInterface
 from decimal import Decimal
 import requests
 import simplejson
